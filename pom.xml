@@ -4,15 +4,19 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <MyDir>${project.basedir}/war-target</MyDir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <wro4j.version>1.7.6</wro4j.version>
+        <start-class>fi.csc.emrex.smp.FiSmpApplication</start-class>
+        <project.build.finalName>smp</project.build.finalName>
+    </properties>
 
     <groupId>fi.csc.emrex</groupId>
     <artifactId>fi-emrex</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <properties>
-        <MyDir>${project.basedir}/war-target</MyDir>
-    </properties>
 
 
     <modules>
