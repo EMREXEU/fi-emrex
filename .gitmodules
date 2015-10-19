@@ -1,0 +1,6 @@
+[submodule "fi-ncp/src/main/resources/static/fi-common"]
+	path = fi-ncp/src/main/resources/static/fi-common
+	url = https://github.com/EMREXEU/fi-common.git
+[submodule "fi-smp/src/main/resources/static/fi-common"]
+	path = fi-smp/src/main/resources/static/fi-common
+	url = https://github.com/EMREXEU/fi-common.git

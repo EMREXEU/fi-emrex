@@ -1,0 +1,72 @@
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <ng-include src="'fi-common/partials/header.html'"></ng-include>
+    </div>
+    <div class="pure-u-1-2">
+        <div class="custom-option-margin ">
+            <h3>Hi and welcome to Emrex!</h3>
+
+            <p>
+                Welcome! With this service you can retrieve your achievement records from studies at another
+                university
+                or college. Importing your records is a quick and easy process.
+
+            <p>
+                1. Select the country from which you want to retrieve your achievement records
+            </p>
+
+            <p>
+                2. Use the credentials from the host university where you studied to log into the system where your
+                results are stored.<br>
+                -- You will be able to import results from all the universities you studied at in that country (if
+                part
+                of EMREX)
+            </p>
+
+            <p>
+                3. Select the achievement records you want to import
+            </p>
+
+            <p>
+                4. Review and confirm the selection. The records will be sent to your home university and you will
+                be
+                sent a copy if you’d like.
+            </p>
+
+            <p>
+                5. Afterwards you will be asked to answer a few questions about the tool to help us develop it
+                further.
+            </p>
+
+            <h3>So let's get started by selecting a country!</h3>
+
+
+        </div>
+    </div>
+    <div class="pure-u-1-2">
+        <div class="custom-option-margin">
+            <h3>Choose Your Exchange Country:</h3>
+            <table class="pure-table custom-no-borders">
+                <tbody></tbody>
+                <tr class="custom-no-borders" ng-repeat="country in emreg.countries">
+                    <td class="custom-no-borders" style="padding-left:0px;"><input class="custom-go-button"
+                                                                                   type="button" value="Select"
+                                                                                   ng-click="selectCountry(country)">
+                    </td>
+                    <td class="custom-no-borders">{{country.countryName}}</td>
+                    <td class="custom-no-borders"><img ng-src="{{getFlag(country.countryName)}}" height="40"/></td>
+
+                </tr>
+                </tbody>
+            </table>
+
+            <form ng-attr-action="{{ncpUrl}}" method="POST">
+                <input class="form-control" type="hidden" ng-value="sessionData.sessionId" name="sessionId"/>
+                <input class="form-control" type="hidden" ng-value="sessionData.returnUrl" id="returnUrl"
+                       name="returnUrl"/>
+                <input id="postSessionData" style="display: none;" type="submit"
+                       ng-disabled="!sessionData.sessionId || !sessionData.returnUrl"/>
+            </form>
+        </div>
+    </div>
+</div>

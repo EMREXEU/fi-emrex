@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elmo xmlns="http://purl.org/net/elmo">
+    <report>
+        <learner>
+            <identifier type="nationalIdentifier">2529290201</identifier>
+            <identifier type="studentIdentifier">80011</identifier>
+            <identifier type="nationality">NO</identifier>
+            <fullName>Beate TS-Svendsen</fullName>
+            <givenNames>Beate</givenNames>
+            <familyName>TS-Svendsen</familyName>
+            <bday dtf="yyyy-MM-dd">1992-02-02</bday>
+            <gender>2</gender>
+        </learner>
+        <issuer>
+            <identifier type="local">185</identifier>
+            <identifier type="erasmus">N OSLO01</identifier>
+            <title xml:lang="no">Universitetet i Oslo</title>
+            <title xml:lang="en">University of Oslo</title>
+            <type>Universitet som mottar statstilskudd</type>
+            <url>http://www.uio.no/</url>
+        </issuer>
+        <learningOpportunitySpecification>
+            <title xml:lang="no">Bachelor i biologi</title>
+            <title xml:lang="en">Bachelor in biology</title>
+            <type>Degree</type>
+            <qualification>
+                <identifier type="local">MNB3</identifier>
+                <identifier type="elmo">852633193934652</identifier>
+                <identifier type="nus">659915</identifier>
+                <title xml:lang="no">Bachelor i biologi</title>
+                <title xml:lang="en">Bachelor in biology</title>
+                <educationLevel xml:lang="no">Bachelor studium</educationLevel>
+                <educationLevel xml:lang="en">Bachelor's degree programme</educationLevel>
+                <qualificationMainStudyField xml:lang="no">Biologiretning Akvakultur</qualificationMainStudyField>
+                <qualificationHolderTitle xml:lang="no">bachelorgradtittel</qualificationHolderTitle>
+                <qualificationHolderTitle xml:lang="en">bachelorgradtittel engelsk</qualificationHolderTitle>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>180</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date dtf="yyyy-MM-dd">2014-09-16</date>
+                    <duration>6 Semesters</duration>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">BIOLKJEM</identifier>
+                    <identifier type="elmo">312752328682363</identifier>
+                    <title xml:lang="no">Biologi og kjemi</title>
+                    <type>Module group</type>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>25</value>
+                    </credit>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <title xml:lang="no">Biologi og kjemi</title>
+                            <start dtf="yyyy-mm-dd">2012-07-15</start>
+                            <result scheme="NO30">D</result>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">BIO1000-1</identifier>
+                            <identifier type="elmo">879524645365732</identifier>
+                            <identifier type="nus">651000</identifier>
+                            <subject xml:lang="no">Biologi</subject>
+                            <subject xml:lang="en">Biology</subject>
+                            <title xml:lang="no">Grunnkurs i biologi</title>
+                            <title xml:lang="en">Elementary Biology</title>
+                            <type>Module</type>
+                            <qualification>
+                                <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                                <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                            </qualification>
+                            <credit>
+                                <scheme>ECTS</scheme>
+                                <level>1</level>
+                                <value>10</value>
+                            </credit>
+                            <level>1</level>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                                    <duration>1 Semestre</duration>
+                                    <result scheme="NO30">D</result>
+                                    <resultDistribution>
+                                        <category count="3" label="A"/>
+                                        <category count="5" label="B"/>
+                                        <category count="0" label="C"/>
+                                        <category count="2" label="D"/>
+                                        <category count="0" label="E"/>
+                                        <category count="0" label="F"/>
+                                    </resultDistribution>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">KJM1001-1</identifier>
+                            <identifier type="elmo">363464456985266</identifier>
+                            <identifier type="nus">652207</identifier>
+                            <subject xml:lang="no">Kjemi</subject>
+                            <subject xml:lang="en">Chemistry</subject>
+                            <title xml:lang="no">Innføring i kjemi</title>
+                            <title xml:lang="en">Introduction to chemistry</title>
+                            <type>Module</type>
+                            <qualification>
+                                <educationLevel xml:lang="no">Høyere grads nivå</educationLevel>
+                                <educationLevel xml:lang="en">Second degree level</educationLevel>
+                            </qualification>
+                            <credit>
+                                <scheme>ECTS</scheme>
+                                <level>1</level>
+                                <value>10</value>
+                            </credit>
+                            <level>2</level>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                                    <duration>1 Semestre</duration>
+                                    <result scheme="NO30">D</result>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">BIO2140-1</identifier>
+                    <identifier type="elmo">921415182436357</identifier>
+                    <identifier type="nus">651302</identifier>
+                    <subject xml:lang="no">Biologi</subject>
+                    <subject xml:lang="en">Biology</subject>
+                    <title xml:lang="no">Molekylærbiologi og biologiske metoder</title>
+                    <title xml:lang="en">Molecular biology and Biological Methods</title>
+                    <type>Module</type>
+                    <qualification>
+                        <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                        <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                    </qualification>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>20</value>
+                    </credit>
+                    <level>1</level>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <start dtf="yyyy-mm-dd">2014-01-15</start>
+                            <duration>1 Semestre</duration>
+                            <result scheme="NO30">A</result>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">THTEST-1</identifier>
+                    <identifier type="elmo">449637192411979</identifier>
+                    <subject xml:lang="no">Biologi</subject>
+                    <subject xml:lang="en">Biology</subject>
+                    <title xml:lang="no">Embryologi</title>
+                    <title xml:lang="en">Embryology</title>
+                    <type>Module</type>
+                    <qualification>
+                        <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                        <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                    </qualification>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>10</value>
+                    </credit>
+                    <level>1</level>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <start dtf="yyyy-mm-dd">2013-07-15</start>
+                            <duration>1 Semestre</duration>
+                            <result scheme="NO30">C</result>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">THTEST10-1</identifier>
+                    <identifier type="elmo">443897639515774</identifier>
+                    <title xml:lang="no">Testemne 10</title>
+                    <type>Module</type>
+                    <qualification>
+                        <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                        <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                    </qualification>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>10</value>
+                    </credit>
+                    <level>1</level>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <start dtf="yyyy-mm-dd">2014-01-15</start>
+                            <result scheme="NO30">A</result>
+                            <resultDistribution>
+                                <category count="6" label="A"/>
+                                <category count="3" label="B"/>
+                                <category count="2" label="C"/>
+                                <category count="1" label="D"/>
+                                <category count="3" label="E"/>
+                                <category count="0" label="F"/>
+                            </resultDistribution>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">THTEST11-1</identifier>
+                    <identifier type="elmo">954723126972359</identifier>
+                    <title xml:lang="no">Testemne 11</title>
+                    <type>Module</type>
+                    <qualification>
+                        <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                        <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                    </qualification>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>10</value>
+                    </credit>
+                    <level>1</level>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <start dtf="yyyy-mm-dd">2014-01-15</start>
+                            <result scheme="NO30">C</result>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">THTEST2-1</identifier>
+                    <identifier type="elmo">831287173846219</identifier>
+                    <identifier type="nus">652101</identifier>
+                    <subject xml:lang="no">Fysikk</subject>
+                    <title xml:lang="no">Fysikk for bio</title>
+                    <type>Module</type>
+                    <qualification>
+                        <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                        <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                    </qualification>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>20</value>
+                    </credit>
+                    <level>1</level>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <start dtf="yyyy-mm-dd">2014-01-15</start>
+                            <duration>2 Semestre</duration>
+                            <result scheme="NO30">B</result>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">THTEST5-1</identifier>
+                    <identifier type="elmo">833359312861938</identifier>
+                    <subject xml:lang="no">Biologi</subject>
+                    <subject xml:lang="en">Biology</subject>
+                    <title xml:lang="no">Testemne 5 MN</title>
+                    <type>Module</type>
+                    <qualification>
+                        <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                        <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+                    </qualification>
+                    <credit>
+                        <scheme>ECTS</scheme>
+                        <level>1</level>
+                        <value>10</value>
+                    </credit>
+                    <level>1</level>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <start dtf="yyyy-mm-dd">2013-07-15</start>
+                            <duration>1 Semestre</duration>
+                            <result scheme="NO30">A</result>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">MNSES9100-1</identifier>
+            <identifier type="elmo">127227246953594</identifier>
+            <title xml:lang="no">Science, Ethics and Society</title>
+            <title xml:lang="en">Science, Ethics and Society</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Doktorgrads nivå</educationLevel>
+                <educationLevel xml:lang="en">Doctoral degree level</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>3</level>
+                <value>5</value>
+            </credit>
+            <level>3</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <result scheme="NO08">Godkjent</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">HFB3-SPR-3-1</identifier>
+            <identifier type="elmo">687656752353393</identifier>
+            <title xml:lang="no">Fransk 3</title>
+            <title xml:lang="en">French 3</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Bachelor studium</educationLevel>
+                <educationLevel xml:lang="en">Bachelor's degree programme</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>40</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2013-01-15</start>
+                    <result scheme="NO30">C</result>
+                    <resultDistribution>
+                        <category count="8" label="A"/>
+                        <category count="8" label="B"/>
+                        <category count="10" label="C"/>
+                        <category count="2" label="D"/>
+                        <category count="2" label="E"/>
+                        <category count="0" label="F"/>
+                    </resultDistribution>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">HFB3-SPR-4-1</identifier>
+            <identifier type="elmo">447366179315896</identifier>
+            <title xml:lang="no">Gresk 1</title>
+            <title xml:lang="en">Greek 1</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Bachelor studium</educationLevel>
+                <educationLevel xml:lang="en">Bachelor's degree programme</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>20</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2013-01-15</start>
+                    <result scheme="NO30">B</result>
+                    <resultDistribution>
+                        <category count="4" label="A"/>
+                        <category count="7" label="B"/>
+                        <category count="11" label="C"/>
+                        <category count="4" label="D"/>
+                        <category count="4" label="E"/>
+                        <category count="0" label="F"/>
+                    </resultDistribution>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">HFB3-SPR-2-1</identifier>
+            <identifier type="elmo">227711737753178</identifier>
+            <title xml:lang="no">Fransk 2</title>
+            <title xml:lang="en">French 2</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Bachelor studium</educationLevel>
+                <educationLevel xml:lang="en">Bachelor's degree programme</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>60</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-01-15</start>
+                    <result scheme="NO30">B</result>
+                    <resultDistribution>
+                        <category count="4" label="A"/>
+                        <category count="11" label="B"/>
+                        <category count="11" label="C"/>
+                        <category count="3" label="D"/>
+                        <category count="1" label="E"/>
+                        <category count="0" label="F"/>
+                    </resultDistribution>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">HFB3-SPR-1-1</identifier>
+            <identifier type="elmo">938235854716177</identifier>
+            <title xml:lang="no">Fransk 1</title>
+            <title xml:lang="en">French 1</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Bachelor studium</educationLevel>
+                <educationLevel xml:lang="en">Bachelor's degree programme</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>60</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2011-01-15</start>
+                    <result scheme="NO30">D</result>
+                    <resultDistribution>
+                        <category count="1" label="A"/>
+                        <category count="8" label="B"/>
+                        <category count="11" label="C"/>
+                        <category count="8" label="D"/>
+                        <category count="2" label="E"/>
+                        <category count="0" label="F"/>
+                    </resultDistribution>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">HFB3-SPR-E1-1</identifier>
+            <identifier type="elmo">189722777955139</identifier>
+            <title xml:lang="no">Emne 1 hfb3-spr</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Bachelor studium</educationLevel>
+                <educationLevel xml:lang="en">Bachelor's degree programme</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>180</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <result scheme="NO30">B</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">THTEST4-1</identifier>
+            <identifier type="elmo">175358522976284</identifier>
+            <subject xml:lang="no">Biologi</subject>
+            <subject xml:lang="en">Biology</subject>
+            <title xml:lang="no">Testemne 4 MN</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>10</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO30">A</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">THTEST6-1</identifier>
+            <identifier type="elmo">553279913713727</identifier>
+            <subject xml:lang="no">Biologi</subject>
+            <subject xml:lang="en">Biology</subject>
+            <title xml:lang="no">Testemne 6 MN</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>7</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO30">A</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">THTEST7-1</identifier>
+            <identifier type="elmo">535773733731798</identifier>
+            <subject xml:lang="no">Biologi</subject>
+            <subject xml:lang="en">Biology</subject>
+            <title xml:lang="no">Testemne 7 MN</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>10</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2013-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO30">A</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">THTEST8-1</identifier>
+            <identifier type="elmo">592668385335855</identifier>
+            <subject xml:lang="no">Biologi</subject>
+            <subject xml:lang="en">Biology</subject>
+            <title xml:lang="no">Testemne 8 MN</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Grunnleggende emner, nivå I</educationLevel>
+                <educationLevel xml:lang="en">Foundation courses, level I</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>10</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2013-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO30">A</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">MNLAB0010C-1</identifier>
+            <identifier type="elmo">918683343989524</identifier>
+            <title xml:lang="no">Innføring i helse, miljø og sikkerhet (HMS) - feltsikkerhet</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Lavere grad, redskapskurs</educationLevel>
+                <educationLevel xml:lang="en">First degree</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>0</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO08">Godkjent</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">MNLAB0010B-1</identifier>
+            <identifier type="elmo">437611241243366</identifier>
+            <title xml:lang="no">Innføring i helse, miljø og sikkerhet (HMS) - lab.</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Lavere grad, redskapskurs</educationLevel>
+                <educationLevel xml:lang="en">First degree</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>0</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO08">Godkjent</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">MNLAB0010A-1</identifier>
+            <identifier type="elmo">235853253484149</identifier>
+            <title xml:lang="no">Innføring i helse, miljø og sikkerhet (HMS)</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Lavere grad, redskapskurs</educationLevel>
+                <educationLevel xml:lang="en">First degree</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>0</value>
+            </credit>
+            <level>1</level>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2012-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO08">Godkjent</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">BIO0001-1</identifier>
+            <identifier type="elmo">439649688717575</identifier>
+            <identifier type="nus">651000</identifier>
+            <subject xml:lang="no">Biologi</subject>
+            <subject xml:lang="en">Biology</subject>
+            <title xml:lang="no">Grunnkurs i biologi</title>
+            <title xml:lang="en">Elementary Biology</title>
+            <type>Module</type>
+            <qualification>
+                <educationLevel xml:lang="no">Fagskole - 1 årig</educationLevel>
+                <educationLevel xml:lang="en">Tertiary Vocational Education - 1 year</educationLevel>
+            </qualification>
+            <credit>
+                <scheme>ECTS</scheme>
+                <level>1</level>
+                <value>10</value>
+            </credit>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start dtf="yyyy-mm-dd">2013-07-15</start>
+                    <duration>1 Semestre</duration>
+                    <result scheme="NO30">C</result>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <issueDate dtf="yyyy-MM-dd">2015-05-02</issueDate>
+        <additionalLanguage>no</additionalLanguage>
+    </report>
+</elmo>

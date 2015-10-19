@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch0="http://tietovaranto.csc.fi/emrex" xmlns:sch1="http://purl.org/net/elmo" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://tietovaranto.csc.fi/emrex" targetNamespace="http://tietovaranto.csc.fi/emrex">
+	<wsdl:types>
+		<xs:schema xmlns:elmo="http://purl.org/net/elmo" xmlns:emrex="http://tietovaranto.csc.fi/emrex" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://tietovaranto.csc.fi/emrex">
+			<xs:import namespace="http://purl.org/net/elmo"/>
+			<xs:complexType name="Kutsuja">
+				<xs:sequence>
+					<xs:element name="jarjestelma">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Lukurajapintaa
+								käyttävän eli kutsuvan järjestelmän nimi (esim. TIPTOP).
+							</xs:documentation>
+							<xs:documentation xml:lang="en">
+								Name of the system
+								using the interface (e.g. TIPTOP).
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="100"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="tunnus">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Kutsuja/käyttäjä eli
+								kutsuvan järjestelmän käyttäjän käyttäjätunnus.
+							</xs:documentation>
+							<xs:documentation xml:lang="en">
+								Username of the user in
+								the system using the interface.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="100"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="avain">
+						<xs:annotation>
+							<xs:documentation xml:lang="fi">
+								Lukurajapinnan
+								salasana.
+							</xs:documentation>
+							<xs:documentation xml:lang="en">
+								Interface password.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="100"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="ELMOOpiskelijavaihtoRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Kutsuja" type="emrex:Kutsuja"/>
+						<xs:element name="Hakuehdot" type="emrex:Hakuehdot"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OID">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="HeTu">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:complexType name="Hakuehdot">
+				<xs:sequence>
+					<xs:choice>
+						<xs:sequence>
+							<xs:element ref="emrex:OID"/>
+							<xs:element minOccurs="0" ref="emrex:HeTu"/>
+						</xs:sequence>
+						<xs:element ref="emrex:HeTu"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="ELMOOpiskelijavaihtoResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="elmo:elmo"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+		<xs:schema xmlns="http://purl.org/net/elmo" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://purl.org/net/elmo">
+			<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+			<xs:complexType name="elmo_base">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" ref="learningOpportunitySpecification"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" ref="report"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" ref="diplomaSupplement"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="elmo" type="elmo_base"/>
+			<xs:complexType name="Report">
+				<xs:sequence>
+					<xs:element name="learner" type="Learner"/>
+					<xs:element name="issuer" type="LearningOpportunityProvider"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="learningOpportunitySpecification" type="LearningOpportunitySpecification"/>
+					<xs:element minOccurs="0" name="additionalInformation" type="Description"/>
+					<xs:element name="issueDate" type="DateAndTimeInformation"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Learner">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="identifier" type="TypedLiteral"/>
+					<xs:element minOccurs="0" name="fullName" type="SimpleLiteral"/>
+					<xs:element minOccurs="0" name="givenNames" type="SimpleLiteral"/>
+					<xs:element minOccurs="0" name="familyName" type="SimpleLiteral"/>
+					<xs:element minOccurs="0" name="bday" type="DateAndTimeInformation"/>
+					<xs:element minOccurs="0" name="placeOfBirth" type="SimpleLiteral"/>
+					<xs:element minOccurs="0" name="countryOfBirth" type="SimpleLiteral"/>
+				</xs:sequence>
+				<xs:attribute name="idref" use="optional"/>
+			</xs:complexType>
+			<xs:element name="report" type="Report"/>
+			<xs:complexType abstract="true" name="LearningOpportunityObject">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="contributor" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="date" type="DateAndTimeInformation"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="description" type="Description"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="identifier" type="TypedLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="subject" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="title" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="type" type="TypedLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="url" type="xs:string"/>
+				</xs:sequence>
+				<xs:attribute name="id" use="optional"/>
+			</xs:complexType>
+			<xs:complexType name="LearningOpportunityProvider">
+				<xs:complexContent>
+					<xs:extension base="LearningOpportunityObject">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="location" type="locationDType"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="offers" type="LearningOpportunitySpecificationAssociation"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="LearningOpportunitySpecification">
+				<xs:complexContent>
+					<xs:extension base="LearningOpportunityObject">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="qualification" type="Qualification"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="credit" type="Credit"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="level" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="learningOutcome" type="LearningOutcome"/>
+							<xs:element maxOccurs="unbounded" name="specifies" type="Specifies"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="hasPart" type="LearningOpportunitySpecificationAssociation"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="objective" type="Description"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="prerequisite" type="Description"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="LearningOpportunityInstance">
+				<xs:complexContent>
+					<xs:extension base="LearningOpportunityObject">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="location" type="locationDType"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="start" type="DateAndTimeInformation"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="duration" type="Duration"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="cost" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="languageOfInstruction" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="prerequisite" type="Description"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="places" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="engagement" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="objective" type="Description"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="offeredAt" type="OfferedAt"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="assessment" type="Description"/>
+							<xs:element minOccurs="0" name="result" type="Result"/>
+							<xs:element minOccurs="0" name="gradingScheme" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="languageOfAssessment" type="SimpleLiteral"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="engagementHours" type="TypedLiteral"/>
+							<xs:element minOccurs="0" name="resultDistribution" type="ResultDistribution"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="Qualification">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="identifier" type="TypedLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="title" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="educationLevel" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="qualificationHolderTitle" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="qualificationInfoSource" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="qualificationMainStudyField" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="professionalStatus" type="Description"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Credit">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="scheme" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="level" type="SimpleLiteral"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="value" type="SimpleLiteral"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="LearningOpportunitySpecificationAssociation">
+				<xs:sequence>
+					<xs:element name="learningOpportunitySpecification" type="LearningOpportunitySpecification"/>
+				</xs:sequence>
+				<xs:attribute name="idref" use="optional"/>
+			</xs:complexType>
+			<xs:complexType name="Specifies">
+				<xs:sequence>
+					<xs:element name="learningOpportunityInstance" type="LearningOpportunityInstance"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="OfferedAt">
+				<xs:sequence>
+					<xs:element name="learningOpportunityProvider" type="LearningOpportunityProvider"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="locationDType"/>
+			<xs:element name="learningOpportunitySpecification" type="LearningOpportunitySpecification"/>
+			<xs:complexType name="SimpleLiteral">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute ref="xml:lang" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType name="TypedLiteral">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="type" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType mixed="true" name="Description">
+				<xs:sequence>
+					<xs:any minOccurs="0" processContents="lax"/>
+				</xs:sequence>
+				<xs:attribute ref="xml:lang" use="optional"/>
+				<xs:attribute name="href" type="xs:anyURI" use="optional"/>
+			</xs:complexType>
+			<xs:complexType name="DateAndTimeInformation">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="dtf" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType name="Duration">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="interval" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType name="elmoDuration">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute name="duration" type="xs:duration" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType name="LearningOutcome">
+				<xs:simpleContent>
+					<xs:extension base="xs:string">
+						<xs:attribute ref="xml:lang"/>
+						<xs:attribute name="href" type="xs:anyURI" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType name="Result">
+				<xs:simpleContent>
+					<xs:extension base="SimpleLiteral">
+						<xs:attribute name="scheme" use="optional"/>
+						<xs:attribute name="number" type="xs:decimal" use="optional"/>
+					</xs:extension>
+				</xs:simpleContent>
+			</xs:complexType>
+			<xs:complexType name="ResultDistribution">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="category" type="Section"/>
+					<xs:element minOccurs="0" name="description" type="Description"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Section">
+				<xs:attribute name="locref" type="xs:anyURI" use="optional"/>
+				<xs:attribute name="label" use="required"/>
+				<xs:attribute name="count" use="required"/>
+			</xs:complexType>
+			<xs:complexType name="DiplomaSupplement">
+				<xs:sequence>
+					<xs:element name="learner" type="Learner"/>
+					<xs:element name="issuer" type="LearningOpportunityProvider"/>
+					<xs:element name="programme" type="Programme"/>
+					<xs:element minOccurs="0" name="additionalInformation" type="Description"/>
+					<xs:element name="issueDate" type="DateAndTimeInformation"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Programme">
+				<xs:complexContent>
+					<xs:extension base="LearningOpportunitySpecification">
+						<xs:sequence>
+							<xs:element name="degreeProgrammeAccessToFurtherStudies" type="Description"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:element name="diplomaSupplement" type="DiplomaSupplement"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="ELMOOpiskelijavaihtoRequest">
+		<wsdl:part element="tns:ELMOOpiskelijavaihtoRequest" name="ELMOOpiskelijavaihtoRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="ELMOOpiskelijavaihtoResponse">
+		<wsdl:part element="tns:ELMOOpiskelijavaihtoResponse" name="ELMOOpiskelijavaihtoResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="ELMOOpiskelijavaihto">
+		<wsdl:operation name="ELMOOpiskelijavaihto">
+			<wsdl:input message="tns:ELMOOpiskelijavaihtoRequest" name="ELMOOpiskelijavaihtoRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:ELMOOpiskelijavaihtoResponse" name="ELMOOpiskelijavaihtoResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ELMOOpiskelijavaihtoSoap11" type="tns:ELMOOpiskelijavaihto">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="ELMOOpiskelijavaihto">
+			<soap:operation soapAction=""/>
+			<wsdl:input name="ELMOOpiskelijavaihtoRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="ELMOOpiskelijavaihtoResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ELMOOpiskelijavaihtoService">
+		<wsdl:port binding="tns:ELMOOpiskelijavaihtoSoap11" name="ELMOOpiskelijavaihtoSoap11">
+			<soap:address location="http://virtawstesti.csc.fi:80/emrex/ELMOOpiskelijavaihto"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

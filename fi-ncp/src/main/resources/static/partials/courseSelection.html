@@ -1,0 +1,78 @@
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <ng-include src="'fi-common/partials/header.html'"></ng-include>
+
+    </div>
+    <div class="pure-u-1-1">
+        <h2>Find and select results to import</h2>
+        <hr/>
+        <br>
+
+        <h3>{{learner.fullName}} {{learner.bday.content}}</h3>
+        <br>
+
+        <h3>Filter Results</h3>
+
+        <div class="pure-g">
+            <div class="pure-u-1-4 custom-border">
+                <form class="pure-form pure-form-stacked custom-zero-margin">
+                    <fieldset>
+                        <legend>Education Institutions</legend>
+                        <div class="custom-option-margin">
+                            <div ng-repeat="(key, value) in educationInstitutionOptions">
+                                <input type="checkbox" name="educationInstitutionOptions[]"
+                                       ng-model="educationInstitutionOptions[key]">{{key}}</input>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="pure-u-1-4 custom-border">
+                <form class="pure-form pure-form-stacked">
+                    <fieldset>
+                        <legend>Type</legend>
+                        <div class="custom-option-margin">
+                            <div class="custom-option" ng-repeat="(key, value) in typeOptions">
+                                <input type="checkbox" name="typeOptions[]" ng-model="typeOptions[key]">{{key}}</input>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="pure-u-1-4 custom-border">
+                <form class="pure-form pure-form-stacked">
+                    <fieldset>
+                        <legend>Level</legend>
+                        <div class="custom-option-margin">
+                            <select ng-options="level for level in levelOptions" ng-model="selectedLevel"
+                                    ng-init="selectedLevel = levelOptions[0]"></select>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+            <div class="pure-u-1-4 custom-border">
+                <form class="pure-form pure-form-stacked">
+                    <fieldset>
+                        <legend>Time Period</legend>
+                        <div class="custom-option-margin">
+                            <datepicker>
+                                <input placeholder="" ng-model="startdate" type="text"/>
+                            </datepicker>
+                            <datepicker>
+                                <input ng-model="enddate" type="text"/>
+                            </datepicker>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <button class="pure-button custom-go-button" ng-click="sendIds()">Import selected</button>
+        <div class="custom-inline" ng-bind-html="abort"/>
+
+        <div ng-repeat="learningReport in reports | filter:issuerFilter">
+            <learning-report-directive report='learningReport' level-filter='selectedLevel'
+                                       type-filter='typeOptions'></learning-report-directive>
+        </div>
+    </div>
+</div>

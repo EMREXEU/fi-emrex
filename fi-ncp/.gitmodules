@@ -1,0 +1,3 @@
+[submodule "src/main/resources/static/fi-common"]
+	path = src/main/resources/static/fi-common
+	url = https://github.com/EMREXEU/fi-common.git

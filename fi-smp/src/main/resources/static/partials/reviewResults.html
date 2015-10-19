@@ -1,0 +1,88 @@
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <ng-include src="'fi-common/partials/header.html'"></ng-include>
+
+    </div>
+    <div class="pure-u-1-1">
+        <h2>Review and approve import</h2>
+        <hr/>
+        <br>
+    </div>
+
+
+    <div ng-hide="resultsImported">
+        <div ng-repeat="learningReport in reports | filter:courseNumberfilter">
+            <div>{{learningReport.verification.score}}</div>
+
+            <div class="pure-g">
+                <div class="pure-u-1-2">
+
+                    <fieldset>
+                        <legend ng-show="learningReport.verification.score > verificationLimit">Almost done!</legend>
+                        <legend style="background-color:orange;"
+                                ng-show="learningReport.verification.score > verificationLimit">The names doesn't match
+                        </legend>
+                        <p>
+
+                        <div class="custom-inline">You have selected to import</div>
+                        <div class="custom-inline">{{learningReport.numberOfCourses}}</div>
+                        <div class="custom-inline" ng-show="learningReport.numberOfCourses == 1"> course.</div>
+                        <div class="custom-inline" ng-show="learningReport.numberOfCourses != 1"> courses.</div>
+                        <p>
+
+
+                        <p ng-show="learningReport.verification.score > verificationLimit">The name of the of the person
+                            your
+                            are trying to import as, <b>{{learningReport.verification.fullNameFromHomeInstitute || "undefined"}}</b>, and the name of the person your are trying to import
+                            from,
+                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match. You will still be able to import your results but not use them
+                            until
+                            they have been reviewed. </p>
+
+
+                        Please review your selection below and approve it to import the courses to your major university
+                        results.
+                    </fieldset>
+                    <button class="pure-button custom-go-button" ng-click="import()">Import courses</button>
+                    <button class="pure-button custom-panic-button" ng-click="abort()">Cancel</button>
+
+                </div>
+            </div>
+            <div class="pure-u-1-1">
+                <learning-report-directive report='learningReport' only-viewing=true level-filter='selectedLevel'
+                                           type-filter='typeOptions'></learning-report-directive>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="resultsImported">
+        <div class="pure-g">
+            <div class="pure-u-1-2">
+
+                <fieldset>
+                    <legend>Completed</legend>
+                    1 course have been imported for Björn Andersson from the University of Oslo to the University of Stockholm.
+                </fieldset>
+                <fieldset>
+                    <legend style="background-color:orange;">Results imported</legend>
+                    <p>
+                        The results you selected have been imported.
+                    </p>
+
+                    <p>
+                        Due to a mismatch in names between the person importing, Björn Andersson, and the person the
+                        results were imported from, Björn Anderzon, the results have to be reviewed before they can be
+                        used.
+                    </p>
+
+                    <p>
+                        Please contact the admissions office at your university for more information.
+                    </p>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+    <title th:inline="text" >FI-SMP - [[${name}]] </title>
+    <link href="css/angular-bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="fi-common/styles/pure-min.css"/>
+    <link rel="stylesheet" href="fi-common/styles/custom.css"/>
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body ng-app="review" class="ng-cloak">
+<div ng-view="" class="container"> </div>
+<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+<script src="fi-common/js/selectedCourses.js" type="text/javascript"></script>
+<script src="fi-common/js/helper.js" type="text/javascript"></script>
+<script src="fi-common/js/learningReport.js" type="text/javascript"></script>
+<script src="js/review.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<elmo xmlns="http://purl.org/net/elmo">
+    <report>
+        <learner>
+            <identifier type="nationalIdentifier">17490477125</identifier>
+            <identifier type="studentIdentifier">100011</identifier>
+            <identifier type="nationality">FI</identifier>
+            <fullName>Virta Viivainen</fullName>
+            <givenNames>Virta</givenNames>
+            <familyName>Viivainen</familyName>
+            <bday dtf="yyyy-MM-dd">1996-08-02</bday>
+            <gender>2</gender>
+        </learner>
+		<issuer>
+			<identifier type="local">01905</identifier>
+			<identifier type="Erasmus">SF TAMPERE01</identifier>
+			<title xml:lang="fi">Tampereen Yliopisto</title>
+			<title xml:lang="en">University of Tampere</title>
+			<identifier type="url">www.uta.fi</identifier>
+		</issuer>
+		<learningOpportunitySpecification>
+			<description/>
+			<title xml:lang="fi">Viestinnän ja Median tutkimus</title>
+			<title xml:lang="en"/>
+			<type>Degree</type>
+			<url/>
+			<qualification>
+			</qualification>
+			<credit>
+				<scheme>ECTS</scheme>
+				<value>0</value>
+			</credit>
+			<level>BACHELOR</level>
+			<specifies>
+				<learningOpportunityInstance>
+					<date dtf="yyyy-MM-dd">2012-10-09</date>
+					<start>2012</start>
+					<duration interval="semesters">1</duration>
+					<languageOfInstruction/>
+					<engagement/>
+					<languageOfAssessment/>
+				</learningOpportunityInstance>
+			</specifies>
+			<hasPart>
+				<learningOpportunitySpecification>
+					<description/>
+					<identifier type="oodi">LTLY16</identifier>					
+					<identifier type="subjectArea">11.3</identifier>
+					<subject xml:lang="fi">Perus</subject>
+					<title xml:lang="fi">Orjentoituvat opinnot</title>
+					<title xml:lang="en"/>
+					<type>Module</type>
+					<url/>
+					<qualification>
+						<educationLevel xml:lang="fi">Peruskurssit</educationLevel>
+					</qualification>
+					<credit>
+						<scheme>ECTS</scheme>
+						<value>2</value>
+					</credit>
+					<level/>
+					<specifies>
+						<learningOpportunityInstance>
+							<start>2012-09-01</start>
+							<duration>Semester</duration>
+							<result scheme="FI" xml:lang="fi">Hyv</result>
+							<gradingScheme xml:lang="fi"/>
+						</learningOpportunityInstance>
+					</specifies>
+				</learningOpportunitySpecification>	
+			</hasPart>
+			<hasPart>
+				<learningOpportunitySpecification>
+					<description/>
+					<identifier type="oodi">KIRA1</identifier>					
+					<identifier type="subjectArea">11.6</identifier>
+					<subject xml:lang="fi">Kirjallisuus</subject>
+					<title xml:lang="fi">Kirjallisuuden teoria</title>
+					<title xml:lang="en"/>
+					<type>Module</type>
+					<url/>
+					<qualification>
+						<educationLevel xml:lang="fi">Erikoistumiskurssit</educationLevel>
+					</qualification>
+					<credit>
+						<scheme>ECTS</scheme>
+						<value>5</value>
+					</credit>
+					<level/>
+					<specifies>
+						<learningOpportunityInstance>
+							<start>2013-03-02</start>
+							<duration>Semester</duration>
+							<result scheme="FI" xml:lang="fi">3</result>
+							<gradingScheme xml:lang="fi"/>
+						</learningOpportunityInstance>
+					</specifies>
+				</learningOpportunitySpecification>	
+			</hasPart>
+			</learningOpportunitySpecification>
+			<learningOpportunitySpecification>
+			<description/>
+			<title xml:lang="fi">Viestinnän ja Median tutkimus</title>
+			<title xml:lang="en"/>
+			<type>Degree</type>
+			<url/>
+			<qualification>
+			</qualification>
+			<credit>
+				<scheme>ECTS</scheme>
+				<value>0</value>
+			</credit>
+			<level>MASTER</level>
+			<specifies>
+				<learningOpportunityInstance>
+					<date dtf="yyyy-MM-dd">2014-10-09</date>
+					<start>2014</start>
+					<duration interval="semesters">1</duration>
+					<languageOfInstruction/>
+					<engagement/>
+					<languageOfAssessment/>
+				</learningOpportunityInstance>
+			</specifies>
+			<hasPart>
+				<learningOpportunitySpecification>
+					<description/>
+					<identifier type="oodi">JOVA9</identifier>					
+					<identifier type="subjectArea">11.6</identifier>
+					<subject xml:lang="fi">Viestintä</subject>
+					<title xml:lang="fi">Todellisuuden esittäminen</title>
+					<title xml:lang="en"/>
+					<type>Module</type>
+					<url/>
+					<qualification>
+						<educationLevel xml:lang="fi">Erikoistumiskurssit</educationLevel>
+					</qualification>
+					<credit>
+						<scheme>ECTS</scheme>
+						<value>5</value>
+					</credit>
+					<level/>
+					<specifies>
+						<learningOpportunityInstance>
+							<start>2015-09-06</start>
+							<duration>Semester</duration>
+							<result scheme="FI" xml:lang="fi">4</result>
+							<gradingScheme xml:lang="fi"/>
+						</learningOpportunityInstance>
+					</specifies>
+				</learningOpportunitySpecification>	
+			</hasPart>
+			<hasPart>
+				<learningOpportunitySpecification>
+					<description/>
+					<identifier type="oodi">JOVA10</identifier>					
+					<identifier type="subjectArea">11.6</identifier>
+					<subject xml:lang="fi">Viestintä</subject>
+					<title xml:lang="fi">Identiteetti</title>
+					<title xml:lang="en"/>
+					<type>Module</type>
+					<url/>
+					<qualification>
+						<educationLevel xml:lang="fi">Erikoistumiskurssit</educationLevel>
+					</qualification>
+					<credit>
+						<scheme>ECTS</scheme>
+						<value>5</value>
+					</credit>
+					<level/>
+					<specifies>
+						<learningOpportunityInstance>
+							<start>2015-09-15</start>
+							<duration>Semester</duration>
+							<result scheme="FI" xml:lang="fi">2</result>
+							<gradingScheme xml:lang="fi"/>
+						</learningOpportunityInstance>
+					</specifies>
+				</learningOpportunitySpecification>	
+			</hasPart>
+		</learningOpportunitySpecification>
+		<issuer>
+			<identifier type="local">01005</identifier>
+			<identifier type="Erasmus">SF Helsinki01</identifier>
+			<title xml:lang="fi">Helsingin Yliopisto</title>
+			<title xml:lang="en">University of Helsinki</title>
+			<identifier type="url">www.helsinki.fi</identifier>
+		</issuer>
+		<learningOpportunitySpecification>
+			<description/>
+			<title xml:lang="fi">Teologia</title>
+			<title xml:lang="en"/>
+			<type>Degree</type>
+			<url/>
+			<qualification>
+			</qualification>
+			<credit>
+				<scheme>ECTS</scheme>
+				<value>0</value>
+			</credit>
+			<level>BACHELOR</level>
+			<specifies>
+				<learningOpportunityInstance>
+					<date dtf="yyyy-MM-dd">2015-02-02</date>
+					<start>2015</start>
+					<duration interval="semesters">1</duration>
+					<languageOfInstruction/>
+					<engagement/>
+					<languageOfAssessment/>
+				</learningOpportunityInstance>
+			</specifies>
+			<hasPart>
+				<learningOpportunitySpecification>
+					<description/>
+					<identifier type="oodi">KIRH01</identifier>					
+					<identifier type="subjectArea">5.1</identifier>
+					<subject xml:lang="fi">Perus</subject>
+					<title xml:lang="fi">Kirkkohistoria</title>
+					<title xml:lang="en"/>
+					<type>Module</type>
+					<url/>
+					<qualification>
+						<educationLevel xml:lang="fi">Peruskurssit</educationLevel>
+					</qualification>
+					<credit>
+						<scheme>ECTS</scheme>
+						<value>2</value>
+					</credit>
+					<level/>
+					<specifies>
+						<learningOpportunityInstance>
+							<start>2015-04-05</start>
+							<duration>Semester</duration>
+							<result scheme="FI" xml:lang="fi">Hyv</result>
+							<gradingScheme xml:lang="fi"/>
+						</learningOpportunityInstance>
+					</specifies>
+				</learningOpportunitySpecification>	
+			</hasPart>
+		</learningOpportunitySpecification>
+		<issueDate dtf="yyyy-MM-dd">2015-09-30</issueDate>
+	</report>
+</elmo>
