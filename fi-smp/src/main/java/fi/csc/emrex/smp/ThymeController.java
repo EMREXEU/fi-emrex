@@ -126,6 +126,7 @@ public class ThymeController {
         person.setLastName(httpRequest.getHeader("shib-sn"));
         person.setGender(httpRequest.getHeader("shib-schacGender"));
         person.setBirthDate(httpRequest.getHeader("shib-schacDateOfBirth"), "YYYYMMDD");
+        person.setHomeOrganization(httpRequest.getHeader("shib-schacHomeOrganization"));
         if(context.getSession().getAttribute("shibPerson")==null){
         context.getSession().setAttribute("shibPerson", person);
         }

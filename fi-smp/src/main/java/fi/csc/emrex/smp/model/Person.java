@@ -28,6 +28,7 @@ public class Person {
     private int gender;
     private LocalDate birthDate;
     private DateTimeFormatter dateFormatter;
+    private String homeOrganization;
 
     public Person() {
 
@@ -84,6 +85,14 @@ public class Person {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    public String getHomeOrganization() {
+        return homeOrganization;
+    }
+
+    public void setHomeOrganization(String homeOrganization) {
+        this.homeOrganization = homeOrganization;
     }
 
     public void setBirthDate(LocalDate birthDate) {

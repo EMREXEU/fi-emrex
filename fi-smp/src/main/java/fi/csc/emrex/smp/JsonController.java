@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.smp;
 
+import fi.csc.emrex.smp.model.Person;
 import fi.csc.emrex.smp.model.VerifiedReport;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -115,6 +116,17 @@ public class JsonController {
                 System.out.println(name + ": " + request.getAttribute(name).toString());
             }
         }
+    }
+    @RequestMapping("/smp/api/store")
+    @ResponseBody
+    public void smpstore(){
+         store();
+    }
+    @RequestMapping("/api/store")
+    @ResponseBody
+    public void  store() {
+
+        Person user = (Person) context.getSession().getAttribute("shibPerson");
     }
 
 }
