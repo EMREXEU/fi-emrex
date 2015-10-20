@@ -5,9 +5,7 @@
  */
 package fi.csc.emrex.smp;
 
-import fi.csc.emrex.common.PdfGen;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -31,22 +29,16 @@ public class PDFController {
 
     @RequestMapping(value="/smp/elmo", method= RequestMethod.GET)
     @ResponseBody
-    public FileSystemResource smpelmo( HttpServletResponse response, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie) throws Exception{
-        return  this.elmo(response, model, sessionIdCookie);
+    public byte[] smpelmo( HttpServletResponse response, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie) throws Exception{
+        return this.elmo(response, model, sessionIdCookie);
     }
     @RequestMapping(value="/elmo", method= RequestMethod.GET)
     @ResponseBody
-    public FileSystemResource elmo( HttpServletResponse response, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie) throws Exception{
-
-
-        final String decodedXml = (String) context.getSession().getAttribute("elmoxmlstring");
-
-        new PdfGen().generatePdf(decodedXml, "/tmp/elmo.pdf");
+    public byte[] elmo( HttpServletResponse response, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie) throws Exception{
 
         response.setHeader("Content-disposition", "attachment;filename=elmo.pdf");
         response.setContentType("application/pdf");
 
-        return new FileSystemResource("/tmp/elmo.pdf");
+        return (byte[]) context.getSession().getAttribute("pdf");
     }
-
 }

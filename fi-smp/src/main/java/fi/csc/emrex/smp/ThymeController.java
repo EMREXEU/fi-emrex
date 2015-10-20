@@ -5,33 +5,10 @@
  */
 package fi.csc.emrex.smp;
 
+import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.smp.model.Person;
 import fi.csc.emrex.smp.model.VerificationReply;
 import fi.csc.emrex.smp.model.VerifiedReport;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.DatatypeConverter;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +24,29 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -67,6 +67,9 @@ public class ThymeController {
 
     @Value("${smp.return.url}")
     private String returnUrl;
+
+    @Value("${smp.university.base.directory}")
+    private String universityBaseDirectory;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String smp(HttpServletRequest request, Model model) throws Exception {
@@ -159,6 +162,10 @@ public class ThymeController {
             return "error";
         }
         context.getSession().setAttribute("elmoxmlstring", decodedXml);
+        ElmoParser parser = new ElmoParser(decodedXml);
+        byte[] pdf = parser.getAttachedPDF();
+        context.getSession().setAttribute("pdf", pdf);
+
         model.addAttribute("elmoXml", decodedXml);
 
         Document document;

@@ -33,9 +33,11 @@
 
                         <p ng-show="learningReport.verification.score > verificationLimit">The name of the of the person
                             your
-                            are trying to import as, <b>{{learningReport.verification.fullNameFromHomeInstitute || "undefined"}}</b>, and the name of the person your are trying to import
+                            are trying to import as, <b>{{learningReport.verification.fullNameFromHomeInstitute ||
+                                "undefined"}}</b>, and the name of the person your are trying to import
                             from,
-                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match. You will still be able to import your results but not use them
+                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match. You will still be able
+                            to import your results but not use them
                             until
                             they have been reviewed. </p>
 
@@ -61,7 +63,8 @@
 
                 <fieldset>
                     <legend>Completed</legend>
-                    1 course have been imported for Björn Andersson from the University of Oslo to the University of Stockholm.
+                    1 course have been imported for Björn Andersson from the University of Oslo to the University of
+                    Stockholm.
                 </fieldset>
                 <fieldset>
                     <legend style="background-color:orange;">Results imported</legend>
@@ -83,6 +86,9 @@
             </div>
         </div>
     </div>
-
-
+    <div class="pure-g">
+        <div class="pure-u-1-1">
+            <a href="/elmo">Download Pdf</a>
+        </div>
+    </div>
 </div>

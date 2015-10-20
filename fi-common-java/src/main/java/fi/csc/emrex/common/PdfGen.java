@@ -37,8 +37,17 @@ public class PdfGen {
     private static final Font FONT_HEADING = new Font(FontFamily.HELVETICA, 18, Font.BOLD);
 
     public void generatePdf(String xml, String uri) throws Exception {
-            List<ElmoDocument> edList = getElmoDocuments(xml);
-            createPdf(edList, uri);
+        ByteArrayOutputStream bos = generatePDFAsByteArray(xml);
+        writePdf(bos, new URI(uri));
+    }
+
+    public byte[] generatePdf(String xml) throws Exception {
+        return generatePDFAsByteArray(xml).toByteArray();
+    }
+
+    private ByteArrayOutputStream generatePDFAsByteArray(String xml) throws Exception {
+        List<ElmoDocument> edList = getElmoDocuments(xml);
+        return createPdf(edList);
     }
 
     private List<ElmoDocument> getElmoDocuments(String elmoXml) throws Exception {
@@ -75,7 +84,7 @@ public class PdfGen {
     }
 
 
-    private void createPdf(List<ElmoDocument> documents, String uri) throws Exception {
+    private ByteArrayOutputStream createPdf(List<ElmoDocument> documents) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         com.itextpdf.text.Document document =
                 new com.itextpdf.text.Document(PageSize.A4,
@@ -89,8 +98,7 @@ public class PdfGen {
         }
 
         document.close();
-
-        writePdf(bos, new URI(uri));
+        return bos;
     }
 
 
@@ -105,7 +113,7 @@ public class PdfGen {
         p = new Paragraph();
         p.add(new Phrase(" "));
         document.add(p);
-        PdfPTable table = new PdfPTable(new float[] { 15, 30, 15, 10, 10, 8, 8});
+        PdfPTable table = new PdfPTable(new float[]{15, 30, 15, 10, 10, 8, 8});
         table.setWidthPercentage(100);
 
         table.addCell(createHeaderCell("Code"));

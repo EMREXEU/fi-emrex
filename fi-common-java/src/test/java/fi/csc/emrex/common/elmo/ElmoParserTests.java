@@ -59,16 +59,7 @@ public class ElmoParserTests extends TestCase {
         return builder.parse(s);
     }
 
-    @Test
-    public void testAddPdf() throws Exception {
-        String pdf = TestUtil.getFileContent("elmo-finland.pdf");
-        String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
-        ElmoParser parser = new ElmoParser(elmo);
-        parser.addPDFAttachment(pdf);
-        String recoveredPDF = parser.getAttachedPDF();
-        assertEquals(recoveredPDF, pdf);
 
-    }
 
 
 }

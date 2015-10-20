@@ -76,7 +76,7 @@ public class ElmoParser {
 
     }
 
-    public String getAttachedPDF() throws Exception{
+    public byte[] getAttachedPDF() throws Exception{
 
 
         NodeList attachments = document.getElementsByTagName("Attachment");
@@ -86,21 +86,20 @@ public class ElmoParser {
                 CDATASection data = (CDATASection) childs.item(0);
                 byte[] decodedPDF = DatatypeConverter.parseBase64Binary(data.getData());
 
-                return new String(decodedPDF);
+                return decodedPDF;
             }
         }
         throw new Exception("PDF not attached to xml");
     }
 
 
-    public void addPDFAttachment(String pdf){
+    public void addPDFAttachment(byte[] pdf){
         NodeList reports = document.getElementsByTagName("report");
         if (reports.getLength() > 0) {
             Element attachment = document.createElement("Attachment");
             attachment.setAttribute("title", "Transcription of studies");
             attachment.setAttribute("type", "base64 encoded pdf");
-            byte[] pdfByteArray = pdf.getBytes();
-            CDATASection pdfElement = document.createCDATASection(DatatypeConverter.printBase64Binary(pdfByteArray));
+            CDATASection pdfElement = document.createCDATASection(DatatypeConverter.printBase64Binary(pdf));
             attachment.appendChild(pdfElement);
             reports.item(0).appendChild(attachment);
         }

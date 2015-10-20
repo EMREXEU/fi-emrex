@@ -17,6 +17,8 @@ public class PDFGenTests extends TestCase {
         generatePdf("Example-elmo-complicated.xml", "/tmp/elmo-complicated.pdf");
         generatePdf("Example-elmo-Finland.xml", "/tmp/elmo-finland.pdf");
         generatePdf("Example-elmo-Norway.xml", "/tmp/elmo-norway.pdf");
+
+        final String decodedXml = TestUtil.getFileContent("Example-elmo-Finland.xml");
     }
 
     private void generatePdf(String filename, String uri) throws Exception {
