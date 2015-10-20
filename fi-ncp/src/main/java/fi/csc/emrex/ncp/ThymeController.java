@@ -5,7 +5,7 @@
  */
 package fi.csc.emrex.ncp;
 
-import fi.csc.emrex.ncp.elmo.ElmoParser;
+import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 

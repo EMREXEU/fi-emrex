@@ -3,38 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.csc.emrex.ncp.elmo;
+package fi.csc.emrex.common.elmo;
 
+import org.w3c.dom.*;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSOutput;
+import org.w3c.dom.ls.LSSerializer;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import javax.xml.bind.DatatypeConverter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.TransformerFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSOutput;
-import org.w3c.dom.ls.LSSerializer;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  * A class representing a single Elmo xml.
@@ -82,6 +76,36 @@ public class ElmoParser {
 
     }
 
+    public String getAttachedPDF() throws Exception{
+
+
+        NodeList attachments = document.getElementsByTagName("Attachment");
+        if (attachments.getLength() == 1) {
+            NodeList childs = attachments.item(0).getChildNodes();
+            if (childs.getLength() == 1) {
+                CDATASection data = (CDATASection) childs.item(0);
+                byte[] decodedPDF = DatatypeConverter.parseBase64Binary(data.getData());
+
+                return new String(decodedPDF);
+            }
+        }
+        throw new Exception("PDF not attached to xml");
+    }
+
+
+    public void addPDFAttachment(String pdf){
+        NodeList reports = document.getElementsByTagName("report");
+        if (reports.getLength() > 0) {
+            Element attachment = document.createElement("Attachment");
+            attachment.setAttribute("title", "Transcription of studies");
+            attachment.setAttribute("type", "base64 encoded pdf");
+            byte[] pdfByteArray = pdf.getBytes();
+            CDATASection pdfElement = document.createCDATASection(DatatypeConverter.printBase64Binary(pdfByteArray));
+            attachment.appendChild(pdfElement);
+            reports.item(0).appendChild(attachment);
+        }
+    }
+
     /**
      * Complete XML of found Elmo
      *
@@ -120,9 +144,11 @@ public class ElmoParser {
                     Element id = (Element) identifiers.item(j);
                     if (id.getParentNode() == specification) {
                         if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
-                            if (!courses.contains(id.getTextContent())) {
-                                removeNodes.add(specification);
+                            String idContent = id.getTextContent();
+                            boolean doesntContain = !courses.contains(idContent);
 
+                            if (doesntContain) {
+                                removeNodes.add(specification);
                             }
 
                         }
@@ -132,9 +158,12 @@ public class ElmoParser {
             for (Node remove : removeNodes) {
                 Node parent = remove.getParentNode();
                 if (parent != null) {
-                    parent.removeChild(remove);
+                    Node parentsParent = parent.getParentNode();
+                    if (parentsParent != null)
+                        parentsParent.removeChild(parent);
                 }
             }
+
             NodeList reports =doc.getElementsByTagName("report"); 
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
@@ -166,7 +195,6 @@ public class ElmoParser {
         lsSerializer.write(doc, lsOutput);
         return stringWriter.toString();
 
-//        return lsSerializer.writeToString(doc);
     }
 
     // just for testing

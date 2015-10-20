@@ -5,7 +5,7 @@
  */
 package fi.csc.emrex.ncp;
 
-import fi.csc.emrex.ncp.elmo.ElmoParser;
+import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import org.json.JSONObject;
 import org.json.XML;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -50,6 +49,7 @@ public class JsonController {
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
         // TODO oikeat hakuehdot
         model.put("elmoXml", virtaClient.fetchStudies("17488477125", null));
+
         return model;
     }
 
