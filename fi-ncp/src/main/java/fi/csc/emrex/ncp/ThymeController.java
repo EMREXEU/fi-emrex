@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.ncp;
 
+import fi.csc.emrex.common.PdfGen;
 import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.ParserConfigurationException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -57,14 +59,19 @@ public class ThymeController {
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
+
         String xmlString;
 
-        if (courses != null && courses.length > 0) {
-            List<String> courseList = Arrays.asList(courses);
-            xmlString = parser.getCourseData(courseList);
-        } else {
-            xmlString = parser.getCourseData();
-        }
+        // Generate pdf with existing courses and add pdf to xml
+        xmlString = getElmoXml(courses, parser);
+
+        PdfGen pdfGenerator = new PdfGen();
+
+        byte[] pdf = pdfGenerator.generatePdf(xmlString);
+
+        parser.addPDFAttachment(pdf);
+
+        xmlString = getElmoXml(courses, parser);
 
         xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
 
@@ -72,6 +79,17 @@ public class ThymeController {
         model.addAttribute("buttonText", "Confirm selection");
         model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
         return "review";
+    }
+
+    private String getElmoXml(@RequestParam(value = "courses", required = false) String[] courses, ElmoParser parser) throws ParserConfigurationException {
+        String xmlString;
+        if (courses != null && courses.length > 0) {
+            List<String> courseList = Arrays.asList(courses);
+            xmlString = parser.getCourseData(courseList);
+        } else {
+            xmlString = parser.getCourseData();
+        }
+        return xmlString;
     }
 
     @RequestMapping(value = "/ncp/abort", method = RequestMethod.GET)
