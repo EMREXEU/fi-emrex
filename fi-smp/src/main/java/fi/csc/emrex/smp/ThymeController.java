@@ -98,7 +98,7 @@ public class ThymeController {
         }
     }
 
-    @RequestMapping(value = "/abort", method= RequestMethod.GET)
+    @RequestMapping(value = "/abort", method = RequestMethod.GET)
     public String abort() throws Exception {
         return "onReturnAbort";
     }
@@ -107,8 +107,6 @@ public class ThymeController {
     public String smpAbort() throws Exception {
         return abort();
     }
-
-
 
     @RequestMapping(value = "/smp/onReturn", method = RequestMethod.POST)
     public String smponReturnelmo(@ModelAttribute ElmoData request, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie, @CookieValue(value = "chosenNCP") String chosenNCP, HttpServletRequest httpRequest) throws Exception {
@@ -124,15 +122,18 @@ public class ThymeController {
             return "onReturnAbort";
         }
 
-        Person person = new Person();
-        person.setFirstName(httpRequest.getHeader("shib-cn"));
-        person.setLastName(httpRequest.getHeader("shib-sn"));
-        person.setGender(httpRequest.getHeader("shib-schacGender"));
-        person.setBirthDate(httpRequest.getHeader("shib-schacDateOfBirth"), "YYYYMMDD");
-        person.setHomeOrganization(httpRequest.getHeader("shib-schacHomeOrganization"));
-        if(context.getSession().getAttribute("shibPerson")==null){
-        context.getSession().setAttribute("shibPerson", person);
+        Person person = (Person) context.getSession().getAttribute("shibPerson");
+
+        if (person == null) {
+            person = new Person();
+            person.setFirstName(httpRequest.getHeader("shib-cn"));
+            person.setLastName(httpRequest.getHeader("shib-sn"));
+            person.setGender(httpRequest.getHeader("shib-schacGender"));
+            person.setBirthDate(httpRequest.getHeader("shib-schacDateOfBirth"), "YYYYMMDD");
+            person.setHomeOrganization(httpRequest.getHeader("shib-schacHomeOrganization"));
+            context.getSession().setAttribute("shibPerson", person);
         }
+
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         final String decodedXml = GzipUtil.gzipDecompress(bytes);
 
@@ -222,22 +223,21 @@ public class ThymeController {
         return "review";
     }
 
-
     // FIXME serti jostain muualta
     private String getCertificate() {
-        return "-----BEGIN CERTIFICATE-----\n" +
-                "MIIB+TCCAWICCQDiZILVgSkjojANBgkqhkiG9w0BAQUFADBBMQswCQYDVQQGEwJG\n" +
-                "STERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYDVQQK\n" +
-                "DANDU0MwHhcNMTUwMjA1MTEwNTI5WhcNMTgwNTIwMTEwNTI5WjBBMQswCQYDVQQG\n" +
-                "EwJGSTERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYD\n" +
-                "VQQKDANDU0MwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyVVTyGT1Cp8z1f\n" +
-                "jYEO93HEtIpFKnb/tvPb6Ee5b8m8lnuv6YWsF8DBWPVfsOq0KCWD8zE1yD+w+xxM\n" +
-                "mp6+zATp089PUrEUYawG/tGu9OG+EX+nhOAj0SBvGHEkXh6lGJgeGxbdFVwZePAN\n" +
-                "135ra5L3gYcwYBVOuEyYFZJp7diHAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAP2E9\n" +
-                "YD7djCum5UYn1Od9Z1w55j+SuKRWMnTR3yzy1PXJjb2dGqNcV9tEhdbqWbwTnNfl\n" +
-                "6sidCnd1U0p4XdLjg28me8ZmfftH+QU4LkwSFSyF4ajoTFC3QHD0xTtGpQIT/rAD\n" +
-                "x/59fhfX5icydMzzNulwXJWImtXq2/AX43/yR+M=\n" +
-                "-----END CERTIFICATE-----";
+        return "-----BEGIN CERTIFICATE-----\n"
+                + "MIIB+TCCAWICCQDiZILVgSkjojANBgkqhkiG9w0BAQUFADBBMQswCQYDVQQGEwJG\n"
+                + "STERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYDVQQK\n"
+                + "DANDU0MwHhcNMTUwMjA1MTEwNTI5WhcNMTgwNTIwMTEwNTI5WjBBMQswCQYDVQQG\n"
+                + "EwJGSTERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYD\n"
+                + "VQQKDANDU0MwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyVVTyGT1Cp8z1f\n"
+                + "jYEO93HEtIpFKnb/tvPb6Ee5b8m8lnuv6YWsF8DBWPVfsOq0KCWD8zE1yD+w+xxM\n"
+                + "mp6+zATp089PUrEUYawG/tGu9OG+EX+nhOAj0SBvGHEkXh6lGJgeGxbdFVwZePAN\n"
+                + "135ra5L3gYcwYBVOuEyYFZJp7diHAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAP2E9\n"
+                + "YD7djCum5UYn1Od9Z1w55j+SuKRWMnTR3yzy1PXJjb2dGqNcV9tEhdbqWbwTnNfl\n"
+                + "6sidCnd1U0p4XdLjg28me8ZmfftH+QU4LkwSFSyF4ajoTFC3QHD0xTtGpQIT/rAD\n"
+                + "x/59fhfX5icydMzzNulwXJWImtXq2/AX43/yR+M=\n"
+                + "-----END CERTIFICATE-----";
     }
 
     /**
