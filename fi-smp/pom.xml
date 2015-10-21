@@ -67,17 +67,6 @@
 			<artifactId>itextpdf</artifactId>
 			<version>5.0.6</version>
 		</dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.6</version>
-        </dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -216,6 +205,4 @@
 		</plugins>
 
 	</build>
-
-
 </project>
