@@ -22,13 +22,14 @@ public class Person {
 
     private String firstName;
     private String lastName;
-    /**
-     * Format: 0 Not known 1 Male 2 Female 9 Not specified
-     */
-    private int gender;
+
     private LocalDate birthDate;
     private DateTimeFormatter dateFormatter;
     private String homeOrganization;
+    private String OID;
+    private String SSN; //HETU
+    private String studentNumber;
+    
 
     public Person() {
 
@@ -66,23 +67,6 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    public void setGender(String gender) {
-        Integer temp = Integer.getInteger(gender);
-        if (temp == null) {
-            this.gender = 9;
-        } else {
-            this.gender = temp;
-        }
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -106,6 +90,30 @@ public class Person {
         } else {
             this.birthDate = LocalDate.parse(birthDate, dateFormatter);
         }
+    }
+
+    public String getOID() {
+        return OID;
+    }
+
+    public void setOID(String OID) {
+        this.OID = OID;
+    }
+
+    public String getSSN() {
+        return SSN;
+    }
+
+    public void setSSN(String SSN) {
+        this.SSN = SSN;
+    }
+
+    public String getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
     }
 
     public VerificationReply verifiy(Person otherPerson) {
