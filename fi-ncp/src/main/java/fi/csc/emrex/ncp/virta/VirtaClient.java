@@ -38,7 +38,7 @@ public class VirtaClient {
         try {
             return VirtaMarshaller.marshal(sendRequest(virtaUser));
         } catch (Exception e) {
-            log.error("fetchStudies failed", e);
+            log.error("FetchStudies failed. StudentID: " + virtaUser.getOid() + " PersonalID: " + virtaUser.getSsn() , e);
             return null;
         }
     }

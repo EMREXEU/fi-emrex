@@ -37,9 +37,9 @@ public class JsonControllerTest {
         final HttpSession mockHttpSession = Mockito.mock(HttpSession.class);
         Mockito.when(mockHttpServletRequest.getSession()).thenReturn(mockHttpSession);
 
-        Mockito.when(mockHttpServletRequest.getHeader("funetEduPersonLearnerId")).thenReturn("17488477125");
-        Mockito.when(mockHttpServletRequest.getRequestURI()).thenReturn("RequestUri");
-        Mockito.when(mockHttpServletRequest.getRequestURL()).thenReturn(new StringBuffer("RequestUrl"));
+        Mockito.when(mockHttpServletRequest.getHeader("shib-unique-code")).thenReturn("urn:mace:terena.org:schac:personalUniqueCode:fi:hy.fi:x8734");
+        Mockito.when(mockHttpServletRequest.getRequestURI()).thenReturn("shib-unique-id");
+        Mockito.when(mockHttpServletRequest.getRequestURL()).thenReturn(new StringBuffer("urn:mace:terena.org:schac:personalUniqueID:fi:FIC:020896-358x"));
         Vector<String> headerNames = new Vector<>();
         headerNames.add("header");
         Mockito.when(mockHttpServletRequest.getHeaderNames()).thenReturn(headerNames.elements());

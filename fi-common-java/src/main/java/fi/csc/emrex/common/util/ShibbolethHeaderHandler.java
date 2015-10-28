@@ -42,6 +42,8 @@ public class ShibbolethHeaderHandler {
 
     private String getLastPartOfHeader(String shibHeader) {
         String header = request.getHeader(shibHeader);
+        if (header == null )
+            return null;
         String[] splittedHeader = header.split("[:]");
         if (splittedHeader.length < 1)
             return null;
