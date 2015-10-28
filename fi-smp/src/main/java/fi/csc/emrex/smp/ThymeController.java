@@ -115,7 +115,7 @@ public class ThymeController {
             person = new Person();
             person.setFirstName(httpRequest.getHeader("shib-cn"));
             person.setLastName(httpRequest.getHeader("shib-sn"));
-            person.setGender(httpRequest.getHeader("shib-schacGender"));
+ 
             person.setBirthDate(httpRequest.getHeader("shib-schacDateOfBirth"), "YYYYMMDD");
             person.setHomeOrganization(httpRequest.getHeader("shib-schacHomeOrganization"));
             context.getSession().setAttribute("shibPerson", person);
@@ -258,11 +258,7 @@ public class ThymeController {
             if (bday != null) {
                 elmoPerson.setBirthDate(bday.getTextContent(), bday.getAttribute("dtf"));
             }
-            Element gender = getOneNode(learner, "gender");
-            if (gender != null) {
 
-                elmoPerson.setGender(gender.getTextContent());
-            }
             return elmoPerson;
 
         } else {
