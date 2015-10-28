@@ -19,15 +19,16 @@ public class ShibbolethHeaderHandler {
 
     public void printAttributes() {
         final String requestURI = request.getRequestURI();
-        log.debug("requestURI: " + requestURI);
+        log.info("Header attributes:");
+        log.info("requestURI: " + requestURI);
 
         final String requestURL = request.getRequestURL().toString();
-        log.debug("requestURL: " + requestURL);
+        log.info("requestURL: " + requestURL);
 
         final Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             final String headerName = headerNames.nextElement();
-            log.debug(headerName + ": " + request.getHeader(headerName));
+            log.info(headerName + ": " + request.getHeader(headerName));
         }
     }
 
