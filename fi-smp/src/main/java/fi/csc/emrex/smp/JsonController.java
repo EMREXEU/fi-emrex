@@ -7,16 +7,6 @@ package fi.csc.emrex.smp;
 
 import fi.csc.emrex.smp.model.Person;
 import fi.csc.emrex.smp.model.VerifiedReport;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
 
 
@@ -107,16 +102,6 @@ public class JsonController {
         return (List<VerifiedReport> ) this.context.getSession().getAttribute("reports");
     }
 
-    private void printAttributes(HttpServletRequest request) {
-        if (request != null) {
-
-            final Enumeration<String> attributeNames = request.getAttributeNames();
-            while (attributeNames.hasMoreElements()) {
-                final String name = attributeNames.nextElement();
-                System.out.println(name + ": " + request.getAttribute(name).toString());
-            }
-        }
-    }
     @RequestMapping("/smp/api/store")
     @ResponseBody
     public void smpstore(){

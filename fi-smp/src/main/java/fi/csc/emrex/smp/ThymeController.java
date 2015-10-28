@@ -43,7 +43,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,19 +83,7 @@ public class ThymeController {
         return "smp";
     }
 
-    private void printAttributes(HttpServletRequest request) {
-        final String requestURI = request.getRequestURI();
-        System.out.println("requestURI: " + requestURI);
 
-        final String requestURL = request.getRequestURL().toString();
-        System.out.println("requestURL: " + requestURL);
-
-        final Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            final String headerName = headerNames.nextElement();
-            System.out.println(headerName + ": " + request.getHeader(headerName));
-        }
-    }
 
     @RequestMapping(value = "/abort", method = RequestMethod.GET)
     public String abort() throws Exception {

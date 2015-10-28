@@ -7,6 +7,7 @@ package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.common.PdfGen;
 import fi.csc.emrex.common.elmo.ElmoParser;
+import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,26 +109,29 @@ public class ThymeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String ncp1(@ModelAttribute CustomRequest request) {
-        return this.greeting(request);
+    public String ncp1(@ModelAttribute CustomRequest customRequest, HttpServletRequest request) {
+        return this.greeting(customRequest, request);
     }
 
     @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
-    public String greeting(@ModelAttribute CustomRequest request) {
+    public String greeting(@ModelAttribute CustomRequest customRequest, HttpServletRequest request) {
 
         System.out.println("/ncp/");
         if (context.getSession().getAttribute("sessionId") == null) {
-            context.getSession().setAttribute("sessionId", request.getSessionId());
+            context.getSession().setAttribute("sessionId", customRequest.getSessionId());
         }
         if (context.getSession().getAttribute("returnUrl") == null) {
-            context.getSession().setAttribute("returnUrl", request.getReturnUrl());
+            context.getSession().setAttribute("returnUrl", customRequest.getReturnUrl());
         }
         System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
         System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
         try {
             if (context.getSession().getAttribute("elmo") == null) {
-                String user = "";
-                String elmoXML = getXMLFromVirta(user);
+                ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
+                headerHandler.printAttributes();
+                String OID = headerHandler.getOID();
+                String personalId = headerHandler.getPersonalID();
+                String elmoXML = virtaClient.fetchStudies(OID, personalId);
 
                 ElmoParser parser = new ElmoParser(elmoXML);
                 context.getSession().setAttribute("elmo", parser);
@@ -145,9 +149,6 @@ public class ThymeController {
         return "test";
     }
 
-    private String getXMLFromVirta(String user) throws Exception {
-        // TODO tänne oikeat hakuehdot
-        return virtaClient.fetchStudies("17488477125", null);
-    }
+
 
 }

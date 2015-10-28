@@ -6,6 +6,7 @@
 package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.common.elmo.ElmoParser;
+import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import org.json.JSONObject;
 import org.json.XML;
@@ -41,14 +42,19 @@ public class JsonController {
 
     @RequestMapping(value = "/elmo", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> fetchElmoXml() throws Exception {
+    public Map<String, Object> fetchElmoXml(HttpServletRequest request) throws Exception {
 
         System.out.println("elmo");
         Map<String, Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
-        // TODO oikeat hakuehdot
-        model.put("elmoXml", virtaClient.fetchStudies("17488477125", null));
+
+        ShibbolethHeaderHandler header = new ShibbolethHeaderHandler(request);
+        header.printAttributes();
+        String OID = header.getOID();
+        String PersonalID = header.getPersonalID();
+
+        model.put("elmoXml", virtaClient.fetchStudies(OID, PersonalID));
 
         return model;
     }
@@ -90,7 +96,7 @@ public class JsonController {
                 System.out.println("null courses");
                 xmlString = parser.getCourseData();
             }
-            
+
 
             JSONObject json = XML.toJSONObject(xmlString);
             //System.out.println(json.toString());
@@ -119,5 +125,7 @@ public class JsonController {
         model.put("content", "Hello World");
         return model;
     }
+
+
 
 }
