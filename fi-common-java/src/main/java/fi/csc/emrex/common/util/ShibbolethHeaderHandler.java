@@ -19,26 +19,34 @@ public class ShibbolethHeaderHandler {
 
     public void printAttributes() {
         final String requestURI = request.getRequestURI();
-        log.info("Header attributes:");
-        log.info("requestURI: " + requestURI);
+        log.debug("Header attributes:");
+        log.debug("requestURI: " + requestURI);
 
         final String requestURL = request.getRequestURL().toString();
-        log.info("requestURL: " + requestURL);
+        log.debug("requestURL: " + requestURL);
 
         final Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             final String headerName = headerNames.nextElement();
-            log.info(headerName + ": " + request.getHeader(headerName));
+            log.debug(headerName + ": " + request.getHeader(headerName));
         }
     }
 
     public String getOID() {
-        return request.getHeader("funetEduPersonLearnerId");
+        return getLastPartOfHeader("shib-unique-code");
     }
 
     public String getPersonalID() {
-        return request.getHeader("schacPersonalUniqueID");
+        return getLastPartOfHeader("shib-unique-id");
     }
 
+    private String getLastPartOfHeader(String shibHeader) {
+        String header = request.getHeader(shibHeader);
+        String[] splittedHeader = header.split("[:]");
+        if (splittedHeader.length < 0)
+            return null;
+        else
+            return splittedHeader[splittedHeader.length - 1];
+    }
 
 }
