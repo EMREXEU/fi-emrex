@@ -1,6 +1,7 @@
 package fi.csc.emrex.ncp.virta;
 
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.purl.net.elmo.ElmoBase;
 
 import javax.xml.bind.JAXBContext;
@@ -13,6 +14,7 @@ import java.io.StringWriter;
 /**
  * Created by marko.hollanti on 13/10/15.
  */
+@Slf4j
 public class VirtaMarshaller {
 
     public static final String NAMESPACE_URI = "http://purl.org/net/elmo";
@@ -24,6 +26,8 @@ public class VirtaMarshaller {
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         final StringWriter sw = new StringWriter();
         m.marshal(new JAXBElement<>(new QName(NAMESPACE_URI, LOCAL_PART), ElmoBase.class, response.getElmo()), sw);
-        return sw.toString();
+        String soapMessage = sw.toString();
+        log.info(soapMessage);
+        return soapMessage;
     }
 }
