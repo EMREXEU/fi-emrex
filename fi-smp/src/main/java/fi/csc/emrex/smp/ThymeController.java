@@ -78,12 +78,9 @@ public class ThymeController {
     @RequestMapping(value = "/smp/", method = RequestMethod.GET)
     public String smpsmp(HttpServletRequest request, Model model) throws Exception {
         String firstName = request.getHeader("shib-givenName");
-
         model.addAttribute("name", firstName);
         return "smp";
     }
-
-
 
     @RequestMapping(value = "/abort", method = RequestMethod.GET)
     public String abort() throws Exception {
@@ -115,7 +112,7 @@ public class ThymeController {
             person = new Person();
             person.setFirstName(httpRequest.getHeader("shib-cn"));
             person.setLastName(httpRequest.getHeader("shib-sn"));
- 
+
             person.setBirthDate(httpRequest.getHeader("shib-schacDateOfBirth"), "YYYYMMDD");
             person.setHomeOrganization(httpRequest.getHeader("shib-schacHomeOrganization"));
             context.getSession().setAttribute("shibPerson", person);
@@ -182,7 +179,7 @@ public class ThymeController {
                     //Person shibPerson = (Person) context.getSession().getAttribute("shibPerson");
 
                     if (elmoPerson != null) {
-                        VerificationReply verification = person.verifiy(elmoPerson);
+                        VerificationReply verification = person.verify(elmoPerson);
                         System.out.println("VerScore: " + verification.getScore());
 
                         vr.setVerification(verification);
@@ -227,25 +224,6 @@ public class ThymeController {
                 + "-----END CERTIFICATE-----";
     }
 
-    /**
-     * @Deprecated @RequestMapping(value = "/smp/review", method =
-     * RequestMethod.POST) public String smpRewiew(@ModelAttribute User user,
-     * Model model) { return this.rewiew(user, model); }
-     *
-     * @Deprecated
-     * @RequestMapping(value = "/review", method = RequestMethod.POST) public
-     * String rewiew(@ModelAttribute User user, Model model) {
-     *
-     * String elmoString = (String)
-     * context.getSession().getAttribute("elmoxmlstring");
-     * model.addAttribute("elmoXml", elmoString);
-     * System.out.println(elmoString); Person elmoPerson =
-     * getUserFromElmo(elmoString); Person shibPerson = (Person)
-     * context.getSession().getAttribute("shibPerson"); VerificationReply
-     * verification = shibPerson.verifiy(elmoPerson);
-     * System.out.println("VerScore: " + verification.getScore());
-     * model.addAttribute("verification", verification); return "review"; }
-     */
     private Person getUserFromElmoReport(Element report) {
 
         Element learner = getOneNode(report, "learner");
@@ -268,37 +246,6 @@ public class ThymeController {
 
     }
 
-
-    /*
-     private Person getPersonFromElmo(String xml) {
-     xml = xml.replaceAll("[\\n\\r]", "");
-     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-     docFactory.setNamespaceAware(false);
-     DocumentBuilder docBuilder = null;
-     Document doc = null;
-     try {
-     docBuilder = docFactory.newDocumentBuilder();
-     doc = docBuilder.parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-     } catch (Exception e) {
-     System.out.println("Failed to parse XML"+ e.getMessage());
-     throw new IllegalArgumentException("Failed to parse XML", e);
-     }
-
-     NodeList list = doc.getElementsByTagName("report");
-     if (list.getLength() == 0) {
-     throw new IllegalArgumentException("Failed to get report from XML.");
-     }
-     Node report = list.item(0);
-
-     Person p = new Person();
-     p.setBirthDate(getValueForTag(report, "learner/bday"));
-     p.setFamilyName(getValueForTag(report, "learner/familyName"));
-     p.setGivenNames(getValueForTag(report, "learner/givenNames"));
-     p.setGender("-"); // TODO: We need to expand ELMO to include Gender
-
-     return p;
-     }
-     */
     private Element getOneNode(Element node, String name) {
         NodeList list = node.getElementsByTagName(name);
         if (list.getLength() == 1) {

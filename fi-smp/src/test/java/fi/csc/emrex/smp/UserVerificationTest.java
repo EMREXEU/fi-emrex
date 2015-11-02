@@ -56,12 +56,12 @@ public class UserVerificationTest extends TestCase {
     @Test
     public void testVerifyPerson() {
 
-        assertTrue(shib.verifiy(elmo1).isVerified());
-        assertFalse(shib.verifiy(elmo2).isVerified());
-        VerificationReply r= shib.verifiy(elmo3);
+        assertTrue(shib.verify(elmo1).isVerified());
+        assertFalse(shib.verify(elmo2).isVerified());
+        VerificationReply r= shib.verify(elmo3);
         System.out.println(r.getMessages());
-        assertTrue(shib.verifiy(elmo3).isVerified());
-        assertFalse(shib.verifiy(elmo4).isVerified());
+        assertTrue(shib.verify(elmo3).isVerified());
+        assertFalse(shib.verify(elmo4).isVerified());
 
     }
 

@@ -29,7 +29,7 @@ public class Person {
     private String OID;
     private String SSN; //HETU
     private String studentNumber;
-    
+
 
     public Person() {
 
@@ -116,7 +116,7 @@ public class Person {
         this.studentNumber = studentNumber;
     }
 
-    public VerificationReply verifiy(Person otherPerson) {
+    public VerificationReply verify(Person otherPerson) {
         //TODO implement verification algorithm;
         VerificationReply r = new VerificationReply();
         r.setFullNameFromHomeInstitute(this.getFullName());

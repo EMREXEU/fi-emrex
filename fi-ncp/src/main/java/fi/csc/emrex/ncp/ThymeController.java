@@ -133,6 +133,7 @@ public class ThymeController {
                 String personalId = headerHandler.getPersonalID();
                 String elmoXML = virtaClient.fetchStudies(OID, personalId);
 
+
                 ElmoParser parser = new ElmoParser(elmoXML);
                 context.getSession().setAttribute("elmo", parser);
             }

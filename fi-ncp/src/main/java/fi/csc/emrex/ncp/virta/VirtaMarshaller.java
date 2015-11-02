@@ -26,8 +26,6 @@ public class VirtaMarshaller {
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         final StringWriter sw = new StringWriter();
         m.marshal(new JAXBElement<>(new QName(NAMESPACE_URI, LOCAL_PART), ElmoBase.class, response.getElmo()), sw);
-        String soapMessage = sw.toString();
-        log.info(soapMessage);
-        return soapMessage;
+        return sw.toString();
     }
 }
