@@ -49,20 +49,19 @@ public class ShibbolethHeaderHandler {
         return request.getHeader("shib-schacHomeOrganization");
     }
 
-    public Person getPerson() {
+    public String getOID(){
+        return request.getHeader("");
+    }
+
+    public Person generatePerson() {
         Person person = new Person();
         person.setFirstName(getFirstName());
         person.setLastName(getLastName());
-
         person.setBirthDate(getBirthDate(), "YYYYMMDD");
         person.setHomeOrganization(getHomeOrganization());
         person.setOID(getOID());
         person.setHeiOid(getHeiOid());
         return person;
-    }
-
-    public String getOID(){
-        return request.getHeader("");
     }
 
     public String getHeiOid() {

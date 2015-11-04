@@ -115,7 +115,7 @@ public class ThymeController {
         if (person == null) {
             ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(httpRequest);
             log.info(headerHandler.stringifyHeader());
-            person = headerHandler.getPerson();
+            person = headerHandler.generatePerson();
             context.getSession().setAttribute("shibPerson", person);
         }
 
@@ -126,7 +126,7 @@ public class ThymeController {
         final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(getCertificate(), decodedXml, StandardCharsets.UTF_8);
         log.info("Verify signature result: {}", verifySignatureResult);
 
-        System.out.println("providedSessionId: " + sessionId);
+        log.info("providedSessionId: " + sessionId);
 
         String ncpPubKey = chosenNCP;
 
@@ -147,6 +147,7 @@ public class ThymeController {
             model.addAttribute("error", "<p>NCP verification failed</p>");
             return "error";
         }
+        log.info("Returned elmo XML " + decodedXml);
         context.getSession().setAttribute("elmoxmlstring", decodedXml);
         ElmoParser parser = new ElmoParser(decodedXml);
         byte[] pdf = parser.getAttachedPDF();
@@ -177,11 +178,11 @@ public class ThymeController {
                     Element report = (Element) reports.item(i);
                     vr.setReport(nodeToString(report));
                     Person elmoPerson = getUserFromElmoReport(report);
-                    //Person shibPerson = (Person) context.getSession().getAttribute("shibPerson");
 
                     if (elmoPerson != null) {
                         VerificationReply verification = VerificationReply.verify(person, elmoPerson, verificationThreshold);
-                        System.out.println("VerScore: " + verification.getScore());
+                        log.info("Verification messages: " + verification.getMessages());
+                        log.info("VerScore: " + verification.getScore());
 
                         vr.setVerification(verification);
 
@@ -195,7 +196,7 @@ public class ThymeController {
                 model.addAttribute("reports", results);
 
             } catch (ParserConfigurationException | IOException | SAXException ex) {
-                System.out.println(ex.getMessage());
+                log.error("Error in report verification", ex);
                 Logger.getLogger(ThymeController.class.getName()).log(Level.SEVERE, null, ex);
                 model.addAttribute("error", ex.getMessage());
                 return "error";
