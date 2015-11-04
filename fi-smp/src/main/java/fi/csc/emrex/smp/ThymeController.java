@@ -6,7 +6,8 @@
 package fi.csc.emrex.smp;
 
 import fi.csc.emrex.common.elmo.ElmoParser;
-import fi.csc.emrex.smp.model.Person;
+import fi.csc.emrex.common.model.Person;
+import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
 import fi.csc.emrex.smp.model.VerificationReply;
 import fi.csc.emrex.smp.model.VerifiedReport;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,9 @@ import java.util.logging.Logger;
 @Controller
 @Slf4j
 public class ThymeController {
+
+    @Value("${smp.verification.threshold}")
+    private double verificationThreshold;
 
     @Autowired
     private HttpServletRequest context;
@@ -109,12 +113,9 @@ public class ThymeController {
         Person person = (Person) context.getSession().getAttribute("shibPerson");
 
         if (person == null) {
-            person = new Person();
-            person.setFirstName(httpRequest.getHeader("shib-cn"));
-            person.setLastName(httpRequest.getHeader("shib-sn"));
-
-            person.setBirthDate(httpRequest.getHeader("shib-schacDateOfBirth"), "YYYYMMDD");
-            person.setHomeOrganization(httpRequest.getHeader("shib-schacHomeOrganization"));
+            ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(httpRequest);
+            log.info(headerHandler.stringifyHeader());
+            person = headerHandler.getPerson();
             context.getSession().setAttribute("shibPerson", person);
         }
 
@@ -179,7 +180,7 @@ public class ThymeController {
                     //Person shibPerson = (Person) context.getSession().getAttribute("shibPerson");
 
                     if (elmoPerson != null) {
-                        VerificationReply verification = person.verify(elmoPerson);
+                        VerificationReply verification = VerificationReply.verify(person, elmoPerson, verificationThreshold);
                         System.out.println("VerScore: " + verification.getScore());
 
                         vr.setVerification(verification);

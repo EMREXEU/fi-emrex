@@ -5,7 +5,7 @@
  */
 package fi.csc.emrex.smp;
 
-import fi.csc.emrex.smp.model.Person;
+import fi.csc.emrex.common.model.Person;
 import fi.csc.emrex.smp.model.VerificationReply;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -29,7 +29,6 @@ public class UserVerificationTest extends TestCase {
         shib.setBirthDate("1980-01-01", "yyyy-MM-dd");
         shib.setFirstName("Arvi Arvo Aatami");
         shib.setLastName("Lind");
-        shib.setThreshold(0.1);
 
         elmo1 = new Person();
         elmo1.setBirthDate("1980-01-01", "yyyy-MM-dd");
@@ -56,12 +55,12 @@ public class UserVerificationTest extends TestCase {
     @Test
     public void testVerifyPerson() {
 
-        assertTrue(shib.verify(elmo1).isVerified());
-        assertFalse(shib.verify(elmo2).isVerified());
-        VerificationReply r= shib.verify(elmo3);
+        assertTrue(VerificationReply.verify(shib,elmo1,0.1).isVerified());
+        assertFalse(VerificationReply.verify(shib, elmo2, 0.1).isVerified());
+        VerificationReply r=  VerificationReply.verify(shib, elmo3, 0.1);
         System.out.println(r.getMessages());
-        assertTrue(shib.verify(elmo3).isVerified());
-        assertFalse(shib.verify(elmo4).isVerified());
+        assertTrue(VerificationReply.verify(shib, elmo3, 0.1).isVerified());
+        assertFalse(VerificationReply.verify(shib, elmo4, 0.1).isVerified());
 
     }
 

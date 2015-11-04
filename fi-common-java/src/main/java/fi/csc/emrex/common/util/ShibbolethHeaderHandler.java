@@ -1,9 +1,10 @@
 package fi.csc.emrex.common.util;
 
+import fi.csc.emrex.common.model.Person;
 import lombok.extern.slf4j.Slf4j;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
-
 /**
  * Created by jpentika on 28/10/15.
  */
@@ -16,22 +17,55 @@ public class ShibbolethHeaderHandler {
         this.request = request;
     }
 
-    public void printAttributes() {
+    public String stringifyHeader() {
         final String requestURI = request.getRequestURI();
-        log.debug("Header attributes:");
-        log.debug("requestURI: " + requestURI);
+        String result = new String("Header attributes:");
+        result += "\n requestURI: " + requestURI;
 
         final String requestURL = request.getRequestURL().toString();
-        log.debug("requestURL: " + requestURL);
+        result += "\n requestURL: " + requestURL;
 
         final Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             final String headerName = headerNames.nextElement();
-            log.debug(headerName + ": " + request.getHeader(headerName));
+            result += "\n" + headerName + ": " + request.getHeader(headerName);
         }
+        return result;
     }
 
-    public String getOID() {
+    public String getFirstName(){
+        return request.getHeader("shib-cn");
+    }
+
+    public String getLastName(){
+        return request.getHeader("shib-sn");
+    }
+
+    public String getBirthDate(){
+        return request.getHeader("shib-schacDateOfBirth");
+    }
+
+    public String getHomeOrganization(){
+        return request.getHeader("shib-schacHomeOrganization");
+    }
+
+    public Person getPerson() {
+        Person person = new Person();
+        person.setFirstName(getFirstName());
+        person.setLastName(getLastName());
+
+        person.setBirthDate(getBirthDate(), "YYYYMMDD");
+        person.setHomeOrganization(getHomeOrganization());
+        person.setOID(getOID());
+        person.setHeiOid(getHeiOid());
+        return person;
+    }
+
+    public String getOID(){
+        return request.getHeader("");
+    }
+
+    public String getHeiOid() {
         return getLastPartOfHeader("shib-unique-code");
     }
 
@@ -41,7 +75,7 @@ public class ShibbolethHeaderHandler {
 
     private String getLastPartOfHeader(String shibHeader) {
         String header = request.getHeader(shibHeader);
-        if (header == null )
+        if (header == null)
             return null;
         String[] splittedHeader = header.split("[:]");
         if (splittedHeader.length < 1)

@@ -25,7 +25,7 @@ public class ShibbolethHeaderHandlerTests {
         Mockito.when(mockHttpServletRequest.getHeader(studentIdHeaderName)).thenReturn(studentIdHeaderContent);
         Mockito.when(mockHttpServletRequest.getHeader(personalIdHeaderName)).thenReturn(personalIdHeaderContent);
         ShibbolethHeaderHandler handler = new ShibbolethHeaderHandler(mockHttpServletRequest);
-        assertEquals("x8734", handler.getOID());
+        assertEquals("x8734", handler.getHeiOid());
         assertEquals("020896-358x", handler.getPersonalID());
 
     }

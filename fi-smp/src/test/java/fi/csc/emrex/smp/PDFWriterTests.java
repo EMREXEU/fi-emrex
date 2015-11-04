@@ -1,6 +1,6 @@
 package fi.csc.emrex.smp;
 
-import fi.csc.emrex.smp.model.Person;
+import fi.csc.emrex.common.model.Person;
 import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;

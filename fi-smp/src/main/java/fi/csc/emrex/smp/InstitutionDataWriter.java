@@ -1,6 +1,6 @@
 package fi.csc.emrex.smp;
 
-import fi.csc.emrex.smp.model.Person;
+import fi.csc.emrex.common.model.Person;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -50,6 +50,7 @@ public class InstitutionDataWriter {
     private String generateFileName() {
         String filename = "emrex_";
         filename += user.getFirstName() + "_" + user.getLastName() + "_";
+        filename += user.getHeiOid() + "_";
         filename += new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) + "_";
         return filename;
     }

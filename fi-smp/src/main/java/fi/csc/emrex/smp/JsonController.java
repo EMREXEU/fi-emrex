@@ -6,7 +6,7 @@
 package fi.csc.emrex.smp;
 
 
-import fi.csc.emrex.smp.model.Person;
+import fi.csc.emrex.common.model.Person;
 import fi.csc.emrex.smp.model.VerifiedReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

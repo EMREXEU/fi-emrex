@@ -50,8 +50,8 @@ public class JsonController {
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
 
         ShibbolethHeaderHandler header = new ShibbolethHeaderHandler(request);
-        header.printAttributes();
-        String OID = header.getOID();
+        header.stringifyHeader();
+        String OID = header.getHeiOid();
         String PersonalID = header.getPersonalID();
 
         model.put("elmoXml", virtaClient.fetchStudies(OID, PersonalID));
