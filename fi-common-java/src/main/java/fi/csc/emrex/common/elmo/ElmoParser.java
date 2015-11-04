@@ -79,7 +79,7 @@ public class ElmoParser {
     public byte[] getAttachedPDF() throws Exception{
 
 
-        NodeList attachments = document.getElementsByTagName("Attachment");
+        NodeList attachments = document.getElementsByTagName("attachment");
         if (attachments.getLength() == 1) {
             NodeList childs = attachments.item(0).getChildNodes();
             if (childs.getLength() == 1) {
@@ -96,7 +96,7 @@ public class ElmoParser {
     public void addPDFAttachment(byte[] pdf){
         NodeList reports = document.getElementsByTagName("report");
         if (reports.getLength() > 0) {
-            Element attachment = document.createElement("Attachment");
+            Element attachment = document.createElement("attachment");
             attachment.setAttribute("title", "Transcription of studies");
             attachment.setAttribute("type", "base64 encoded pdf");
             CDATASection pdfElement = document.createCDATASection(DatatypeConverter.printBase64Binary(pdf));
@@ -163,14 +163,14 @@ public class ElmoParser {
                 }
             }
 
-            NodeList reports =doc.getElementsByTagName("report"); 
+            NodeList reports =doc.getElementsByTagName("report");
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
                 System.out.println("report "+i);
                 NodeList learnList =report.getElementsByTagName("learningOpportunitySpecification");
                 if(learnList.getLength()<1){
                     System.out.println("report empty");
-                    report.getParentNode().removeChild(report); 
+                    report.getParentNode().removeChild(report);
                 }
             }
             return getStringFromDoc(doc);
