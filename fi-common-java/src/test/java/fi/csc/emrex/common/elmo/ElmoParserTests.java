@@ -2,6 +2,7 @@ package fi.csc.emrex.common.elmo;
 
 import fi.csc.emrex.common.util.TestUtil;
 import junit.framework.TestCase;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,10 +13,14 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
 
 
 /**
@@ -33,6 +38,17 @@ public class ElmoParserTests extends TestCase {
         courses.add("2");
         String readyElmo = parser.getCourseData(courses);
         checkEmptyHasPartNodes(readyElmo);
+    }
+
+    @Test
+    public void testAddAndReadPDF() throws Exception {
+        String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
+        File pdfFile = TestUtil.getFile("elmo-finland.pdf");
+        byte[] pdf = IOUtils.toByteArray(new FileInputStream(pdfFile));
+        ElmoParser parser = new ElmoParser(elmo);
+        parser.addPDFAttachment(pdf);
+        byte[] readPdf = parser.getAttachedPDF();
+        assertArrayEquals(pdf, readPdf);
     }
 
     private void checkEmptyHasPartNodes(String readyElmo) throws ParserConfigurationException, SAXException, IOException {

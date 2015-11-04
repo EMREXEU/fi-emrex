@@ -83,10 +83,7 @@ public class ElmoParser {
         if (attachments.getLength() == 1) {
             NodeList childs = attachments.item(0).getChildNodes();
             if (childs.getLength() == 1) {
-                CDATASection data = (CDATASection) childs.item(0);
-                byte[] decodedPDF = DatatypeConverter.parseBase64Binary(data.getData());
-
-                return decodedPDF;
+                return DatatypeConverter.parseBase64Binary(childs.item(0).getTextContent());
             }
         }
         throw new Exception("PDF not attached to xml");
@@ -98,9 +95,9 @@ public class ElmoParser {
         if (reports.getLength() > 0) {
             Element attachment = document.createElement("attachment");
             attachment.setAttribute("title", "Transcription of studies");
-            attachment.setAttribute("type", "base64 encoded pdf");
-            CDATASection pdfElement = document.createCDATASection(DatatypeConverter.printBase64Binary(pdf));
-            attachment.appendChild(pdfElement);
+            attachment.setAttribute("contentType", "application/pdf");
+            attachment.setAttribute("encoding", "base64");
+            attachment.setTextContent(DatatypeConverter.printBase64Binary(pdf));
             reports.item(0).appendChild(attachment);
         }
     }
