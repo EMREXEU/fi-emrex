@@ -34,7 +34,7 @@ public class ShibbolethHeaderHandler {
     }
 
     public String getFirstName(){
-        return request.getHeader("shib-cn");
+        return request.getHeader("shib-givenName");
     }
 
     public String getLastName(){

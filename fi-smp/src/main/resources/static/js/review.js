@@ -19,12 +19,11 @@ app.controller('home', function ($scope, $http, $window, helperService) {
     $scope.resultsImported = false;
 
     $scope.import = function(){
-        // PLACE HOLDER: IMPORT STUFF HERE
         $scope.resultsImported = true;
     }
 
     $scope.abort = function(){
-        $window.location.href = '/abort';
+        $window.location.href = '/smp/abort';
     }
 
     $http.post('api/reports').success(function (response) {

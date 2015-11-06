@@ -5,7 +5,10 @@
  */
 package fi.csc.emrex.common.elmo;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
@@ -20,13 +23,19 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -76,7 +85,7 @@ public class ElmoParser {
 
     }
 
-    public byte[] getAttachedPDF() throws Exception{
+    public byte[] getAttachedPDF() throws Exception {
 
 
         NodeList attachments = document.getElementsByTagName("attachment");
@@ -90,7 +99,7 @@ public class ElmoParser {
     }
 
 
-    public void addPDFAttachment(byte[] pdf){
+    public void addPDFAttachment(byte[] pdf) {
         NodeList reports = document.getElementsByTagName("report");
         if (reports.getLength() > 0) {
             Element attachment = document.createElement("attachment");
@@ -160,16 +169,17 @@ public class ElmoParser {
                 }
             }
 
-            NodeList reports =doc.getElementsByTagName("report");
+            NodeList reports = doc.getElementsByTagName("report");
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
-                System.out.println("report "+i);
-                NodeList learnList =report.getElementsByTagName("learningOpportunitySpecification");
-                if(learnList.getLength()<1){
+                System.out.println("report " + i);
+                NodeList learnList = report.getElementsByTagName("learningOpportunitySpecification");
+                if (learnList.getLength() < 1) {
                     System.out.println("report empty");
                     report.getParentNode().removeChild(report);
                 }
             }
+
             return getStringFromDoc(doc);
 
         } catch (SAXException | IOException ex) {
@@ -177,14 +187,71 @@ public class ElmoParser {
             return null;
 
         }
-
     }
+
+    public int getETCSCount() throws Exception {
+        HashMap<String, Integer> result = new HashMap();
+        NodeList list = document.getElementsByTagName("report");
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        XPathExpression learningOpportunityExpression = xpath.compile("//learningOpportunitySpecification");
+        NodeList learningOpportunities = (NodeList) learningOpportunityExpression.evaluate(document, XPathConstants.NODESET);
+        for (int i = 0; i < learningOpportunities.getLength(); i++) {
+            String type = "undefined";
+            NodeList types = ((Element) learningOpportunities.item(i)).getElementsByTagName("type");
+            for (int j = 0; j < types.getLength(); j++) {
+                if (types.item(j).getParentNode() == learningOpportunities.item(i))
+                    type = types.item(j).getTextContent();
+            }
+
+            Integer credits = 0;
+                  XPathExpression valueExpression = xpath.compile("credit/value");
+            String valueContent = ((Node)valueExpression.evaluate(learningOpportunities.item(i), XPathConstants.NODE)).getTextContent();
+            credits = Integer.parseInt(valueContent);
+
+            if (result.containsKey(type)) {
+                credits += result.get(type);
+                result.replace(type, credits);
+            }
+            else
+                result.put(type, credits);
+        }
+
+        // lets take biggest number by type so same numbers are not counted several times
+        int count = 0;
+        for(Map.Entry<String, Integer> entry : result.entrySet())
+        {
+            if (entry.getValue() > count)
+                count = entry.getValue().intValue();
+        }
+        return count;
+    }
+
+    public String getHostInstitution() {
+
+        String hostInstitution = "unknown";
+        NodeList reports = document.getElementsByTagName("report");
+        if (reports.getLength() == 1) {
+            NodeList issuers = ((Element) reports.item(0)).getElementsByTagName("issuer");
+            if (issuers.getLength() == 1) {
+                NodeList titles = ((Element) issuers.item(0)).getElementsByTagName("identifier");
+                for (int i = 0; i < titles.getLength(); i++) {
+                    Element title = (Element) titles.item(i);
+                    String type = title.getAttribute("type").toLowerCase();
+                    hostInstitution = titles.item(i).getTextContent();
+                    if (type == "erasmus")
+                        return hostInstitution;
+                }
+            }
+        }
+        return hostInstitution;
+    }
+
 
     private String getStringFromDoc(org.w3c.dom.Document doc) {
         DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
         LSSerializer lsSerializer = domImplementation.createLSSerializer();
 
-        LSOutput lsOutput =  domImplementation.createLSOutput();
+        LSOutput lsOutput = domImplementation.createLSOutput();
         lsOutput.setEncoding(StandardCharsets.UTF_8.name());
         Writer stringWriter = new StringWriter();
         lsOutput.setCharacterStream(stringWriter);

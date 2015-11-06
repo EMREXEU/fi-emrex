@@ -63,12 +63,12 @@ public class VirtaClient {
 
     private Hakuehdot getHakuehdot(VirtaUser virtaUser) {
         Hakuehdot hakuehdot = new Hakuehdot();
-      // TODO OID not working
-      //  if (virtaUser.isOidSet()) {
-      //      hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
-      //  } else {
+
+        if (virtaUser.isOidSet()) {
+            hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
+        } else {
             hakuehdot.getContent().add(0, new ObjectFactory().createHeTu(virtaUser.getSsn()));
-      //  }
+        }
 
         return hakuehdot;
     }

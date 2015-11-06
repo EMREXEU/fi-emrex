@@ -37,13 +37,16 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,17 +86,19 @@ public class ThymeController {
     public String smpsmp(HttpServletRequest request, Model model) throws Exception {
         String firstName = request.getHeader("shib-givenName");
         model.addAttribute("name", firstName);
+        context.getSession().setAttribute("sessionStartTime", LocalDateTime.now());
         return "smp";
     }
 
     @RequestMapping(value = "/abort", method = RequestMethod.GET)
-    public String abort() throws Exception {
+    public String abort(Model model) throws Exception {
+        model.addAttribute("url", getLinkToPolishQuestionare());
         return "onReturnAbort";
     }
 
     @RequestMapping(value = "/smp/abort", method = RequestMethod.GET)
-    public String smpAbort() throws Exception {
-        return abort();
+    public String smpAbort(Model model) throws Exception {
+        return abort(model);
     }
 
     @RequestMapping(value = "/smp/onReturn", method = RequestMethod.POST)
@@ -104,6 +109,7 @@ public class ThymeController {
     @RequestMapping(value = "/onReturn", method = RequestMethod.POST)
     public String onReturnelmo(@ModelAttribute ElmoData request, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie, @CookieValue(value = "chosenNCP") String chosenNCP, HttpServletRequest httpRequest) throws Exception {
         String sessionId = request.getSessionId();
+        context.getSession().setAttribute("sessionID", sessionId); // for making the url
         String elmo = request.getElmo();
 
         if (elmo == null) {
@@ -259,15 +265,6 @@ public class ThymeController {
         }
     }
 
-    private String getValueForTag(Node node, String exp) {
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        try {
-            return xpath.evaluate(exp, node);
-        } catch (Exception e) {
-            System.out.println("XPATH error" + e);
-            return null;
-        }
-    }
 
     private String nodeToString(Node node) {
         StringWriter sw = new StringWriter();
@@ -281,4 +278,32 @@ public class ThymeController {
         }
         return sw.toString();
     }
+
+
+    private String getLinkToPolishQuestionare() throws Exception{
+        Person shibPerson = (Person)context.getSession().getAttribute("shibPerson");
+        String decodedXml = (String) context.getSession().getAttribute("elmoxmlstring");
+        LocalDateTime startTime = (LocalDateTime)context.getSession().getAttribute("sessionStartTime");
+        ElmoParser parser = new ElmoParser(decodedXml);
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
+
+        Duration duration = Duration.between(LocalDateTime.now(), startTime);
+
+        String link = "https://ankieter.mimuw.edu.pl/surveys/79/?session_id=" + context.getSession().getAttribute("sessionId");
+        link += "&home_institution=" + shibPerson.getHomeOrganization();
+        link += "&home_country=" + "fi";
+        link += "&host_institution=" + parser.getHostInstitution();
+        link += "&host_country=" + "X"; //not found in elmo
+        link += "&date_of_import=" + LocalDateTime.now().format(dateFormatter);
+        link += "&time_spent=" + Double.toString(duration.getSeconds());
+        link += "&grades_imported=" + "X";
+        link += "&ects_imported=" + Integer.toString(parser.getETCSCount());
+        link += "&grades_imported_percent=" + "X";
+        link += "&ects_imported_percent=" + "X";
+
+        return link;
+    }
+
+
 }

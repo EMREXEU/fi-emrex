@@ -41,6 +41,27 @@ public class ElmoParserTests extends TestCase {
     }
 
     @Test
+    public void testGetHostInstitution() throws Exception {
+        String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
+        ElmoParser parser = new ElmoParser(elmo);
+        String host = parser.getHostInstitution();
+        assertEquals("SF TAMPERE01", host);
+    }
+
+    @Test
+    public void testCountECTS() throws Exception {
+        runETCSTest("Example-elmo-Finland.xml", 72);
+        runETCSTest("Example-elmo-Norway.xml", 512); // some crazy learner here
+    }
+
+    private void runETCSTest(String elmoName, int value) throws Exception {
+        String elmo = TestUtil.getFileContent(elmoName);
+        ElmoParser parser = new ElmoParser(elmo);
+        int count = parser.getETCSCount();
+        assertEquals(value, count);
+    }
+
+    @Test
     public void testAddAndReadPDF() throws Exception {
         String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
         File pdfFile = TestUtil.getFile("elmo-finland.pdf");
