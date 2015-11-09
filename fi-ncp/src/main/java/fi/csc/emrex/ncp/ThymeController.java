@@ -128,7 +128,7 @@ public class ThymeController {
         try {
             if (context.getSession().getAttribute("elmo") == null) {
                 ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
-                headerHandler.stringifyHeader();
+                log.info(headerHandler.stringifyHeader());
                 String OID = headerHandler.getHeiOid();
                 String personalId = headerHandler.getPersonalID();
                 String elmoXML = virtaClient.fetchStudies(OID, personalId);
