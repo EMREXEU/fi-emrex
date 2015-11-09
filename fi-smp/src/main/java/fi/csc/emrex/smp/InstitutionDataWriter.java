@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 /**
  * Created by jpentika on 02/11/15.
  */
+@Slf4j
 public class InstitutionDataWriter {
 
     @Value("${smp.university.directory.map}")
@@ -52,11 +54,13 @@ public class InstitutionDataWriter {
         filename += user.getFirstName() + "_" + user.getLastName() + "_";
         filename += user.getHeiOid() + "_";
         filename += new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) + "_";
+        log.info("Generated filename: " + filename);
         return filename;
     }
 
     private void createPath()    {
         String path = generatePath();
+        log.info("Generated path:" + path);
         new File(path).mkdirs();
     }
 
@@ -64,7 +68,9 @@ public class InstitutionDataWriter {
         String dirname = this.pdfBaseDir;
         try {
 
-            String json = FileUtils.readFileToString(new File(getClass().getClassLoader().getResource(dirMap).getFile()), "UTF-8");
+            File jsonfile = new File(getClass().getClassLoader().getResource(dirMap).getFile());
+            log.info("JSON file location: " + jsonfile.getAbsolutePath());
+            String json = FileUtils.readFileToString(, "UTF-8");
             JSONObject root = (JSONObject)JSONValue.parse(json);
 
             String home = (String) root.get(user.getHomeOrganization());
