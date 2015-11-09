@@ -68,15 +68,6 @@ public class ThymeController {
     @Autowired
     private SignatureVerifier signatureVerifier;
 
-    @Value("${emreg.url}")
-    private String emregUrl;
-
-    @Value("${smp.return.url}")
-    private String returnUrl;
-
-    @Value("${smp.university.base.directory}")
-    private String universityBaseDirectory;
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String smp(HttpServletRequest request, Model model) throws Exception {
         return smpsmp(request, model);

@@ -1,11 +1,12 @@
 package fi.csc.emrex.smp;
 
 import fi.csc.emrex.common.model.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Value;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 /**
  * Created by jpentika on 02/11/15.
  */
+@PropertySource("classpath:application.properties")
 @Slf4j
 public class InstitutionDataWriter {
 
