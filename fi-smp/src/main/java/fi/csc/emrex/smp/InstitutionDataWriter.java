@@ -66,6 +66,7 @@ public class InstitutionDataWriter {
 
     private String generatePath() {
         String dirname = this.pdfBaseDir;
+        log.info("map file: " + dirMap);
         try {
 
             File jsonfile = new File(dirMap);
