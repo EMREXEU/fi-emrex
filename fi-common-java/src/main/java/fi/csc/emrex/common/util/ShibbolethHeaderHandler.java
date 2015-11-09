@@ -42,22 +42,20 @@ public class ShibbolethHeaderHandler {
     }
 
     public String getBirthDate(){
-        return request.getHeader("shib-schacDateOfBirth");
+        return request.getHeader("shib-SHIB_schacDateOfBirth");
     }
 
     public String getHomeOrganization(){
-        return request.getHeader("shib-schacHomeOrganization");
+        return request.getHeader("shib-SHIB_schacHomeOrganization");
     }
 
-    public String getOID(){
-        return request.getHeader("");
-    }
+    public String getOID(){ return getLastPartOfHeader("shib-SHIB_schacHomeOrganization", "[.]");  }
 
     public Person generatePerson() {
         Person person = new Person();
         person.setFirstName(getFirstName());
         person.setLastName(getLastName());
-        person.setBirthDate(getBirthDate(), "YYYYMMDD");
+        person.setBirthDate(getBirthDate(), "ddMMyy");
         person.setHomeOrganization(getHomeOrganization());
         person.setOID(getOID());
         person.setHeiOid(getHeiOid());
@@ -65,18 +63,18 @@ public class ShibbolethHeaderHandler {
     }
 
     public String getHeiOid() {
-        return getLastPartOfHeader("shib-unique-code");
+        return getLastPartOfHeader("shib-unique-code", "[:]");
     }
 
     public String getPersonalID() {
-        return getLastPartOfHeader("shib-unique-id");
+        return getLastPartOfHeader("shib-unique-id", "[:]");
     }
 
-    private String getLastPartOfHeader(String shibHeader) {
+    private String getLastPartOfHeader(String shibHeader, String regexp) {
         String header = request.getHeader(shibHeader);
         if (header == null)
             return null;
-        String[] splittedHeader = header.split("[:]");
+        String[] splittedHeader = header.split(regexp);
         if (splittedHeader.length < 1)
             return null;
         else
