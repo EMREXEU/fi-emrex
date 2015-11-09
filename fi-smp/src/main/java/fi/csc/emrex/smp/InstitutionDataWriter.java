@@ -70,7 +70,7 @@ public class InstitutionDataWriter {
 
             File jsonfile = new File(getClass().getClassLoader().getResource(dirMap).getFile());
             log.info("JSON file location: " + jsonfile.getAbsolutePath());
-            String json = FileUtils.readFileToString(, "UTF-8");
+            String json = FileUtils.readFileToString(jsonfile, "UTF-8");
             JSONObject root = (JSONObject)JSONValue.parse(json);
 
             String home = (String) root.get(user.getHomeOrganization());
