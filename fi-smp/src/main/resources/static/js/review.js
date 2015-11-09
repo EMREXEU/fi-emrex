@@ -1,4 +1,4 @@
-app = angular.module('review', ['ngRoute', 'ngCookies', 'selectedCourses', 'helper','learningReport']);
+app = angular.module('review', ['ngRoute', 'ngCookies', 'selectedCourses', 'helper', 'learningReport']);
 
 app.config(function ($routeProvider, $httpProvider) {
 
@@ -18,17 +18,19 @@ app.controller('home', function ($scope, $http, $window, helperService) {
     $scope.numberOfCourses = 0;
     $scope.resultsImported = false;
 
-    $scope.import = function(){
-        $scope.resultsImported = true;
+    $scope.import = function () {
+        $http.get('api/store').success(function () {
+            $scope.resultsImported = true;
+        });
     }
 
-    $scope.abort = function(){
+    $scope.abort = function () {
         $window.location.href = '/smp/abort';
     }
 
     $http.post('api/reports').success(function (response) {
         var reports = [];
-        angular.forEach(response, function(item){
+        angular.forEach(response, function (item) {
             var report = angular.fromJson(item.report).report;
             report.verification = item.verification;
             reports.push(report);
@@ -37,7 +39,7 @@ app.controller('home', function ($scope, $http, $window, helperService) {
         reports = helperService.fixReports(reports);
 
         $scope.reports = helperService.calculateAndFilter(reports);
-        angular.forEach(reports, function(report){
+        angular.forEach(reports, function (report) {
             $scope.numberOfCourses += report.numberOfCourses;
         });
     });

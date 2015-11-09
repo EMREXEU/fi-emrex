@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
 
 
 /**
@@ -34,7 +34,6 @@ public class JsonController {
 
     @Value("${smp.return.url}")
     private String returnUrl;
-
 
 
     @Autowired
@@ -108,19 +107,17 @@ public class JsonController {
 
     @RequestMapping("/smp/api/store")
     @ResponseBody
-    public void smpstore() throws Exception
-    {
+    public void smpstore() throws Exception {
         store();
     }
 
     @RequestMapping("/api/store")
     @ResponseBody
-    public void store() throws Exception{
-
+    public void store() throws Exception {
         Person user = (Person) context.getSession().getAttribute("shibPerson");
 
         byte[] bytePDF = (byte[]) context.getSession().getAttribute("pdf");
-        byte[] elmoXml = ((String)context.getSession().getAttribute("elmoxmlstring")).getBytes("UTF-8");
+        byte[] elmoXml = ((String) context.getSession().getAttribute("elmoxmlstring")).getBytes("UTF-8");
 
         InstitutionDataWriter writer = new InstitutionDataWriter(user);
         writer.writeDataToInstitutionFolder(bytePDF, ".pdf");
