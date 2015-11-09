@@ -68,7 +68,7 @@ public class InstitutionDataWriter {
         String dirname = this.pdfBaseDir;
         try {
 
-            File jsonfile = new File(getClass().getClassLoader().getResource(dirMap).getFile());
+            File jsonfile = new File(dirMap);
             log.info("JSON file location: " + jsonfile.getAbsolutePath());
             String json = FileUtils.readFileToString(jsonfile, "UTF-8");
             JSONObject root = (JSONObject)JSONValue.parse(json);

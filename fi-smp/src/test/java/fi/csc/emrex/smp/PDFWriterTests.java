@@ -35,8 +35,9 @@ public class PDFWriterTests extends TestCase {
 
         institutionDataWriter = new InstitutionDataWriter(user);
         institutionDataWriter.pdfBaseDir = pdfBaseDir;
-
-        institutionDataWriter.dirMap =  mapFile;
+        File resourcesDirectory = new File("src/test/resources");
+        String resourcePath = resourcesDirectory.getAbsolutePath();
+        institutionDataWriter.dirMap = resourcePath + "/" + mapFile;
 
 
     }
