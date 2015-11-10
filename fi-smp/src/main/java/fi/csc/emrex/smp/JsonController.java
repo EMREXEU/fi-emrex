@@ -35,7 +35,6 @@ public class JsonController {
     @Value("${smp.return.url}")
     private String returnUrl;
 
-
     @Autowired
     private HttpServletRequest context;
 
