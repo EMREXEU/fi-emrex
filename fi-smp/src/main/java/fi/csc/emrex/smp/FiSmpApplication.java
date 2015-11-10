@@ -6,7 +6,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-@Configuration
 @EnableAutoConfiguration(exclude = {
     org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })

@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,17 +22,10 @@ import java.util.logging.Logger;
 @Slf4j
 public class InstitutionDataWriter {
 
-    @Value("${smp.university.directory.map}")
-    String dirMap;
 
-    @Value("${smp.university.base.directory}")
-    String pdfBaseDir;
-
-    @Value("${environment}")
-    String testing;
-
+    private String dirMap;
+    private String pdfBaseDir;
     private Person user;
-
 
     public InstitutionDataWriter(Person user) {
         this.user = user;
@@ -71,7 +63,6 @@ public class InstitutionDataWriter {
 
     private String generatePath() {
         String dirname = this.pdfBaseDir;
-        log.info("testing: " + testing);
         log.info("map file: " + dirMap);
         try {
 

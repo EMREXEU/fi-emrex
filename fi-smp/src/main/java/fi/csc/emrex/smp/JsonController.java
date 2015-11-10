@@ -35,6 +35,12 @@ public class JsonController {
     @Value("${smp.return.url}")
     private String returnUrl;
 
+    @Value("${smp.university.directory.map}")
+    String dirMap;
+
+    @Value("${smp.university.base.directory}")
+    String pdfBaseDir;
+
     @Autowired
     private HttpServletRequest context;
 
@@ -117,9 +123,10 @@ public class JsonController {
 
         byte[] bytePDF = (byte[]) context.getSession().getAttribute("pdf");
         byte[] elmoXml = ((String) context.getSession().getAttribute("elmoxmlstring")).getBytes("UTF-8");
-
-        InstitutionDataWriter writer = new InstitutionDataWriter(user);
-        writer.writeDataToInstitutionFolder(bytePDF, ".pdf");
-        writer.writeDataToInstitutionFolder(elmoXml, ".xml");
+        InstitutionDataWriter institutionDataWriter = new InstitutionDataWriter(user);
+        institutionDataWriter.setDirMap(dirMap);
+        institutionDataWriter.setPdfBaseDir(pdfBaseDir);
+        institutionDataWriter.writeDataToInstitutionFolder(bytePDF, ".pdf");
+        institutionDataWriter.writeDataToInstitutionFolder(elmoXml, ".xml");
     }
 }

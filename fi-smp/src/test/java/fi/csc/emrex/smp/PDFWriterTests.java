@@ -34,10 +34,10 @@ public class PDFWriterTests extends TestCase {
         user.setHomeOrganization("blaablaa.fi");
 
         institutionDataWriter = new InstitutionDataWriter(user);
-        institutionDataWriter.pdfBaseDir = pdfBaseDir;
+        institutionDataWriter.setPdfBaseDir(pdfBaseDir);
         File resourcesDirectory = new File("src/test/resources");
         String resourcePath = resourcesDirectory.getAbsolutePath();
-        institutionDataWriter.dirMap = resourcePath + "/" + mapFile;
+        institutionDataWriter.setDirMap(resourcePath + "/" + mapFile);
 
 
     }
