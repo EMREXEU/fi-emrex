@@ -29,6 +29,9 @@ public class InstitutionDataWriter {
     @Value("${smp.university.base.directory}")
     String pdfBaseDir;
 
+    @Value("${environment}")
+    String testing;
+
     private Person user;
 
 
@@ -68,6 +71,7 @@ public class InstitutionDataWriter {
 
     private String generatePath() {
         String dirname = this.pdfBaseDir;
+        log.info("testing: " + testing);
         log.info("map file: " + dirMap);
         try {
 
