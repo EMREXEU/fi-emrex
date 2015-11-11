@@ -10,6 +10,7 @@ import org.json.simple.JSONValue;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -26,13 +27,13 @@ public class InstitutionDataWriter {
     private String dirMap;
     private String pdfBaseDir;
     private Person user;
+    private String verificationScore;
 
     public InstitutionDataWriter(Person user) {
         this.user = user;
     }
 
     public void writeDataToInstitutionFolder(byte[] bytePDF, String fileType) {
-
         createPath();
         writeToFile(bytePDF, fileType);
     }
@@ -48,9 +49,11 @@ public class InstitutionDataWriter {
 
     private String generateFileName() {
         String filename = "emrex_";
-        filename += user.getFirstName() + "_" + user.getLastName() + "_";
+        String name = user.getFirstName() + "_" + user.getLastName() + "_";
+        filename += Normalizer.normalize(name, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         filename += user.getHeiOid() + "_";
         filename += new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) + "_";
+        filename += verificationScore + "_";
         log.info("Generated filename: " + filename);
         return filename;
     }
