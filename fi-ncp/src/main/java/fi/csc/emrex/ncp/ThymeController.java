@@ -101,6 +101,7 @@ public class ThymeController {
 
     @RequestMapping(value = "/abort", method = RequestMethod.GET)
     public String abort(Model model) {
+        // same submit button with ame url and color is used, but without Elmo
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.addAttribute("buttonText", "Cancel");
