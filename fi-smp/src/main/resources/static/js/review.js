@@ -29,7 +29,7 @@ app.controller('home', function ($scope, $http, $window, $sce, helperService) {
     }
 
     $http.get('api/questionnaire').success(function(response) {
-        $scope.questionnaireUrl = $sce.trustAsUrl(response);
+        $scope.questionnaireUrl = $sce.trustAsUrl(response.link);
     });
 
     $http.post('api/reports').success(function (response) {

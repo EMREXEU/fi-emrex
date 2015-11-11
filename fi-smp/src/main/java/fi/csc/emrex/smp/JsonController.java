@@ -7,6 +7,7 @@ package fi.csc.emrex.smp;
 
 
 import fi.csc.emrex.common.model.Person;
+import fi.csc.emrex.smp.model.Link;
 import fi.csc.emrex.smp.model.VerifiedReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -113,16 +114,18 @@ public class JsonController {
 
     @RequestMapping("/smp/api/questionnaire")
     @ResponseBody
-    public String smpQuestionnaireLink() {
+    public Link smpQuestionnaireLink() {
         return questionnaireLink();
     }
 
     @RequestMapping("/api/questionnaire")
     @ResponseBody
-    public String questionnaireLink() {
+    public Link questionnaireLink() {
         QuestionnaireLinkBuilder linkBuilder = new QuestionnaireLinkBuilder();
         linkBuilder.setContext(context);
-        return linkBuilder.buildLink();
+        Link link = new Link();
+        link.setLink(linkBuilder.buildLink());
+        return link;
     }
 
     @RequestMapping("/smp/api/store")
