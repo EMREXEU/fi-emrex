@@ -4,6 +4,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.*;
+
 import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
@@ -16,6 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,8 +94,26 @@ public class PdfGen {
                 new com.itextpdf.text.Document(PageSize.A4,
                         MARGIN_LEFT, MARGIN_RIGHT, MARGIN_TOP,
                         MARGIN_BOTTOM);
-        PdfWriter.getInstance(document, bos);
+        PdfWriter writer = PdfWriter.getInstance(document, bos);
         document.open();
+
+        // Header here
+        Rectangle rect = new Rectangle(30, 30, 570, 800);
+        writer.setBoxSize("art", rect);
+
+        Phrase phrase = new Phrase();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String headerText = "Source: Emrex - Supporting Student Mobility - ";
+        headerText += LocalDate.now().format(formatter);
+        headerText += " - in Finland";
+        phrase.add(headerText);
+
+        ColumnText.showTextAligned(writer.getDirectContent(),
+                Element.ALIGN_RIGHT, phrase,
+                rect.getRight(), rect.getTop(), 0);
+
+
+
         for (ElmoDocument doc : documents) {
             createPage(document, doc);
             document.newPage();
@@ -103,6 +125,7 @@ public class PdfGen {
 
 
     private void createPage(com.itextpdf.text.Document document, ElmoDocument doc) throws DocumentException {
+
         Paragraph p = new Paragraph();
         p.add(new Phrase("Transcript for " + doc.getPersonName() + " (" + doc.getBirthday() + ")", FONT_HEADING));
         document.add(p);
