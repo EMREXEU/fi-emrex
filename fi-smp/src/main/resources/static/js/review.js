@@ -28,7 +28,7 @@ app.controller('home', function ($scope, $http, $window, $sce, helperService) {
         $window.location.href = '/smp/abort';
     }
 
-    $http.get('/api/questionnaire').success(function(response) {
+    $http.get('api/questionnaire').success(function(response) {
         $scope.questionnaireUrl = $sce.trustAsUrl(response);
     });
 
