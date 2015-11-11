@@ -100,7 +100,6 @@ public class ThymeController {
     @RequestMapping(value = "/onReturn", method = RequestMethod.POST)
     public String onReturnelmo(@ModelAttribute ElmoData request, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie, @CookieValue(value = "chosenNCP") String chosenNCP, HttpServletRequest httpRequest) throws Exception {
         String sessionId = request.getSessionId();
-        context.getSession().setAttribute("sessionID", sessionId); // for making the url
         String elmo = request.getElmo();
 
         if (elmo == null) {
@@ -279,9 +278,9 @@ public class ThymeController {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
 
-        Duration duration = Duration.between(LocalDateTime.now(), startTime);
+        Duration duration = Duration.between(startTime, LocalDateTime.now());
 
-        String link = "https://ankieter.mimuw.edu.pl/surveys/79/?session_id=" + context.getSession().getAttribute("sessionId");
+        String link = "https://ankieter.mimuw.edu.pl/surveys/79/?session_id=" + context.getSession().getId();
         link += "&home_institution=" + shibPerson.getHomeOrganization();
         link += "&home_country=" + "fi";
         link += "&host_institution=" + parser.getHostInstitution();
@@ -292,7 +291,6 @@ public class ThymeController {
         link += "&ects_imported=" + Integer.toString(parser.getETCSCount());
         link += "&grades_imported_percent=" + "X";
         link += "&ects_imported_percent=" + "X";
-
         return link;
     }
 
