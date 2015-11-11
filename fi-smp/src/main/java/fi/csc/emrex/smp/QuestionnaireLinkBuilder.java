@@ -20,9 +20,9 @@ public class QuestionnaireLinkBuilder {
 
     public String buildLink() {
         String sessionId = context.getSession().getId();
-        Person shibPerson = (Person)context.getSession().getAttribute("shibPerson");
+        Person shibPerson = (Person) context.getSession().getAttribute("shibPerson");
         String decodedXml = (String) context.getSession().getAttribute("elmoxmlstring");
-        LocalDateTime startTime = (LocalDateTime)context.getSession().getAttribute("sessionStartTime");
+        LocalDateTime startTime = (LocalDateTime) context.getSession().getAttribute("sessionStartTime");
 
         String hostInstitution = "X";
         String ectsImported = "X";
@@ -32,29 +32,34 @@ public class QuestionnaireLinkBuilder {
                 ElmoParser parser = new ElmoParser(decodedXml);
                 hostInstitution = parser.getHostInstitution();
                 ectsImported = Integer.toString(parser.getETCSCount());
-            } catch (Exception ex)
-            {
-                log.error("Creation of questionary url failed when decoding Elmo.", ex);
+            } catch (Exception ex) {
+                log.error("Creation of questionnaire url failed when decoding Elmo.", ex);
             }
         }
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
+        String homeOrganization = "X";
+        if (shibPerson != null)
+            homeOrganization = shibPerson.getHomeOrganization();
 
-        Duration duration = Duration.between(startTime, LocalDateTime.now());
+
+        String duration = "X";
+        if (startTime != null)
+            duration = Double.toString(Duration.between(startTime, LocalDateTime.now()).getSeconds());
+
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String link = "https://ankieter.mimuw.edu.pl/surveys/79/?session_id=" + sessionId;
-        link += "&home_institution=" + shibPerson.getHomeOrganization();
+        link += "&home_institution=" + homeOrganization;
         link += "&home_country=" + "fi";
         link += "&host_institution=" + hostInstitution;
         link += "&host_country=" + "X"; //not found in elmo
         link += "&date_of_import=" + LocalDateTime.now().format(dateFormatter);
-        link += "&time_spent=" + Double.toString(duration.getSeconds());
+        link += "&time_spent=" + duration;
         link += "&grades_imported=" + "X";
         link += "&ects_imported=" + ectsImported;
         link += "&grades_imported_percent=" + "X";
         link += "&ects_imported_percent=" + "X";
         return link;
     }
-
-
 }
