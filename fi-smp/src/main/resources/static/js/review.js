@@ -14,7 +14,7 @@ app.config(function ($routeProvider, $httpProvider) {
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 });
 
-app.controller('home', function ($scope, $http, $window, helperService) {
+app.controller('home', function ($scope, $http, $window, $sce, helperService) {
     $scope.numberOfCourses = 0;
     $scope.resultsImported = false;
 
@@ -27,6 +27,10 @@ app.controller('home', function ($scope, $http, $window, helperService) {
     $scope.abort = function () {
         $window.location.href = '/smp/abort';
     }
+
+    $http.get('/api/questionnaire').success(function(response) {
+        $scope.questionnaireUrl = $sce.trustAsUrl(response);
+    });
 
     $http.post('api/reports').success(function (response) {
         var reports = [];

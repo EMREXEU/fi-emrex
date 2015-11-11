@@ -110,6 +110,21 @@ public class JsonController {
         return (List<VerifiedReport>) this.context.getSession().getAttribute("reports");
     }
 
+
+    @RequestMapping("/smp/api/questionnaire")
+    @ResponseBody
+    public String smpQuestionnaireLink() {
+        return questionnaireLink();
+    }
+
+    @RequestMapping("/api/questionnaire")
+    @ResponseBody
+    public String questionnaireLink() {
+        QuestionnaireLinkBuilder linkBuilder = new QuestionnaireLinkBuilder();
+        linkBuilder.setContext(context);
+        return linkBuilder.buildLink();
+    }
+
     @RequestMapping("/smp/api/store")
     @ResponseBody
     public void smpstore() throws Exception {

@@ -41,9 +41,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -81,7 +79,7 @@ public class ThymeController {
 
     @RequestMapping(value = "/abort", method = RequestMethod.GET)
     public String abort(Model model) throws Exception {
-        model.addAttribute("url", getLinkToPolishQuestionare());
+        model.addAttribute("url", getLinkToPolishQuestionnaire());
         return "onReturnAbort";
     }
 
@@ -253,7 +251,6 @@ public class ThymeController {
         }
     }
 
-
     private String nodeToString(Node node) {
         StringWriter sw = new StringWriter();
         try {
@@ -267,42 +264,9 @@ public class ThymeController {
         return sw.toString();
     }
 
-
-    private String getLinkToPolishQuestionare() throws Exception{
-        Person shibPerson = (Person)context.getSession().getAttribute("shibPerson");
-        String decodedXml = (String) context.getSession().getAttribute("elmoxmlstring");
-        LocalDateTime startTime = (LocalDateTime)context.getSession().getAttribute("sessionStartTime");
-        String hostInstitution = "X";
-        String ectsImported = "X";
-
-        if (decodedXml != null) {
-            try {
-                ElmoParser parser = new ElmoParser(decodedXml);
-                hostInstitution = parser.getHostInstitution();
-                ectsImported = Integer.toString(parser.getETCSCount());
-            } catch (Exception ex)
-            {
-                log.error("Creation of questionary url failed because of", ex);
-            }
-        }
-
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
-
-        Duration duration = Duration.between(startTime, LocalDateTime.now());
-
-        String link = "https://ankieter.mimuw.edu.pl/surveys/79/?session_id=" + context.getSession().getId();
-        link += "&home_institution=" + shibPerson.getHomeOrganization();
-        link += "&home_country=" + "fi";
-        link += "&host_institution=" + hostInstitution;
-        link += "&host_country=" + "X"; //not found in elmo
-        link += "&date_of_import=" + LocalDateTime.now().format(dateFormatter);
-        link += "&time_spent=" + Double.toString(duration.getSeconds());
-        link += "&grades_imported=" + "X";
-        link += "&ects_imported=" + ectsImported;
-        link += "&grades_imported_percent=" + "X";
-        link += "&ects_imported_percent=" + "X";
-        return link;
+    private String getLinkToPolishQuestionnaire() throws Exception{
+        QuestionnaireLinkBuilder linkBuilder = new QuestionnaireLinkBuilder();
+        linkBuilder.setContext(context);
+        return linkBuilder.buildLink();
     }
-
-
 }
