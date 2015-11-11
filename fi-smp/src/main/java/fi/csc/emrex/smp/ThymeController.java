@@ -41,12 +41,10 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,10 +100,6 @@ public class ThymeController {
         String sessionId = request.getSessionId();
         String elmo = request.getElmo();
 
-        if (elmo == null) {
-            return abort(model);
-        }
-
         Person person = (Person) context.getSession().getAttribute("shibPerson");
 
         if (person == null) {
@@ -113,6 +107,10 @@ public class ThymeController {
             log.info(headerHandler.stringifyHeader());
             person = headerHandler.generatePerson();
             context.getSession().setAttribute("shibPerson", person);
+        }
+
+        if (elmo == null) {
+            return abort(model);
         }
 
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
@@ -277,7 +275,6 @@ public class ThymeController {
         String hostInstitution = "X";
         String ectsImported = "X";
 
-
         if (decodedXml != null) {
             try {
                 ElmoParser parser = new ElmoParser(decodedXml);
@@ -287,8 +284,6 @@ public class ThymeController {
             {
                 log.error("Creation of questionary url failed because of", ex);
             }
-
-
         }
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern ("yyyy-MM-dd");
