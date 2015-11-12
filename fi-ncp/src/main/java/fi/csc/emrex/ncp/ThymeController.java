@@ -78,6 +78,7 @@ public class ThymeController {
 
         model.addAttribute("elmo", xmlString);
         model.addAttribute("buttonText", "Confirm selection");
+        model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
         model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
         return "review";
     }
@@ -96,7 +97,6 @@ public class ThymeController {
     @RequestMapping(value = "/ncp/abort", method = RequestMethod.GET)
     public String smpabort(Model model) {
         return abort(model);
-
     }
 
     @RequestMapping(value = "/abort", method = RequestMethod.GET)
@@ -105,6 +105,7 @@ public class ThymeController {
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.addAttribute("buttonText", "Cancel");
+        model.addAttribute("returnCode", "NCP_CANCEL");
         model.addAttribute("buttonClass", "pure-button custom-panic-button custom-inline");
         return "review";
     }
@@ -133,6 +134,11 @@ public class ThymeController {
                 String OID = headerHandler.getOID();
                 String personalId = headerHandler.getPersonalID();
                 String elmoXML = virtaClient.fetchStudies(OID, personalId);
+
+                if (elmoXML == null)
+                    context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
+                else
+                    context.getSession().setAttribute("returnCode", "NCP_OK");
 
 
                 ElmoParser parser = new ElmoParser(elmoXML);

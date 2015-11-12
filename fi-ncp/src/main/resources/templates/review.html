@@ -1,5 +1,6 @@
 <form action="#" th:action="${returnUrl}" method="POST">
     <input class="form-control" type="hidden" th:value="${sessionId}" id="sessionId" name="sessionId" />
     <input th:if="${elmo != null}" class="form-control" type="hidden" th:value="${elmo}" id="elmo" name="elmo" />
+    <input type="hidden" name="returnCode" th:value="${returnCode}">
     <input th:class="${buttonClass}" type="submit" th:attr="value=${buttonText}" />
 </form>
