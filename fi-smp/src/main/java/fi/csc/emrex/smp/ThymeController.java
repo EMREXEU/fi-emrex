@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.smp;
 
+import fi.csc.emrex.common.PersonalLogger;
 import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.common.model.Person;
 import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
@@ -42,6 +43,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +108,12 @@ public class ThymeController {
             context.getSession().setAttribute("shibPerson", person);
         }
 
+        String personalLogLine = person.getFullName();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        personalLogLine += "\t" + ((LocalDateTime) context.getSession().getAttribute("sessionStartTime")).format(dateFormatter);
+        personalLogLine += "\t" + httpRequest.getHeader("Referer");
+        personalLogLine += "\t" + httpRequest.getParameter("returnCode");
+
         if (elmo == null) {
             return abort(model);
         }
@@ -116,8 +124,8 @@ public class ThymeController {
         // TODO charset problems UTF-8 vs UTF-16
         final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(getCertificate(), decodedXml, StandardCharsets.UTF_8);
         log.info("Verify signature result: {}", verifySignatureResult);
+        log.info("providedSessionId: {}", sessionId);
 
-        log.info("providedSessionId: " + sessionId);
 
         String ncpPubKey = chosenNCP;
 
@@ -126,19 +134,23 @@ public class ThymeController {
         } catch (Exception e) {
             log.error("Session verification failed", e);
             model.addAttribute("error", "Session verification failed");
+            PersonalLogger.log(personalLogLine + "\tfailed");
             return "error";
         }
         try {
             if (!FiSmpApplication.verifyElmoSignature(decodedXml, ncpPubKey)) {
                 log.error("NCP signature check failed");
                 model.addAttribute("error", "NCP signature check failed");
+                PersonalLogger.log(personalLogLine + "\tfailed");
                 return "error";
             }
         } catch (Exception e) {
             log.error("NCP verification failed", e);
             model.addAttribute("error", "NCP verification failed");
+            PersonalLogger.log(personalLogLine + "\tfailed");
             return "error";
         }
+
         log.info("Returned elmo XML " + decodedXml);
         context.getSession().setAttribute("elmoxmlstring", decodedXml);
         ElmoParser parser = new ElmoParser(decodedXml);
@@ -190,12 +202,15 @@ public class ThymeController {
             } catch (ParserConfigurationException | IOException | SAXException ex) {
                 log.error("Error in report verification", ex);
                 model.addAttribute("error", ex.getMessage());
+                PersonalLogger.log(personalLogLine + "\tfailed");
                 return "error";
             }
         } else {
             model.addAttribute("error", "HAKA login missing");
+            PersonalLogger.log(personalLogLine + "\tfailed");
             return "error";
         }
+        PersonalLogger.log(personalLogLine + "\tokay");
         return "review";
     }
 
