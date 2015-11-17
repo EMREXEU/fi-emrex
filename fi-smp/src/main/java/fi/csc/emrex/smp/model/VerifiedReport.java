@@ -5,10 +5,11 @@
  */
 package fi.csc.emrex.smp.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.json.JSONObject;
 import org.json.XML;
+
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author salum
@@ -36,9 +37,7 @@ public class VerifiedReport {
     }
 
     public void setReport(String report) {
-        //System.out.println(report);
         JSONObject json =  XML.toJSONObject(report);
-        //System.out.println(json.toString());
         this.report = json.toString();
     }
     public void addMessage(String msg) {

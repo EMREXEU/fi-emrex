@@ -5,6 +5,7 @@
  */
 package fi.csc.emrex.common.elmo;
 
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,10 +20,6 @@ import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -45,6 +42,7 @@ import java.util.logging.Logger;
  * @author salum
  */
 public class ElmoParser {
+    final static org.slf4j.Logger log = LoggerFactory.getLogger(ElmoParser.class);
 
     private Document document;
 
@@ -80,14 +78,13 @@ public class ElmoParser {
 
         } catch (Exception ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.getMessage());
+            log.error("Parsing of elmo failed", ex);
+
         }
 
     }
 
     public byte[] getAttachedPDF() throws Exception {
-
-
         NodeList attachments = document.getElementsByTagName("attachment");
         if (attachments.getLength() == 1) {
             NodeList childs = attachments.item(0).getChildNodes();
@@ -172,10 +169,10 @@ public class ElmoParser {
             NodeList reports = doc.getElementsByTagName("report");
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
-                System.out.println("report " + i);
+                log.debug("Report " + i);
                 NodeList learnList = report.getElementsByTagName("learningOpportunitySpecification");
                 if (learnList.getLength() < 1) {
-                    System.out.println("report empty");
+                    log.error("Empty report");
                     report.getParentNode().removeChild(report);
                 }
             }
@@ -257,21 +254,6 @@ public class ElmoParser {
         lsOutput.setCharacterStream(stringWriter);
         lsSerializer.write(doc, lsOutput);
         return stringWriter.toString();
-
-    }
-
-    // just for testing
-    private String getNodeString(Node node) {
-        StringWriter writer = new StringWriter();
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(new DOMSource(node), new StreamResult(writer));
-            String xml = writer.toString();
-            return xml;
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return "No Node";
     }
 
 }

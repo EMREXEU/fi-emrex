@@ -54,23 +54,23 @@ public class InstitutionDataWriter {
         filename += user.getHeiOid() + "_";
         filename += new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) + "_";
         filename += verificationScore + "_";
-        log.info("Generated filename: " + filename);
+        log.debug("Generated filename: " + filename);
         return filename;
     }
 
     private void createPath()    {
         String path = generatePath();
-        log.info("Generated path:" + path);
+        log.debug("Generated path:" + path);
         new File(path).mkdirs();
     }
 
     private String generatePath() {
         String dirname = this.pdfBaseDir;
-        log.info("map file: " + dirMap);
+        log.debug("map file: " + dirMap);
         try {
 
             File jsonfile = new File(dirMap);
-            log.info("JSON file location: " + jsonfile.getAbsolutePath());
+            log.debug("JSON file location: " + jsonfile.getAbsolutePath());
             String json = FileUtils.readFileToString(jsonfile, "UTF-8");
             JSONObject root = (JSONObject)JSONValue.parse(json);
 

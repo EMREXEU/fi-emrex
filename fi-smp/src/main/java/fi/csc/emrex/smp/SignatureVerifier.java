@@ -3,7 +3,6 @@ package fi.csc.emrex.smp;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -18,9 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.security.cert.CertificateFactory;
@@ -83,13 +79,13 @@ public class SignatureVerifier {
         if (coreValidity == false) {
             log.error("Signature failed core validation");
             boolean sv = signature.getSignatureValue().validate(valContext);
-            log.error("signature validation status: " + sv);
+            log.error("Signature validation status: {}", sv);
             if (sv == false) {
                 // Check the validation status of each Reference.
                 Iterator<?> i = signature.getSignedInfo().getReferences().iterator();
                 for (int j = 0; i.hasNext(); j++) {
                     boolean refValid = ((Reference) i.next()).validate(valContext);
-                    log.info("ref[" + j + "] validity status: " + refValid);
+                    log.debug("ref[{}] validity status: {}", j, refValid);
                 }
             }
         }

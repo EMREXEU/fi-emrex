@@ -58,7 +58,6 @@ public class UserVerificationTest extends TestCase {
         assertTrue(VerificationReply.verify(shib,elmo1,0.1).isVerified());
         assertFalse(VerificationReply.verify(shib, elmo2, 0.1).isVerified());
         VerificationReply r=  VerificationReply.verify(shib, elmo3, 0.1);
-        System.out.println(r.getMessages());
         assertTrue(VerificationReply.verify(shib, elmo3, 0.1).isVerified());
         assertFalse(VerificationReply.verify(shib, elmo4, 0.1).isVerified());
 

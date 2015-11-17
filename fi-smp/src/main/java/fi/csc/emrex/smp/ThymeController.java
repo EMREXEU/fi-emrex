@@ -44,8 +44,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -103,7 +101,7 @@ public class ThymeController {
 
         if (person == null) {
             ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(httpRequest);
-            log.info(headerHandler.stringifyHeader());
+            log.debug(headerHandler.stringifyHeader());
             person = headerHandler.generatePerson();
             context.getSession().setAttribute("shibPerson", person);
         }
@@ -126,18 +124,19 @@ public class ThymeController {
         try {
             FiSmpApplication.verifySessionId(sessionId, sessionIdCookie);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            model.addAttribute("error", "<p>Session verification failed</p>");
+            log.error("Session verification failed", e);
+            model.addAttribute("error", "Session verification failed");
             return "error";
         }
         try {
             if (!FiSmpApplication.verifyElmoSignature(decodedXml, ncpPubKey)) {
-                model.addAttribute("error", "<p>NCP signature check failed</p>");
+                log.error("NCP signature check failed");
+                model.addAttribute("error", "NCP signature check failed");
                 return "error";
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            model.addAttribute("error", "<p>NCP verification failed</p>");
+            log.error("NCP verification failed", e);
+            model.addAttribute("error", "NCP verification failed");
             return "error";
         }
         log.info("Returned elmo XML " + decodedXml);
@@ -190,13 +189,11 @@ public class ThymeController {
 
             } catch (ParserConfigurationException | IOException | SAXException ex) {
                 log.error("Error in report verification", ex);
-                Logger.getLogger(ThymeController.class.getName()).log(Level.SEVERE, null, ex);
                 model.addAttribute("error", ex.getMessage());
                 return "error";
             }
         } else {
-
-            model.addAttribute("error", "<p>HAKA login missing</p>");
+            model.addAttribute("error", "HAKA login missing");
             return "error";
         }
         return "review";
@@ -223,7 +220,7 @@ public class ThymeController {
 
         Element learner = getOneNode(report, "learner");
         if (learner != null) {
-            System.out.println("learner found");
+            log.debug("Learner found");
             Person elmoPerson = new Person();
             elmoPerson.setFirstName(getOneNode(learner, "givenNames").getTextContent());
             elmoPerson.setLastName(getOneNode(learner, "familyName").getTextContent());
@@ -235,7 +232,7 @@ public class ThymeController {
             return elmoPerson;
 
         } else {
-            System.out.println("no learner found");
+            log.error("No learner found");
             return null;
         }
 
@@ -244,10 +241,10 @@ public class ThymeController {
     private Element getOneNode(Element node, String name) {
         NodeList list = node.getElementsByTagName(name);
         if (list.getLength() == 1) {
-            System.out.println("found " + name);
+            log.trace("Found {}", name);
             return (Element) list.item(0);
         } else {
-            System.out.println("no " + name + "found");
+            log.trace("No {} found. Returning null", name);
             return null;
         }
     }
@@ -260,7 +257,7 @@ public class ThymeController {
             t.setOutputProperty(OutputKeys.INDENT, "no");
             t.transform(new DOMSource(node), new StreamResult(sw));
         } catch (TransformerException te) {
-            System.out.println("nodeToString Transformer Exception");
+            log.error("NodeToString Transformer Exception", te);
         }
         return sw.toString();
     }

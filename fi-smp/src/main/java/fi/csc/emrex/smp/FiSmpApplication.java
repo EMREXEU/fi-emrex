@@ -3,6 +3,8 @@ package fi.csc.emrex.smp;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,12 +22,13 @@ import java.util.stream.Collectors;
     org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
     public class FiSmpApplication {
+    final static Logger log = LoggerFactory.getLogger(FiSmpApplication.class);
 
     public static final String SHIB_SHIB_IDENTITY_PROVIDER = "shib-Shib-Identity-Provider";
 
     public static void verifySessionId(String providedSessionId, String expectedSessionId) {
 
-        System.out.println("expectedSessionId: " + expectedSessionId);
+        log.info("Expected Session Id: {}", expectedSessionId);
 
         if (!providedSessionId.equals(expectedSessionId)) {
             throw new RuntimeException("providedSessionId does not match");
@@ -44,7 +47,6 @@ import java.util.stream.Collectors;
         RestTemplate template = new RestTemplate();
         String result = template.getForObject(new URI(url), String.class);
 
-        //System.out.println("Result: " + result);
         final JSONObject json = (JSONObject) new JSONParser().parse(result);
         Object NCPS = json.get("ncps");
         List<Map> ncp_list = (List<Map>) NCPS;
@@ -59,26 +61,15 @@ import java.util.stream.Collectors;
 
     public static String getPubKeyByReturnUrl(String returnUrl, String emregUrl) throws Exception {
         String pubKey = null;
-        System.out.println("pubkey by url: " + returnUrl);
+        log.info("Pubkey by url: {}", returnUrl);
         List<NCPResult> ncps = FiSmpApplication.getNCPs(emregUrl);
         for (NCPResult ncp : ncps) {
             if (ncp.getUrl().equals(returnUrl)) {
-                System.out.println("Url matches: " + returnUrl);
+                log.info("Url matches: {}", returnUrl);
                 return ncp.getCertificate();
             }
         }
         return pubKey;
-    }
-
-    public static NCPResult getNCPByReturnUrl(String returnUrl, String emregUrl) throws Exception {
-        List<NCPResult> ncps = FiSmpApplication.getNCPs(emregUrl);
-        for (NCPResult ncp : ncps) {
-            if (ncp.getUrl().equals(returnUrl)) {
-
-                return ncp;
-            }
-        }
-        return null;
     }
 
     public static String getUrl(NCPChoice choice, HttpServletRequest request) {

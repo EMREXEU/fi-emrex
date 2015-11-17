@@ -10,6 +10,8 @@ import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
 import fi.csc.emrex.ncp.virta.VirtaClient;
 import org.json.JSONObject;
 import org.json.XML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
- *
  * @author salum
  */
 @RestController
 public class JsonController {
+
+    final static Logger log = LoggerFactory.getLogger(JsonController.class);
 
     @Autowired
     private HttpServletRequest context;
@@ -29,22 +32,12 @@ public class JsonController {
     @Autowired
     private VirtaClient virtaClient;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8", headers = "Accept=*")
-    public @ResponseBody
-    Map<String, Object> test() {
-
-        System.out.println("Login");
-        Map<String, Object> model = new HashMap<>();
-        model.put("id", "zzz");
-        model.put("content", "Oh well");
-        return model;
-    }
 
     @RequestMapping(value = "/elmo", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> fetchElmoXml(HttpServletRequest request) throws Exception {
 
-        System.out.println("elmo");
+
         Map<String, Object> model = new HashMap<>();
         model.put("returnUrl", context.getSession().getAttribute("returnUrl"));
         model.put("sessionId", context.getSession().getAttribute("sessionId"));
@@ -53,7 +46,7 @@ public class JsonController {
         header.stringifyHeader();
         String OID = header.getHeiOid();
         String PersonalID = header.getPersonalID();
-
+        log.info("Fetching data from Virta client OID: {} PersonalID {}", OID, PersonalID);
         model.put("elmoXml", virtaClient.fetchStudies(OID, PersonalID));
 
         return model;
@@ -62,13 +55,12 @@ public class JsonController {
     @RequestMapping(value = "/ncp/api/elmo", method = RequestMethod.GET)
     @ResponseBody
     public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-        System.out.println("/ncp/api/elmo");
-                if (courses != null) {
-                    System.out.println("courses.length="+courses.length);
+        if (courses != null) {
+            log.debug("Courses.length= {}", courses.length);
             for (int i = 0; i < courses.length; i++) {
-                System.out.print(courses[i] + ", ");
+                log.trace("Course {} ", courses[i]);
 
-            }System.out.println("");
+            }
         }
         return this.getElmoJSON(courses);
     }
@@ -77,29 +69,25 @@ public class JsonController {
     @ResponseBody
     public String getElmoJSON(
             @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-        System.out.println("/api/elmo");
         if (courses != null) {
             for (int i = 0; i < courses.length; i++) {
-                System.out.print(courses[i] + ", ");
-
-            }System.out.println("");
+                log.trace("Course: {}", courses[i]);
+            }
         }
         try {
 
             ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
             String xmlString;
             if (courses != null && courses.length > 0) {
-                System.out.println("courses count: " + courses.length);
+                log.debug("Courses count: {}", courses.length);
                 List<String> courseList = Arrays.asList(courses);
                 xmlString = parser.getCourseData(courseList);
             } else {
-                System.out.println("null courses");
+                log.error("No selected courses");
                 xmlString = parser.getCourseData();
             }
 
-
             JSONObject json = XML.toJSONObject(xmlString);
-            //System.out.println(json.toString());
             return json.toString();
         } catch (Exception e) {
 
@@ -115,17 +103,5 @@ public class JsonController {
             return new JSONObject(error).toString();
         }
     }
-
-    @RequestMapping("/resource")
-    public Map<String, Object> home() {
-
-        System.out.println("Here we go again");
-        Map<String, Object> model = new HashMap<>();
-        model.put("id", UUID.randomUUID().toString());
-        model.put("content", "Hello World");
-        return model;
-    }
-
-
 
 }

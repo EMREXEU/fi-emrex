@@ -2,7 +2,6 @@ package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.ncp.util.TestUtil;
 import junit.framework.TestCase;
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -30,8 +29,6 @@ public class DataSignTest extends TestCase {
     public void testSign() throws Exception {
 
         final String data = TestUtil.getFileContent("Example-elmo-Finland.xml");
-
-        System.out.println(data);
 
         final String result = instance.sign(data, StandardCharsets.UTF_8);
 

@@ -55,7 +55,6 @@ public class ThymeController {
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
                          Model model) throws Exception {
-        System.out.println("/review");
 
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
@@ -124,13 +123,13 @@ public class ThymeController {
         if (context.getSession().getAttribute("returnUrl") == null) {
             context.getSession().setAttribute("returnUrl", customRequest.getReturnUrl());
         }
-        log.debug("Return URL: {}", context.getSession().getAttribute("returnUrl"));
-        log.debug("Session ID: {}", context.getSession().getAttribute("sessionId"));
+        log.info("Return URL: {}", context.getSession().getAttribute("returnUrl"));
+        log.info("Session ID: {}", context.getSession().getAttribute("sessionId"));
 
         try {
             if (context.getSession().getAttribute("elmo") == null) {
                 ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
-                log.info(headerHandler.stringifyHeader());
+                log.debug(headerHandler.stringifyHeader());
                 String OID = headerHandler.getOID();
                 String personalId = headerHandler.getPersonalID();
                 String elmoXML = virtaClient.fetchStudies(OID, personalId);
@@ -154,7 +153,7 @@ public class ThymeController {
             return "norex";
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error("Elmo was null and fetching elmo failed somehow.", e);
         }
         return "norex";
     }
