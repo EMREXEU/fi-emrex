@@ -42,7 +42,7 @@
                             they have been reviewed. </p>
 
 
-                        Please review your selection below and approve it to import the courses to your major university
+                        Please review your selection below and approve it to import the courses to your home university
                         results.
                     </fieldset>
                     <button class="pure-button custom-go-button" ng-click="import()">Import courses</button>
@@ -63,7 +63,8 @@
 
                 <fieldset>
                     <legend>Completed</legend>
-                    1 course have been imported for Björn Andersson from the University of Oslo to the University of
+                    {{learningReport.numberOfCourses}} course have been imported for 
+                    {{learningReport.verification.fullNameFromHomeInstitute || "undefined"}} from the University of Oslo to the University of
                     Stockholm.
                 </fieldset>
                 <fieldset>
