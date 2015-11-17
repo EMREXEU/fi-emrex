@@ -30,7 +30,7 @@ import java.util.List;
  * @author salum
  */
 @EnableAutoConfiguration(exclude = {
-        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+    org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
 @Controller
 @Slf4j
@@ -48,13 +48,13 @@ public class ThymeController {
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
-                            Model model) throws Exception {
+            Model model) throws Exception {
         return this.review(courses, model);
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
-                         Model model) throws Exception {
+            Model model) throws Exception {
         System.out.println("/review");
 
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
@@ -129,12 +129,18 @@ public class ThymeController {
 
         try {
             if (context.getSession().getAttribute("elmo") == null) {
+                String elmoXML;
                 ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
                 log.info(headerHandler.stringifyHeader());
                 String OID = headerHandler.getOID();
                 String personalId = headerHandler.getPersonalID();
-                String elmoXML = virtaClient.fetchStudies(OID, personalId);
+                if (OID == null && personalId == null) {
+                    //TODO delete 
+                    elmoXML = FiNcpApplication.getElmo();
+                } else {
+                    elmoXML = virtaClient.fetchStudies(OID, personalId);
 
+                }
                 String logLine = customRequest.getSessionId();
                 logLine += "\t" + customRequest.getReturnUrl();
                 logLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
@@ -163,6 +169,5 @@ public class ThymeController {
     public String test() {
         return "test";
     }
-
 
 }

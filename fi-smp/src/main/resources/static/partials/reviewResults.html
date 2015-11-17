@@ -11,7 +11,7 @@
 
 
     <div ng-hide="resultsImported">
-        <div ng-repeat="learningReport in reports | filter:courseNumberfilter">
+        <div ng-repeat="learningReport in reports| filter:courseNumberfilter">
             <div>{{learningReport.verification.score}}</div>
 
             <div class="pure-g">
@@ -31,14 +31,12 @@
                         <p>
 
 
-                        <p ng-show="learningReport.verification.score > verificationLimit">The name of the of the person
-                            your
-                            are trying to import as, <b>{{learningReport.verification.fullNameFromHomeInstitute ||
-                                "undefined"}}</b>, and the name of the person your are trying to import
-                            from,
-                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match. You will still be able
-                            to import your results but not use them
-                            until
+                        <p ng-show="learningReport.verification.score > verificationLimit">
+                            The name of the of the person you are trying to import as,
+                            {{learningReport.verification.fullNameFromHomeInstitute|| "undefined"}}, 
+                            and the name of the person your are trying to import from,
+                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match. 
+                            You will still be able to import your results but not use them until
                             they have been reviewed. </p>
 
 
@@ -60,31 +58,34 @@
     <div ng-show="resultsImported">
         <div class="pure-g">
             <div class="pure-u-1-2">
+                <div ng-repeat="learningReport in reports| filter:courseNumberfilter">
+                    <fieldset>
+                        <legend>Completed</legend>
+                        {{learningReport.numberOfCourses}} course have been imported for 
+                        {{learningReport.verification.fullNameFromHomeInstitute|| "undefined"}} from 
+                        {{helperService.getRightLanguage(learningReport.issuer.title || "undefined")}} 
+                        to the {{learningReport.verification.homeInstitute|| "undefined"}}.
+                    </fieldset>
+                    <fieldset>
+                        <legend style="background-color:orange;">Results imported</legend>
+                        <p>
+                            The results you selected have been imported.
+                        </p>
 
-                <fieldset>
-                    <legend>Completed</legend>
-                    {{learningReport.numberOfCourses}} course have been imported for 
-                    {{learningReport.verification.fullNameFromHomeInstitute || "undefined"}} from the University of Oslo to the University of
-                    Stockholm.
-                </fieldset>
-                <fieldset>
-                    <legend style="background-color:orange;">Results imported</legend>
-                    <p>
-                        The results you selected have been imported.
-                    </p>
+                        <p>
+                            Due to a mismatch in names between the person importing, 
+                            {{learningReport.verification.fullNameFromHomeInstitute|| "undefined"}}, and the person the
+                            results were imported from, {{learningReport.verification.fullNameInElmo|| "undefined"}},
+                            the results have to be reviewed before they can be used.
+                        </p>
 
-                    <p>
-                        Due to a mismatch in names between the person importing, Björn Andersson, and the person the
-                        results were imported from, Björn Anderzon, the results have to be reviewed before they can be
-                        used.
-                    </p>
+                        <p>
+                            Please contact the admissions office at your university for more information.
+                        </p>
+                    </fieldset>
+                    <a ng-href="{{questionnaireUrl}}">How did it go? Please fill our questionnaire here!</a>
 
-                    <p>
-                        Please contact the admissions office at your university for more information.
-                    </p>
-                </fieldset>
-                <a ng-href="{{questionnaireUrl}}">How did it go? Please fill our questionnaire here!</a>
-
+                </div>
             </div>
         </div>
     </div>

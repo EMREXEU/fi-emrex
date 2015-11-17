@@ -24,9 +24,13 @@ public class VerificationReply {
 
     private String fullNameFromHomeInstitute;
 
+    private String homeInstitute;
 
     private final List<String> messages;
 
+    public VerificationReply() {
+        messages = new ArrayList<String>();
+    }
 
     public String getFullNameFromHomeInstitute() {
         return fullNameFromHomeInstitute;
@@ -44,10 +48,13 @@ public class VerificationReply {
         this.fullNameInElmo = fullNameInElmo;
     }
 
-    public VerificationReply() {
-        messages = new ArrayList<String>();
+    public String getHomeInstitute() {
+        return homeInstitute;
     }
 
+    public void setHomeInstitute(String homeInstitute) {
+        this.homeInstitute = homeInstitute;
+    }
 
     public String getSessionId() {
         return sessionId;
@@ -92,6 +99,7 @@ public class VerificationReply {
         VerificationReply r = new VerificationReply();
         r.setFullNameFromHomeInstitute(firstPerson.getFullName());
         r.setFullNameInElmo(otherPerson.getFullName());
+        r.setHomeInstitute(firstPerson.getHomeOrganizationName());
         boolean bdMatch = false;
         boolean nameMatch = false;
         int match = 0;
