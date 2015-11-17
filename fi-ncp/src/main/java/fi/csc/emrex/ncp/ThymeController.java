@@ -6,6 +6,7 @@
 package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.common.PdfGen;
+import fi.csc.emrex.common.PersonalLogger;
 import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
 import fi.csc.emrex.ncp.virta.VirtaClient;
@@ -26,11 +27,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
  * @author salum
  */
 @EnableAutoConfiguration(exclude = {
-    org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
 @Controller
 @Slf4j
@@ -48,13 +48,13 @@ public class ThymeController {
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
-            Model model) throws Exception {
+                            Model model) throws Exception {
         return this.review(courses, model);
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
-            Model model) throws Exception {
+                         Model model) throws Exception {
         System.out.println("/review");
 
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
@@ -117,16 +117,16 @@ public class ThymeController {
 
     @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
     public String greeting(@ModelAttribute CustomRequest customRequest, HttpServletRequest request) {
-
-        System.out.println("/ncp/");
+        log.info("/ncp/");
         if (context.getSession().getAttribute("sessionId") == null) {
             context.getSession().setAttribute("sessionId", customRequest.getSessionId());
         }
         if (context.getSession().getAttribute("returnUrl") == null) {
             context.getSession().setAttribute("returnUrl", customRequest.getReturnUrl());
         }
-        System.out.println("Return URL: " + context.getSession().getAttribute("returnUrl"));
-        System.out.println("Session ID: " + context.getSession().getAttribute("sessionId"));
+        log.debug("Return URL: {}", context.getSession().getAttribute("returnUrl"));
+        log.debug("Session ID: {}", context.getSession().getAttribute("sessionId"));
+
         try {
             if (context.getSession().getAttribute("elmo") == null) {
                 ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
@@ -135,14 +135,21 @@ public class ThymeController {
                 String personalId = headerHandler.getPersonalID();
                 String elmoXML = virtaClient.fetchStudies(OID, personalId);
 
-                if (elmoXML == null)
+                String logLine = customRequest.getSessionId();
+                logLine += "\t" + customRequest.getReturnUrl();
+                logLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
+
+                if (elmoXML == null) {
                     context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
-                else
+                    logLine += "\t" + "not-available";
+                } else {
                     context.getSession().setAttribute("returnCode", "NCP_OK");
+                    ElmoParser parser = new ElmoParser(elmoXML);
+                    logLine += "\t" + parser.getHostInstitution();
+                    context.getSession().setAttribute("elmo", parser);
+                }
 
-
-                ElmoParser parser = new ElmoParser(elmoXML);
-                context.getSession().setAttribute("elmo", parser);
+                PersonalLogger.log(logLine);
             }
             return "norex";
 
@@ -156,7 +163,6 @@ public class ThymeController {
     public String test() {
         return "test";
     }
-
 
 
 }

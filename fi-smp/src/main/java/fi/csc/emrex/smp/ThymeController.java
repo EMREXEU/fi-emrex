@@ -74,6 +74,7 @@ public class ThymeController {
         String firstName = request.getHeader("shib-givenName");
         model.addAttribute("name", firstName);
         context.getSession().setAttribute("sessionStartTime", LocalDateTime.now());
+
         return "smp";
     }
 

@@ -9,9 +9,6 @@ import org.junit.Test;
  */
 public class PDFGenTests extends TestCase {
 
-
-
-
     @Test
     public void testFinElmo() throws Exception {
         generatePdf("Example-elmo-complicated.xml", "/tmp/elmo-complicated.pdf");
