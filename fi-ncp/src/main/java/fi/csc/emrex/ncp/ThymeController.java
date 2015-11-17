@@ -80,7 +80,9 @@ public class ThymeController {
         statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
         statisticalLogLine += "\t" + finalParser.getCoursesCount();
         statisticalLogLine += "\t" + finalParser.getETCSCount();
+        statisticalLogLine += "\t" + finalParser.getHostInstitution();
         StatisticalLogger.log(statisticalLogLine);
+
 
         xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
 
@@ -172,6 +174,7 @@ public class ThymeController {
                     personalLogLine += "\t" + parser.getHostInstitution();
                     statisticalLogLine += "\t" + parser.getCoursesCount();
                     statisticalLogLine += "\t" + parser.getETCSCount();
+                    statisticalLogLine += "\t" + parser.getHostInstitution();
                 }
 
                 StatisticalLogger.log(statisticalLogLine);
