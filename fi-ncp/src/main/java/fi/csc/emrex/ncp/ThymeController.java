@@ -7,6 +7,7 @@ package fi.csc.emrex.ncp;
 
 import fi.csc.emrex.common.PdfGen;
 import fi.csc.emrex.common.PersonalLogger;
+import fi.csc.emrex.common.StatisticalLogger;
 import fi.csc.emrex.common.elmo.ElmoParser;
 import fi.csc.emrex.common.util.ShibbolethHeaderHandler;
 import fi.csc.emrex.ncp.virta.VirtaClient;
@@ -134,21 +135,33 @@ public class ThymeController {
                 String personalId = headerHandler.getPersonalID();
                 String elmoXML = virtaClient.fetchStudies(OID, personalId);
 
-                String logLine = customRequest.getSessionId();
-                logLine += "\t" + customRequest.getReturnUrl();
-                logLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
+                String personalLogLine = customRequest.getSessionId();
+                personalLogLine += "\t" + customRequest.getReturnUrl();
+                personalLogLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
+
+                String statisticalLogLine = customRequest.getSessionId();
+                statisticalLogLine += "\t" + customRequest.getReturnUrl();
+
 
                 if (elmoXML == null) {
                     context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
-                    logLine += "\t" + "not-available";
+                    personalLogLine += "\t" + "not-available";
+                    statisticalLogLine += "\t0\t0\tfi"; // zero courses, zero ects, from finland
                 } else {
                     context.getSession().setAttribute("returnCode", "NCP_OK");
                     ElmoParser parser = new ElmoParser(elmoXML);
-                    logLine += "\t" + parser.getHostInstitution();
+                    personalLogLine += "\t" + parser.getHostInstitution();
                     context.getSession().setAttribute("elmo", parser);
+
+                    statisticalLogLine += "\t" + parser.getCoursesCount();
+                    statisticalLogLine += "\t" + parser.getETCSCount();
+
+                    parser.getETCSCount();
                 }
 
-                PersonalLogger.log(logLine);
+                StatisticalLogger.log(statisticalLogLine);
+                PersonalLogger.log(personalLogLine);
+
             }
             return "norex";
 

@@ -74,6 +74,7 @@ public class JsonController {
                 log.trace("Course: {}", courses[i]);
             }
         }
+
         try {
 
             ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");

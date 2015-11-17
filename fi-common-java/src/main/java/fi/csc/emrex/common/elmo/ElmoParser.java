@@ -223,6 +223,28 @@ public class ElmoParser {
         return count;
     }
 
+    public int getCoursesCount() throws Exception{
+        int result = 0;
+        NodeList list = document.getElementsByTagName("report");
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        XPathExpression learningOpportunityExpression = xpath.compile("//learningOpportunitySpecification");
+        NodeList learningOpportunities = (NodeList) learningOpportunityExpression.evaluate(document, XPathConstants.NODESET);
+        for (int i = 0; i < learningOpportunities.getLength(); i++) {
+            String type = "undefined";
+            NodeList types = ((Element) learningOpportunities.item(i)).getElementsByTagName("type");
+            for (int j = 0; j < types.getLength(); j++) {
+                if (types.item(j).getParentNode() == learningOpportunities.item(i))
+                    type = types.item(j).getTextContent();
+            }
+
+            if (type.toLowerCase().equals("module")) {
+                result++;
+            }
+        }
+        return result;
+    }
+
+
     public String getHostInstitution() {
 
         String hostInstitution = "unknown";

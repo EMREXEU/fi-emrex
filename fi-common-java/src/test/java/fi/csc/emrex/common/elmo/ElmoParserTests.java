@@ -41,6 +41,13 @@ public class ElmoParserTests extends TestCase {
     }
 
     @Test
+    public void testCoursesCount() throws Exception {
+        String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
+        ElmoParser parser = new ElmoParser(elmo);
+        assertEquals(17, parser.getCoursesCount());
+    }
+
+    @Test
     public void testGetHostInstitution() throws Exception {
         String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
         ElmoParser parser = new ElmoParser(elmo);
