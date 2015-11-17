@@ -74,13 +74,6 @@ public class ThymeController {
 
         xmlString = getElmoXml(courses, parser);
 
-        xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
-
-        model.addAttribute("elmo", xmlString);
-        model.addAttribute("buttonText", "Confirm selection");
-        model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
-        model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
-
         ElmoParser finalParser = new ElmoParser(xmlString);
 
         String statisticalLogLine = (String)context.getSession().getAttribute("sessionId");
@@ -88,6 +81,15 @@ public class ThymeController {
         statisticalLogLine += "\t" + finalParser.getCoursesCount();
         statisticalLogLine += "\t" + finalParser.getETCSCount();
         StatisticalLogger.log(statisticalLogLine);
+
+        xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
+
+        model.addAttribute("elmo", xmlString);
+        model.addAttribute("buttonText", "Confirm selection");
+        model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
+        model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
+
+
 
         return "review";
     }
