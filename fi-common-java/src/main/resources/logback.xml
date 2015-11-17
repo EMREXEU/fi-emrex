@@ -1,0 +1,34 @@
+<configuration>
+
+    <appender name="STATISTICAL" class="ch.qos.logback.core.FileAppender">
+        <file>/emrex_logs/statistical.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="PERSONAL" class="ch.qos.logback.core.FileAppender">
+        <file>/emrex_logs/personal.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="fi.csc.emrex.common.PersonalLogger" additivity="false">
+        <appender-ref ref="PERSONAL" />
+    </logger>
+
+    <logger name="fi.csc.emrex.common.StatisticalLogger" additivity="false">
+        <appender-ref ref="STATISTICAL" />
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
