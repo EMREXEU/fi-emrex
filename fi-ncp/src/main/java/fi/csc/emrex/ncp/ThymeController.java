@@ -56,7 +56,6 @@ public class ThymeController {
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
                          Model model) throws Exception {
-        System.out.println("/review");
 
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
@@ -81,6 +80,15 @@ public class ThymeController {
         model.addAttribute("buttonText", "Confirm selection");
         model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
         model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
+
+        ElmoParser finalParser = new ElmoParser(xmlString);
+
+        String statisticalLogLine = (String)context.getSession().getAttribute("sessionId");
+        statisticalLogLine += "\t" + context.getSession().getAttribute("sessionId");
+        statisticalLogLine += "\t" + finalParser.getCoursesCount();
+        statisticalLogLine += "\t" + finalParser.getETCSCount();
+        StatisticalLogger.log(statisticalLogLine);
+
         return "review";
     }
 
@@ -150,7 +158,6 @@ public class ThymeController {
                 String statisticalLogLine = customRequest.getSessionId();
                 statisticalLogLine += "\t" + customRequest.getReturnUrl();
 
-
                 if (elmoXML == null) {
                     context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
                     personalLogLine += "\t" + "not-available";
@@ -158,13 +165,11 @@ public class ThymeController {
                 } else {
                     context.getSession().setAttribute("returnCode", "NCP_OK");
                     ElmoParser parser = new ElmoParser(elmoXML);
-                    personalLogLine += "\t" + parser.getHostInstitution();
                     context.getSession().setAttribute("elmo", parser);
 
+                    personalLogLine += "\t" + parser.getHostInstitution();
                     statisticalLogLine += "\t" + parser.getCoursesCount();
                     statisticalLogLine += "\t" + parser.getETCSCount();
-
-                    parser.getETCSCount();
                 }
 
                 StatisticalLogger.log(statisticalLogLine);
