@@ -14,12 +14,6 @@
         </encoder>
     </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%msg%n</pattern>
-        </encoder>
-    </appender>
-
     <logger name="fi.csc.emrex.common.PersonalLogger" additivity="false">
         <appender-ref ref="PERSONAL" />
     </logger>
