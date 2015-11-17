@@ -21,6 +21,7 @@ public class Person {
     private LocalDate birthDate;
     private DateTimeFormatter dateFormatter;
     private String homeOrganization;
+    private String homeOrganizationName;
     private String OID;
     private String SSN; //HETU
     private String heiOid;
@@ -63,6 +64,14 @@ public class Person {
 
     public void setHomeOrganization(String homeOrganization) {
         this.homeOrganization = homeOrganization;
+    }
+
+    public String getHomeOrganizationName() {
+        return homeOrganizationName;
+    }
+
+    public void setHomeOrganizationName(String homeOrganizationName) {
+        this.homeOrganizationName = homeOrganizationName;
     }
 
     public void setBirthDate(LocalDate birthDate) {
