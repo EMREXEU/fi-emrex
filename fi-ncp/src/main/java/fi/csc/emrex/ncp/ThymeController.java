@@ -56,6 +56,7 @@ public class ThymeController {
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
                          Model model) throws Exception {
+        System.out.println("/review");
 
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
@@ -129,11 +130,18 @@ public class ThymeController {
 
         try {
             if (context.getSession().getAttribute("elmo") == null) {
+                String elmoXML;
                 ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
                 log.debug(headerHandler.stringifyHeader());
                 String OID = headerHandler.getOID();
                 String personalId = headerHandler.getPersonalID();
-                String elmoXML = virtaClient.fetchStudies(OID, personalId);
+
+                if (OID == null && personalId == null) {
+                    //TODO delete 
+                    elmoXML = FiNcpApplication.getElmo();
+                } else {
+                    elmoXML = virtaClient.fetchStudies(OID, personalId);
+                }
 
                 String personalLogLine = customRequest.getSessionId();
                 personalLogLine += "\t" + customRequest.getReturnUrl();
@@ -170,11 +178,5 @@ public class ThymeController {
         }
         return "norex";
     }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test() {
-        return "test";
-    }
-
 
 }

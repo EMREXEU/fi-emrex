@@ -48,6 +48,9 @@ public class ShibbolethHeaderHandler {
     public String getHomeOrganization(){
         return request.getHeader("shib-SHIB_schacHomeOrganization");
     }
+      public String getHomeOrganizationName(){
+        return request.getHeader("shib-organization_name");
+    }
 
     public String getOID(){ return getLastPartOfHeader("shib-SHIB_funetEduPersonLearnerId", "[.]");  }
 
@@ -57,6 +60,7 @@ public class ShibbolethHeaderHandler {
         person.setLastName(getLastName());
         person.setBirthDate(getBirthDate(), "yyyyMMdd");
         person.setHomeOrganization(getHomeOrganization());
+        person.setHomeOrganizationName(getHomeOrganizationName());
         person.setOID(getOID());
         person.setHeiOid(getHeiOid());
         return person;
