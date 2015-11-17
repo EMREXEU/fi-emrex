@@ -25,7 +25,7 @@
         <br>
         <div class="custom-inline" ng-bind-html="review"/>
         <div class="custom-inline" ng-bind-html="abort"/>
-        <a href="/#/" class="custom-inline">Change selection</a>
+        <a href="/ncp/#/" class="custom-inline">Change selection</a>
         <div ng-repeat="learningReport in reports | filter:courseNumberfilter">
             <learning-report-directive report='learningReport' only-viewing=true level-filter='selectedLevel'
                                        type-filter='typeOptions'></learning-report-directive>
