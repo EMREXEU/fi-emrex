@@ -23,7 +23,11 @@ app.controller('home', function ($scope, $http, $window, $sce, helperService) {
             $scope.resultsImported = true;
         });
     }
-
+    
+    $scope.getTitle = function(learningReport) {
+        return helperService.getRightLanguage(learningReport.issuer.title);
+    }
+    
     $scope.abort = function () {
         $window.location.href = '/smp/abort';
     }
