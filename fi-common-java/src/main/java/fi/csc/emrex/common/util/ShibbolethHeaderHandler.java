@@ -1,10 +1,13 @@
 package fi.csc.emrex.common.util;
 
 import fi.csc.emrex.common.model.Person;
+import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * Created by jpentika on 28/10/15.
  */
@@ -34,22 +37,22 @@ public class ShibbolethHeaderHandler {
     }
 
     public String getFirstName(){
-        return request.getHeader("shib-givenName");
+        return toUTF8(request.getHeader("shib-givenName"));
     }
 
     public String getLastName(){
-        return request.getHeader("shib-sn");
+        return toUTF8(request.getHeader("shib-sn"));
     }
 
     public String getBirthDate(){
-        return request.getHeader("shib-SHIB_schacDateOfBirth");
+        return toUTF8(request.getHeader("shib-SHIB_schacDateOfBirth"));
     }
 
     public String getHomeOrganization(){
-        return request.getHeader("shib-SHIB_schacHomeOrganization");
+        return toUTF8(request.getHeader("shib-SHIB_schacHomeOrganization"));
     }
       public String getHomeOrganizationName(){
-        return request.getHeader("shib-organization_name");
+        return toUTF8(request.getHeader("shib-organization_name"));
     }
 
     public String getOID(){ return getLastPartOfHeader("shib-SHIB_funetEduPersonLearnerId", "[.]");  }
@@ -84,5 +87,15 @@ public class ShibbolethHeaderHandler {
         else
             return splittedHeader[splittedHeader.length - 1];
     }
-
+    
+    private String toUTF8(String text){
+        
+        try {
+            byte[] latin1 =text.getBytes("ISO-8859-1");
+            return new String(latin1,"UTF-8" );
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ShibbolethHeaderHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return text;
+        }
+    }
 }
