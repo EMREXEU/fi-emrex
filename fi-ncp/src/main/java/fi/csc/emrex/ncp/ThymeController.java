@@ -76,7 +76,7 @@ public class ThymeController {
 
         ElmoParser finalParser = new ElmoParser(xmlString);
 
-        String statisticalLogLine = (String)context.getSession().getAttribute("sessionId");
+        String statisticalLogLine = "NCP\t" + (String)context.getSession().getAttribute("sessionId");
         statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
         statisticalLogLine += "\t" + finalParser.getCoursesCount();
         statisticalLogLine += "\t" + finalParser.getETCSCount();
@@ -179,7 +179,6 @@ public class ThymeController {
 
                 StatisticalLogger.log(statisticalLogLine);
                 PersonalLogger.log(personalLogLine);
-
             }
             return "norex";
 
