@@ -110,7 +110,9 @@ public class ThymeController {
 
         String personalLogLine = person.getFullName();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
- //       personalLogLine += "\t" + ((LocalDateTime) context.getSession().getAttribute("sessionStartTime")).format(dateFormatter);
+        LocalDateTime startTime = (LocalDateTime) context.getSession().getAttribute("sessionStartTime");
+        if(startTime == null) { startTime = LocalDateTime.now();}
+        personalLogLine += "\t" + startTime.format(dateFormatter);
         personalLogLine += "\t" + httpRequest.getHeader("Referer");
         personalLogLine += "\t" + httpRequest.getParameter("returnCode");
 
@@ -172,8 +174,8 @@ public class ThymeController {
                 final InputSource inputSource = new InputSource();
                 inputSource.setEncoding(StandardCharsets.UTF_8.name());
                 inputSource.setCharacterStream(sr);
-                //person.setFirstName("test"); person.setLastName("user");
-                //person.setHomeOrganizationName("test institution");
+                person.setFirstName("test"); person.setLastName("user");
+                person.setHomeOrganizationName("test institution");
                 //Load and Parse the XML document
                 //document contains the complete XML as a Tree.
                 document = builder.parse(inputSource);
