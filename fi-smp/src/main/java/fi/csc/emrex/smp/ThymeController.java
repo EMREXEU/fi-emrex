@@ -108,7 +108,7 @@ public class ThymeController {
             context.getSession().setAttribute("shibPerson", person);
         }
 
-        String personalLogLine = person.getFullName();
+        String personalLogLine = "SMP\t" + person.getFullName();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime startTime = (LocalDateTime) context.getSession().getAttribute("sessionStartTime");
         if(startTime == null) { startTime = LocalDateTime.now();}

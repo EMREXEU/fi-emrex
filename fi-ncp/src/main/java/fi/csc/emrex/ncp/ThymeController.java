@@ -155,11 +155,11 @@ public class ThymeController {
                     elmoXML = virtaClient.fetchStudies(OID, personalId);
                 }
 
-                String personalLogLine = customRequest.getSessionId();
+                String personalLogLine = "NCP\t" + customRequest.getSessionId();
                 personalLogLine += "\t" + customRequest.getReturnUrl();
                 personalLogLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
 
-                String statisticalLogLine = customRequest.getSessionId();
+                String statisticalLogLine = "NCP\t" + customRequest.getSessionId();
                 statisticalLogLine += "\t" + customRequest.getReturnUrl();
 
                 if (elmoXML == null) {
