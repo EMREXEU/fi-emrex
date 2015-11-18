@@ -63,8 +63,8 @@
                         <legend>Completed</legend>
                         {{learningReport.numberOfCourses}} course have been imported for 
                         {{learningReport.verification.fullNameFromHomeInstitute|| "undefined"}} from 
-                        {{helperService.getRightLanguage(learningReport.issuer.title || "undefined")}} 
-                        to the {{learningReport.verification.homeInstitute|| "undefined"}}.
+                        {{helperService.getRightLanguage(learningReport.issuer.title) || "issuing institution"}} 
+                        to the {{learningReport.verification.homeInstitute|| "home institution"}}.
                     </fieldset>
                     <fieldset>
                         <legend style="background-color:orange;">Results imported</legend>
