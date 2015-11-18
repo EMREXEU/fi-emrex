@@ -99,12 +99,23 @@ public class ElmoParser {
     public void addPDFAttachment(byte[] pdf) {
         NodeList reports = document.getElementsByTagName("report");
         if (reports.getLength() > 0) {
+
+            //remove existing attachments to avoid duplicates
+            NodeList removeNodes = document.getElementsByTagName("attachment");
+            for (int i = 0; i < removeNodes.getLength(); i++) {
+                Node parent = removeNodes.item(i).getParentNode();
+                if (parent != null) {
+                    parent.removeChild(removeNodes.item(i));
+                }
+            }
+
+            // Add pdf attachment
             Element attachment = document.createElement("attachment");
             attachment.setAttribute("title", "Transcription of studies");
             attachment.setAttribute("contentType", "application/pdf");
             attachment.setAttribute("encoding", "base64");
             attachment.setTextContent(DatatypeConverter.printBase64Binary(pdf));
-            reports.item(0).appendChild(attachment);
+            reports.item(0).appendChild(attachment); // we assume that only one report exists
         }
     }
 

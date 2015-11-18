@@ -47,6 +47,7 @@ public class ElmoParserTests extends TestCase {
         assertEquals(17, parser.getCoursesCount());
     }
 
+
     @Test
     public void testGetHostInstitution() throws Exception {
         String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
@@ -76,6 +77,21 @@ public class ElmoParserTests extends TestCase {
         ElmoParser parser = new ElmoParser(elmo);
         parser.addPDFAttachment(pdf);
         byte[] readPdf = parser.getAttachedPDF();
+        assertArrayEquals(pdf, readPdf);
+    }
+
+    @Test
+    public void testAddPDFTwice() throws Exception
+    {
+        String elmo = TestUtil.getFileContent("Example-elmo-Finland.xml");
+        File pdfFile = TestUtil.getFile("elmo-finland.pdf");
+        byte[] pdf = IOUtils.toByteArray(new FileInputStream(pdfFile));
+        ElmoParser parser = new ElmoParser(elmo);
+        parser.addPDFAttachment(pdf);
+        parser.addPDFAttachment(pdf);
+        // next line throws an exception if there are several pdfs
+        byte[] readPdf = parser.getAttachedPDF();
+
         assertArrayEquals(pdf, readPdf);
     }
 
