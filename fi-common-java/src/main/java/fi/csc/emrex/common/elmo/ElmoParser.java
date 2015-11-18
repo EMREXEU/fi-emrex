@@ -86,6 +86,7 @@ public class ElmoParser {
 
     public byte[] getAttachedPDF() throws Exception {
         NodeList attachments = document.getElementsByTagName("attachment");
+        log.debug(attachments.getLength()+" attachments found");
         if (attachments.getLength() == 1) {
             NodeList childs = attachments.item(0).getChildNodes();
             if (childs.getLength() == 1) {

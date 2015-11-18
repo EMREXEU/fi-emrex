@@ -93,8 +93,8 @@ public class ShibbolethHeaderHandler {
         try {
             byte[] latin1 =text.getBytes("ISO-8859-1");
             return new String(latin1,"UTF-8" );
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ShibbolethHeaderHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException| NullPointerException ex) {
+            log.error(ex.getMessage());
             return text;
         }
     }
