@@ -72,7 +72,18 @@ public class ElmoParser {
                 identifier.setAttribute("type", "elmo");
                 identifier.setTextContent(String.valueOf(i));
                 Element e = (Element) learnings.item(i);
+                Node parent = e.getParentNode();
                 e.appendChild(identifier);
+            }
+            NodeList reports = document.getElementsByTagName("report");
+            for (int i=0; i<reports.getLength();i++){
+                Element report = (Element) reports.item(i);
+                NodeList learnings2 = report.getElementsByTagName("learningOpportunitySpecification");
+                for (int j = 0; j < learnings2.getLength(); j++) {
+                    Node course = learnings2.item(j);
+                    Node parent = course.getParentNode();
+                    report.appendChild(parent.removeChild(course));
+                }
             }
             document.normalizeDocument();
 
