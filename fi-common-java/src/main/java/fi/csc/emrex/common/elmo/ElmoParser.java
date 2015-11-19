@@ -42,8 +42,9 @@ import java.util.logging.Logger;
  * @author salum
  */
 public class ElmoParser {
+    
     final static org.slf4j.Logger log = LoggerFactory.getLogger(ElmoParser.class);
-
+    
     private Document document;
 
     /**
@@ -65,7 +66,8 @@ public class ElmoParser {
             //Load and Parse the XML document
             //document contains the complete XML as a Tree.
             document = builder.parse(s);
-
+            System.out.println("doc hasPart count: " + document.getElementsByTagName("hasPart").getLength()
+                    + " lOS count: " + document.getElementsByTagName("learningOpportunitySpecification").getLength());
             NodeList learnings = document.getElementsByTagName("learningOpportunitySpecification");
             for (int i = 0; i < learnings.getLength(); i++) {
                 Element identifier = document.createElement("identifier");
@@ -75,29 +77,27 @@ public class ElmoParser {
                 Node parent = e.getParentNode();
                 e.appendChild(identifier);
             }
-            NodeList reports = document.getElementsByTagName("report");
-            for (int i=0; i<reports.getLength();i++){
-                Element report = (Element) reports.item(i);
-                NodeList learnings2 = report.getElementsByTagName("learningOpportunitySpecification");
-                for (int j = 0; j < learnings2.getLength(); j++) {
-                    Node course = learnings2.item(j);
-                    Node parent = course.getParentNode();
-                    report.appendChild(parent.removeChild(course));
-                }
-            }
+            
+            System.out.println("doc hasPart count: " + document.getElementsByTagName("hasPart").getLength()
+                    + " lOS count: " + document.getElementsByTagName("learningOpportunitySpecification").getLength());
+            document = this.flattenLearningOpportunityHierarchy(document);
+            
             document.normalizeDocument();
+            System.out.println("parsedDoc hasPart count: " + document.getElementsByTagName("hasPart").getLength()
+                    + " lOS count: " + document.getElementsByTagName("learningOpportunitySpecification").getLength());
+            //System.out.println(this.getStringFromDoc(document));
 
         } catch (Exception ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
             log.error("Parsing of elmo failed", ex);
-
+            
         }
-
+        
     }
-
+    
     public byte[] getAttachedPDF() throws Exception {
         NodeList attachments = document.getElementsByTagName("attachment");
-        log.debug(attachments.getLength()+" attachments found");
+        log.debug(attachments.getLength() + " attachments found");
         if (attachments.getLength() == 1) {
             NodeList childs = attachments.item(0).getChildNodes();
             if (childs.getLength() == 1) {
@@ -106,8 +106,7 @@ public class ElmoParser {
         }
         throw new Exception("PDF not attached to xml");
     }
-
-
+    
     public void addPDFAttachment(byte[] pdf) {
         NodeList reports = document.getElementsByTagName("report");
         if (reports.getLength() > 0) {
@@ -155,11 +154,11 @@ public class ElmoParser {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         String copyElmo = this.getStringFromDoc(document);
         try {
-
+            
             StringReader sr = new StringReader(copyElmo);
             InputSource s = new InputSource(sr);
             Document doc = docBuilder.parse(s);
-
+            
             NodeList learnings = doc.getElementsByTagName("learningOpportunitySpecification");
             List<Node> removeNodes = new ArrayList<>();
             for (int i = 0; i < learnings.getLength(); i++) {
@@ -171,11 +170,11 @@ public class ElmoParser {
                         if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
                             String idContent = id.getTextContent();
                             boolean doesntContain = !courses.contains(idContent);
-
+                            
                             if (doesntContain) {
                                 removeNodes.add(specification);
                             }
-
+                            
                         }
                     }
                 }
@@ -184,11 +183,12 @@ public class ElmoParser {
                 Node parent = remove.getParentNode();
                 if (parent != null) {
                     Node parentsParent = parent.getParentNode();
-                    if (parentsParent != null)
+                    if (parentsParent != null) {
                         parentsParent.removeChild(parent);
+                    }
                 }
             }
-
+            
             NodeList reports = doc.getElementsByTagName("report");
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
@@ -199,16 +199,16 @@ public class ElmoParser {
                     report.getParentNode().removeChild(report);
                 }
             }
-
+            
             return getStringFromDoc(doc);
-
+            
         } catch (SAXException | IOException ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-
+            
         }
     }
-
+    
     public int getETCSCount() throws Exception {
         HashMap<String, Integer> result = new HashMap();
         NodeList list = document.getElementsByTagName("report");
@@ -219,34 +219,35 @@ public class ElmoParser {
             String type = "undefined";
             NodeList types = ((Element) learningOpportunities.item(i)).getElementsByTagName("type");
             for (int j = 0; j < types.getLength(); j++) {
-                if (types.item(j).getParentNode() == learningOpportunities.item(i))
+                if (types.item(j).getParentNode() == learningOpportunities.item(i)) {
                     type = types.item(j).getTextContent();
+                }
             }
-
+            
             Integer credits = 0;
-                  XPathExpression valueExpression = xpath.compile("credit/value");
-            String valueContent = ((Node)valueExpression.evaluate(learningOpportunities.item(i), XPathConstants.NODE)).getTextContent();
+            XPathExpression valueExpression = xpath.compile("credit/value");
+            String valueContent = ((Node) valueExpression.evaluate(learningOpportunities.item(i), XPathConstants.NODE)).getTextContent();
             credits = Integer.parseInt(valueContent);
-
+            
             if (result.containsKey(type)) {
                 credits += result.get(type);
                 result.replace(type, credits);
-            }
-            else
+            } else {
                 result.put(type, credits);
+            }
         }
 
         // lets take biggest number by type so same numbers are not counted several times
         int count = 0;
-        for(Map.Entry<String, Integer> entry : result.entrySet())
-        {
-            if (entry.getValue() > count)
+        for (Map.Entry<String, Integer> entry : result.entrySet()) {
+            if (entry.getValue() > count) {
                 count = entry.getValue().intValue();
+            }
         }
         return count;
     }
-
-    public int getCoursesCount() throws Exception{
+    
+    public int getCoursesCount() throws Exception {
         int result = 0;
         NodeList list = document.getElementsByTagName("report");
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -256,20 +257,20 @@ public class ElmoParser {
             String type = "undefined";
             NodeList types = ((Element) learningOpportunities.item(i)).getElementsByTagName("type");
             for (int j = 0; j < types.getLength(); j++) {
-                if (types.item(j).getParentNode() == learningOpportunities.item(i))
+                if (types.item(j).getParentNode() == learningOpportunities.item(i)) {
                     type = types.item(j).getTextContent();
+                }
             }
-
+            
             if (type.toLowerCase().equals("module")) {
                 result++;
             }
         }
         return result;
     }
-
-
+    
     public String getHostInstitution() {
-
+        
         String hostInstitution = "unknown";
         NodeList reports = document.getElementsByTagName("report");
         if (reports.getLength() == 1) {
@@ -280,19 +281,56 @@ public class ElmoParser {
                     Element title = (Element) titles.item(i);
                     String type = title.getAttribute("type").toLowerCase();
                     hostInstitution = titles.item(i).getTextContent();
-                    if (type == "erasmus")
+                    if (type == "erasmus") {
                         return hostInstitution;
+                    }
                 }
             }
         }
         return hostInstitution;
     }
-
+    
+    private Document flattenLearningOpportunityHierarchy(Document document) {
+        
+        NodeList reports = document.getElementsByTagName("report");
+        for (int k = 0; k < reports.getLength(); k++) {
+            Element report = (Element) reports.item(k);
+            List<Element> learnings2 = this.toElementList(report.getElementsByTagName("learningOpportunitySpecification"));
+            for (int j = 0; j < learnings2.size(); j++) {
+                Node course = learnings2.get(j);
+                Node parent = course.getParentNode();
+                //     Node parentsParent = parent.getParentNode();
+                //    parentsParent.removeChild(parent);
+                report.appendChild(parent.removeChild(course));
+                //  System.out.println(j);
+            }
+            //System.out.println("report learnings: " + learnings2.getLength());
+            List<Element>  hasParts = this.toElementList(report.getElementsByTagName("hasPart"));
+            for (int m = 0; m < hasParts.size(); m++) {
+                Node part = hasParts.get(m);
+                Node parent = part.getParentNode();
+                parent.removeChild(part).getTextContent();
+            }
+        }
+        return document;
+    }
+    
+    private List<Element> toElementList(NodeList nodeList) {
+        List<Element> list = new ArrayList<Element>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            try {
+                list.add((Element) nodeList.item(i));
+            } catch (ClassCastException cce) {
+                log.trace(cce.getMessage());
+            }
+        }
+        return list;
+    }
 
     private String getStringFromDoc(org.w3c.dom.Document doc) {
         DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
         LSSerializer lsSerializer = domImplementation.createLSSerializer();
-
+        
         LSOutput lsOutput = domImplementation.createLSOutput();
         lsOutput.setEncoding(StandardCharsets.UTF_8.name());
         Writer stringWriter = new StringWriter();
@@ -300,5 +338,5 @@ public class ElmoParser {
         lsSerializer.write(doc, lsOutput);
         return stringWriter.toString();
     }
-
+    
 }
