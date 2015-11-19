@@ -90,7 +90,7 @@ public class JsonController {
                 log.error("No selected courses");
                 xmlString = parser.getCourseData();
             }
-
+            log.debug(xmlString);
             JSONObject json = XML.toJSONObject(xmlString);
             return json.toString();
         } catch (Exception e) {

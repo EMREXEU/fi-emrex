@@ -78,8 +78,6 @@ public class ElmoParser {
                 e.appendChild(identifier);
             }
             
-            System.out.println("doc hasPart count: " + document.getElementsByTagName("hasPart").getLength()
-                    + " lOS count: " + document.getElementsByTagName("learningOpportunitySpecification").getLength());
             document = this.flattenLearningOpportunityHierarchy(document);
             
             document.normalizeDocument();
