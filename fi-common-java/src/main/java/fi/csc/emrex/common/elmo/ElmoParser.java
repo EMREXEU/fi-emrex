@@ -65,24 +65,25 @@ public class ElmoParser {
 
             //Load and Parse the XML document
             //document contains the complete XML as a Tree.
-            document = builder.parse(s);
-            System.out.println("doc hasPart count: " + document.getElementsByTagName("hasPart").getLength()
-                    + " lOS count: " + document.getElementsByTagName("learningOpportunitySpecification").getLength());
-            NodeList learnings = document.getElementsByTagName("learningOpportunitySpecification");
+            this.document = builder.parse(s);
+            System.out.println("doc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
+                    + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
+            NodeList learnings = this.document.getElementsByTagName("learningOpportunitySpecification");
             for (int i = 0; i < learnings.getLength(); i++) {
-                Element identifier = document.createElement("identifier");
+                Element identifier = this.document.createElement("identifier");
                 identifier.setAttribute("type", "elmo");
                 identifier.setTextContent(String.valueOf(i));
                 Element e = (Element) learnings.item(i);
-                Node parent = e.getParentNode();
+                //Node parent = e.getParentNode();
                 e.appendChild(identifier);
             }
             
-            document = this.flattenLearningOpportunityHierarchy(document);
+            this.document = this.flattenLearningOpportunityHierarchy(this.document);
             
-            document.normalizeDocument();
-            System.out.println("parsedDoc hasPart count: " + document.getElementsByTagName("hasPart").getLength()
-                    + " lOS count: " + document.getElementsByTagName("learningOpportunitySpecification").getLength());
+            this.document.normalizeDocument();
+            System.out.println("parsedDoc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
+                    + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
+            log.debug(this.getStringFromDoc(this.document));
             //System.out.println(this.getStringFromDoc(document));
 
         } catch (Exception ex) {
