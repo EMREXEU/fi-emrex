@@ -76,13 +76,9 @@ public class ThymeController {
 
         ElmoParser finalParser = new ElmoParser(xmlString);
 
-        String statisticalLogLine = "NCP\t" + (String)context.getSession().getAttribute("sessionId");
-        statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
-        statisticalLogLine += "\t" + finalParser.getCoursesCount();
-        statisticalLogLine += "\t" + finalParser.getETCSCount();
-        statisticalLogLine += "\t" + finalParser.getHostInstitution();
+        String source = "NCP";
+        String statisticalLogLine = generateStatisticalLogLine(finalParser, source);
         StatisticalLogger.log(statisticalLogLine);
-
 
         xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
 
@@ -90,8 +86,6 @@ public class ThymeController {
         model.addAttribute("buttonText", "Confirm selection");
         model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
         model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
-
-
 
         return "review";
     }
@@ -155,28 +149,21 @@ public class ThymeController {
                     elmoXML = virtaClient.fetchStudies(OID, personalId);
                 }
 
-                String personalLogLine = "NCP\t" + customRequest.getSessionId();
-                personalLogLine += "\t" + customRequest.getReturnUrl();
-                personalLogLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
 
-                String statisticalLogLine = "NCP\t" + customRequest.getSessionId();
-                statisticalLogLine += "\t" + customRequest.getReturnUrl();
-
+                ElmoParser parser = null;
                 if (elmoXML == null) {
                     context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
-                    personalLogLine += "\t" + "not-available";
-                    statisticalLogLine += "\t0\t0\tfi"; // zero courses, zero ects, from finland
+
                 } else {
                     context.getSession().setAttribute("returnCode", "NCP_OK");
-                    ElmoParser parser = new ElmoParser(elmoXML);
+                    parser = new ElmoParser(elmoXML);
                     context.getSession().setAttribute("elmo", parser);
 
-                    personalLogLine += "\t" + parser.getHostInstitution();
-                    statisticalLogLine += "\t" + parser.getCoursesCount();
-                    statisticalLogLine += "\t" + parser.getETCSCount();
-                    statisticalLogLine += "\t" + parser.getHostInstitution();
-                }
 
+                }
+                String personalLogLine = generatePersonalLogLine(customRequest, headerHandler, parser);
+
+                String statisticalLogLine = generateStatisticalLogLine(parser, "NCP");
                 StatisticalLogger.log(statisticalLogLine);
                 PersonalLogger.log(personalLogLine);
             }
@@ -186,6 +173,29 @@ public class ThymeController {
             log.error("Elmo was null and fetching elmo failed somehow.", e);
         }
         return "norex";
+    }
+
+    private String generatePersonalLogLine(@ModelAttribute CustomRequest customRequest, ShibbolethHeaderHandler headerHandler, ElmoParser parser) {
+        String personalLogLine = "NCP\t" + customRequest.getSessionId();
+        personalLogLine += "\t" + customRequest.getReturnUrl();
+        personalLogLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
+        if (parser == null)
+            personalLogLine += "\t" + "not-available";
+        else
+            personalLogLine += "\t" + parser.getHostInstitution();
+        return personalLogLine;
+    }
+
+    private String generateStatisticalLogLine(ElmoParser parser, String source) throws Exception {
+        String statisticalLogLine = source + "\t" + context.getSession().getAttribute("sessionId");
+        statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
+        if (parser != null) {
+            statisticalLogLine += "\t" + parser.getCoursesCount();
+            statisticalLogLine += "\t" + parser.getETCSCount();
+            statisticalLogLine += "\t" + parser.getHostInstitution();
+        } else
+            statisticalLogLine += "\t0\t0\tfi"; // zero courses, zero ects, from finland
+        return statisticalLogLine;
     }
 
 }

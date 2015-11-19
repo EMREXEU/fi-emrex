@@ -41,6 +41,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +49,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author salum
  */
 @Controller
@@ -108,13 +108,8 @@ public class ThymeController {
             context.getSession().setAttribute("shibPerson", person);
         }
 
-        String personalLogLine = "SMP\t" + person.getFullName();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime startTime = (LocalDateTime) context.getSession().getAttribute("sessionStartTime");
-        if(startTime == null) { startTime = LocalDateTime.now();}
-        personalLogLine += "\t" + startTime.format(dateFormatter);
-        personalLogLine += "\t" + httpRequest.getHeader("Referer");
-        personalLogLine += "\t" + httpRequest.getParameter("returnCode");
+        String source = "SMP";
+        String personalLogLine = generatePersonalLogLine(httpRequest, person, source);
 
         if (elmo == null) {
             return abort(model);
@@ -217,6 +212,27 @@ public class ThymeController {
         return "review";
     }
 
+    private String generatePersonalLogLine(HttpServletRequest httpRequest, Person person, String source) throws Exception {
+        String personalLogLine = source + "\t" + person.getFullName();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startTime = (LocalDateTime) context.getSession().getAttribute("sessionStartTime");
+        if (startTime == null) {
+            startTime = LocalDateTime.now();
+        }
+        personalLogLine += "\t" + startTime.format(dateFormatter);
+
+        String url = httpRequest.getHeader("Referer");
+        String NCPDomain = "";
+        if (url != null) {
+            URI uri = new URI(url);
+            NCPDomain = uri.getHost();
+        }
+
+        personalLogLine += "\t" + NCPDomain;
+        personalLogLine += "\t" + httpRequest.getParameter("returnCode");
+        return personalLogLine;
+    }
+
     // FIXME serti jostain muualta
     private String getCertificate() {
         return "-----BEGIN CERTIFICATE-----\n"
@@ -280,7 +296,7 @@ public class ThymeController {
         return sw.toString();
     }
 
-    private String getLinkToPolishQuestionnaire() throws Exception{
+    private String getLinkToPolishQuestionnaire() throws Exception {
         QuestionnaireLinkBuilder linkBuilder = new QuestionnaireLinkBuilder();
         linkBuilder.setContext(context);
         return linkBuilder.buildLink();
