@@ -45,6 +45,8 @@
         </encoder>
     </appender>
 
+    <logger name="fi.csc.emrex" level="DEBUG" />
+
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
