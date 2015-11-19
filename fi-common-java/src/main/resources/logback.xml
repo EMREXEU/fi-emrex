@@ -1,3 +1,4 @@
+<!-- Example for working logging configuration for production
 <configuration>
 
     <appender name="STATISTICAL" class="ch.qos.logback.core.FileAppender">
@@ -35,3 +36,4 @@
     </root>
 
 </configuration>
+-->
