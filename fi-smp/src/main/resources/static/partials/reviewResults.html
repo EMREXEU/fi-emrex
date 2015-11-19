@@ -9,10 +9,8 @@
         <br>
     </div>
 
-
     <div ng-hide="resultsImported">
         <div ng-repeat="learningReport in reports| filter:courseNumberfilter">
-            <div>{{learningReport.verification.score}}</div>
 
             <div class="pure-g">
                 <div class="pure-u-1-2">
@@ -49,6 +47,7 @@
                 </div>
             </div>
             <div class="pure-u-1-1">
+                If you’d like a copy of the imported results, <a href="/smp/elmo">please open and save the PDF</a> to your own device.
                 <learning-report-directive report='learningReport' only-viewing=true level-filter='selectedLevel'
                                            type-filter='typeOptions'></learning-report-directive>
             </div>
@@ -87,11 +86,6 @@
 
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="pure-g">
-        <div class="pure-u-1-1">
-            <a href="/smp/elmo">Download Pdf</a>
         </div>
     </div>
 </div>
