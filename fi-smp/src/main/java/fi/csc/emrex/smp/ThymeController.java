@@ -150,7 +150,7 @@ public class ThymeController {
 
         log.info("Returned elmo XML " + decodedXml);
         context.getSession().setAttribute("elmoxmlstring", decodedXml);
-        ElmoParser parser = new ElmoParser(decodedXml);
+        ElmoParser parser = ElmoParser.elmoParser(decodedXml);
         byte[] pdf = parser.getAttachedPDF();
         context.getSession().setAttribute("pdf", pdf);
 

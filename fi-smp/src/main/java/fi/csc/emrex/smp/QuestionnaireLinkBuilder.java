@@ -29,7 +29,7 @@ public class QuestionnaireLinkBuilder {
 
         if (decodedXml != null) {
             try {
-                ElmoParser parser = new ElmoParser(decodedXml);
+                ElmoParser parser = ElmoParser.elmoParser(decodedXml);
                 hostInstitution = parser.getHostInstitution();
                 ectsImported = Integer.toString(parser.getETCSCount());
             } catch (Exception ex) {

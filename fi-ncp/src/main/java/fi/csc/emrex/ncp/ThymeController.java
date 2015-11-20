@@ -74,7 +74,7 @@ public class ThymeController {
 
         xmlString = getElmoXml(courses, parser);
 
-        ElmoParser finalParser = new ElmoParser(xmlString);
+        ElmoParser finalParser = ElmoParser.elmoParser(xmlString);
 
         String source = "NCP";
         String statisticalLogLine = generateStatisticalLogLine(finalParser, source);
@@ -156,7 +156,7 @@ public class ThymeController {
 
                 } else {
                     context.getSession().setAttribute("returnCode", "NCP_OK");
-                    parser = new ElmoParser(elmoXML);
+                    parser = ElmoParser.elmoParserFromVirta(elmoXML);
                     context.getSession().setAttribute("elmo", parser);
 
 
