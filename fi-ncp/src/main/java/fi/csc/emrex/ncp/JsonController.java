@@ -58,13 +58,6 @@ public class JsonController {
     @RequestMapping(value = "/ncp/api/elmo", method = RequestMethod.GET)
     @ResponseBody
     public String npcGetElmoJSON(@RequestParam(value = "courses", required = false) String[] courses) throws Exception {
-        if (courses != null) {
-            log.debug("Courses.length= {}", courses.length);
-            for (int i = 0; i < courses.length; i++) {
-                log.trace("Course {} ", courses[i]);
-
-            }
-        }
         return this.getElmoJSON(courses);
     }
 
@@ -74,7 +67,7 @@ public class JsonController {
             @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
         if (courses != null) {
             for (int i = 0; i < courses.length; i++) {
-                log.trace("Course: {}", courses[i]);
+                log.info("Course: {}", courses[i]);
             }
         }
 
@@ -90,7 +83,7 @@ public class JsonController {
                 log.error("No selected courses");
                 xmlString = parser.getCourseData();
             }
-            log.debug(xmlString);
+            log.trace(xmlString);
             JSONObject json = XML.toJSONObject(xmlString);
             return json.toString();
         } catch (Exception e) {

@@ -66,8 +66,9 @@ public class ElmoParser {
 
         }
     }
+
     /**
-     * Creates a dom model of elmo xml 
+     * Creates a dom model of elmo xml
      *
      * @param elmo
      */
@@ -76,8 +77,8 @@ public class ElmoParser {
     }
 
     /**
-     * Creates a dom model of elmo xml and adds elmo identifiers to courses
-     * and flattens the learning opportunity specification hierarchy
+     * Creates a dom model of elmo xml and adds elmo identifiers to courses and
+     * flattens the learning opportunity specification hierarchy
      *
      * @param elmo
      */
@@ -90,7 +91,6 @@ public class ElmoParser {
         return parser;
 
     }
-
 
     public byte[] getAttachedPDF() throws Exception {
         NodeList attachments = document.getElementsByTagName("attachment");
@@ -170,6 +170,9 @@ public class ElmoParser {
 
                             if (doesntContain) {
                                 removeNodes.add(specification);
+                                log.debug("removed courseid " + idContent);
+                            } else {
+                                log.debug("found courseid " + idContent);
                             }
 
                         }
@@ -179,9 +182,13 @@ public class ElmoParser {
             for (Node remove : removeNodes) {
                 Node parent = remove.getParentNode();
                 if (parent != null) {
-                    Node parentsParent = parent.getParentNode();
-                    if (parentsParent != null) {
-                        parentsParent.removeChild(parent);
+                    if ("hasPart".equals(parent.getLocalName())) {
+                        Node parentsParent = parent.getParentNode();
+                        if (parentsParent != null) {
+                            parentsParent.removeChild(parent);
+                        }
+                    } else {
+                        parent.removeChild(remove);
                     }
                 }
             }
@@ -288,7 +295,7 @@ public class ElmoParser {
         }
         return hostInstitution;
     }
-    
+
     private void addElmoIdentifiers() {
         NodeList learnings = this.document.getElementsByTagName("learningOpportunitySpecification");
         for (int i = 0; i < learnings.getLength(); i++) {
@@ -303,7 +310,7 @@ public class ElmoParser {
 
     private void flattenLearningOpportunityHierarchy() {
     //    System.out.println("doc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
-    //            + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
+        //            + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
         NodeList reports = this.document.getElementsByTagName("report");
         for (int k = 0; k < reports.getLength(); k++) {
             Element report = (Element) reports.item(k);
@@ -325,7 +332,7 @@ public class ElmoParser {
             }
         }
     //    System.out.println("flattened hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
-    //            + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
+        //            + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
     }
 
     private List<Element> toElementList(NodeList nodeList) {
