@@ -23,11 +23,11 @@ import java.util.logging.Logger;
 @Slf4j
 public class InstitutionDataWriter {
 
-
     private String dirMap;
     private String pdfBaseDir;
     private Person user;
     private String verificationScore;
+    private boolean verified;
 
     public InstitutionDataWriter(Person user) {
         this.user = user;
@@ -53,12 +53,16 @@ public class InstitutionDataWriter {
         filename += Normalizer.normalize(name, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         filename += user.getHeiOid() + "_";
         filename += new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date()) + "_";
-        filename += verificationScore + "_";
+        if (verified) {
+            filename += "verified_";
+        } else {
+            filename += "unverified_";
+        }
         log.debug("Generated filename: " + filename);
         return filename;
     }
 
-    private void createPath()    {
+    private void createPath() {
         String path = generatePath();
         log.debug("Generated path:" + path);
         new File(path).mkdirs();
@@ -72,13 +76,14 @@ public class InstitutionDataWriter {
             File jsonfile = new File(dirMap);
             log.debug("JSON file location: " + jsonfile.getAbsolutePath());
             String json = FileUtils.readFileToString(jsonfile, "UTF-8");
-            JSONObject root = (JSONObject)JSONValue.parse(json);
+            JSONObject root = (JSONObject) JSONValue.parse(json);
 
             String home = (String) root.get(user.getHomeOrganization());
-            if (home != null)
+            if (home != null) {
                 dirname += home;
-            else
+            } else {
                 dirname += "unknown_organization";
+            }
 
         } catch (Exception ex) {
             Logger.getLogger(JsonController.class.getName()).log(Level.SEVERE, null, ex);

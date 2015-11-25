@@ -11,7 +11,9 @@ import org.apache.commons.lang.StringUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class VerificationReply {
 
     private String sessionId;
@@ -112,11 +114,15 @@ public class VerificationReply {
         int match = 0;
         LocalDate vbd = firstPerson.getBirthDate();
         LocalDate ebd = otherPerson.getBirthDate();
-
+        String message = "";
         if (ebd == null || vbd == null) {
-            r.addMessage("Birthdate not set for " + (ebd == null ? "elmo" : "local") + " person.");
+            message = "Birthdate not set for " + (ebd == null ? "elmo" : "local") + " person.";
+            r.addMessage(message);
+            log.info(message);
         } else if (!ebd.equals(vbd)) {
-            r.addMessage("Birthdate does not match.");
+            message = "Birthdate does not match.";
+            r.addMessage(message);
+            log.info(message);
 
         } else {
             bdMatch = true;

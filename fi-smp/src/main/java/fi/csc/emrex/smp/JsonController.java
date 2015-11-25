@@ -5,7 +5,6 @@
  */
 package fi.csc.emrex.smp;
 
-
 import fi.csc.emrex.common.model.Person;
 import fi.csc.emrex.smp.model.Link;
 import fi.csc.emrex.smp.model.VerifiedReport;
@@ -22,11 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author salum
  */
+@Slf4j
 @Controller
 public class JsonController {
 
@@ -111,7 +111,6 @@ public class JsonController {
         return (List<VerifiedReport>) this.context.getSession().getAttribute("reports");
     }
 
-
     @RequestMapping("/smp/api/questionnaire")
     @ResponseBody
     public Link smpQuestionnaireLink() {
@@ -138,10 +137,17 @@ public class JsonController {
     @ResponseBody
     public void store() throws Exception {
         Person user = (Person) context.getSession().getAttribute("shibPerson");
-
+        boolean verified = false;
+        try {
+            List<VerifiedReport> results = (List<VerifiedReport>) context.getSession().getAttribute("reports");
+            verified = results.get(0).getVerification().isVerified();
+        } catch (ClassCastException | IndexOutOfBoundsException | NullPointerException e) {
+            log.debug(e.getMessage());
+        }
         byte[] bytePDF = (byte[]) context.getSession().getAttribute("pdf");
         byte[] elmoXml = ((String) context.getSession().getAttribute("elmoxmlstring")).getBytes("UTF-8");
         InstitutionDataWriter institutionDataWriter = new InstitutionDataWriter(user);
+        institutionDataWriter.setVerified(true);
         institutionDataWriter.setDirMap(dirMap);
         institutionDataWriter.setPdfBaseDir(pdfBaseDir);
         institutionDataWriter.writeDataToInstitutionFolder(bytePDF, ".pdf");
