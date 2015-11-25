@@ -28,14 +28,19 @@
                         <div class="custom-inline" ng-show="learningReport.numberOfCourses != 1"> courses.</div>
                         <p>
 
-
-                        <p ng-show="learningReport.verification.score > verificationLimit">
+                        <p ng-show="learningReport.verification.nameVerified == false">
                             The name of the of the person you are trying to import as,
                             {{learningReport.verification.fullNameFromHomeInstitute|| "undefined"}}, 
                             and the name of the person your are trying to import from,
-                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match. 
-                            You will still be able to import your results but not use them until
-                            they have been reviewed. </p>
+                            <b>{{learningReport.verification.fullNameInElmo}}</b>, doesn´t match.  
+                        </p>
+                        <p ng-show="learningReport.verification.bDayVerified == false">
+                            Due to mismatch between your birthday information from Haka  and in course report
+                            your identity is not verified. 
+                        </p>
+                         <p ng-show="learningReport.verification.verified == false">   You will still be able to import 
+                            your results but not use them until they have been reviewed. 
+                         </p>
 
 
                         Please review your selection below and approve it to import the courses to your home university
@@ -71,13 +76,11 @@
                             The results you selected have been imported.
                         </p>
 
-                        <p>
-                            Due to a mismatch in names between the person importing, 
-                            {{learningReport.verification.fullNameFromHomeInstitute|| "undefined"}}, and the person the
-                            results were imported from, {{learningReport.verification.fullNameInElmo|| "undefined"}},
-                            the results have to be reviewed before they can be used.
+                        <p ng-show="learningReport.verification.verified == false">
+                            Due to mismatch between your information from Haka  and in course report
+                            your identity is not verified. You will not be able
+                            use your results until they have been reviewed. 
                         </p>
-
                         <p>
                             Please contact the admissions office at your university for more information.
                         </p>

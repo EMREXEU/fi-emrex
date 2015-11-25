@@ -18,7 +18,9 @@ public class VerificationReply {
 
     private int score;
 
-    private boolean verified;
+    private boolean nameVerified;
+
+    private boolean bDayVerified;
 
     private String fullNameInElmo;
 
@@ -60,36 +62,41 @@ public class VerificationReply {
         return sessionId;
     }
 
-
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
-
 
     public int getScore() {
         return score;
     }
 
-
     public void setScore(int score) {
         this.score = score;
     }
 
-
     public boolean isVerified() {
-        return verified;
+        return nameVerified && bDayVerified;
     }
 
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
+    public boolean isNameVerified() {
+        return nameVerified;
     }
 
+    public void setNameVerified(boolean nameVerified) {
+        this.nameVerified = nameVerified;
+    }
+
+    public boolean isbDayVerified() {
+        return bDayVerified;
+    }
+
+    public void setbDayVerified(boolean bDayVerified) {
+        this.bDayVerified = bDayVerified;
+    }
 
     public List<String> getMessages() {
         return messages;
     }
-
 
     public void addMessage(String msg) {
         messages.add(msg);
@@ -117,7 +124,14 @@ public class VerificationReply {
         double score = 0;
         score += levenshteinDistance(firstPerson.getLastName(), otherPerson.getLastName());
         score += levenshteinDistance(firstPerson.getFirstName(), otherPerson.getFirstName());
-        double ratio = StringUtils.isNotBlank(firstPerson.getFullName()) ? score / firstPerson.getFullName().length() : 0.0;
+        double length = 0;
+        String fullname = firstPerson.getFullName();
+        if (fullname != null) {
+            length = fullname.length();
+        } else {
+            length = 1;
+        }
+        double ratio = score / length;
         r.addMessage("Error ratio " + ratio + " based on Levenshtein check on name.");
         if (ratio > threshold) {
             r.addMessage("Ratio over threshold " + threshold);
@@ -125,7 +139,8 @@ public class VerificationReply {
             nameMatch = true;
         }
 
-        r.setVerified(bdMatch && nameMatch);
+        r.setNameVerified(nameMatch);
+        r.setbDayVerified(bdMatch);
 
         return r;
     }
