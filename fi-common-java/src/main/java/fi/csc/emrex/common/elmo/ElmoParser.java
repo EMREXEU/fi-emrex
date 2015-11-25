@@ -170,9 +170,9 @@ public class ElmoParser {
 
                             if (doesntContain) {
                                 removeNodes.add(specification);
-                                log.debug("removed courseid " + idContent);
+                                log.trace("removed courseid " + idContent);
                             } else {
-                                log.debug("found courseid " + idContent);
+                                log.trace("found courseid " + idContent);
                             }
 
                         }

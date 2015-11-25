@@ -7,6 +7,7 @@ package fi.csc.emrex.common.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 /**
@@ -83,7 +84,12 @@ public class Person {
         if (birthDate == null || dateFormat == null) {
             this.birthDate = null;
         } else {
-            this.birthDate = LocalDate.parse(birthDate, dateFormatter);
+            try{
+                this.birthDate = LocalDate.parse(birthDate, dateFormatter);
+            }catch( DateTimeParseException e){
+                this.birthDate=null;
+                log.debug(e.getMessage());
+            }
         }
     }
 

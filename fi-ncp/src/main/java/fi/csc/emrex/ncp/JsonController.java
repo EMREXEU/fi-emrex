@@ -66,9 +66,11 @@ public class JsonController {
     public String getElmoJSON(
             @RequestParam(value = "courses", required = false) String[] courses) throws Exception {
         if (courses != null) {
+            String courseIdList="";
             for (int i = 0; i < courses.length; i++) {
-                log.info("Course: {}", courses[i]);
+                courseIdList+= courses[i]+", ";
             }
+            log.info("Courses: "+ courseIdList);
         }
 
         try {
