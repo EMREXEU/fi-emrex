@@ -114,6 +114,7 @@ public class VerificationReply {
         int match = 0;
         LocalDate vbd = firstPerson.getBirthDate();
         LocalDate ebd = otherPerson.getBirthDate();
+       
         String message = "";
         if (ebd == null || vbd == null) {
             message = "Birthdate not set for " + (ebd == null ? "elmo" : "local") + " person.";
@@ -123,6 +124,7 @@ public class VerificationReply {
             message = "Birthdate does not match.";
             r.addMessage(message);
             log.info(message);
+            log.info("haka bday "+vbd.toString() + "elmo bday:"+ ebd.toString());
 
         } else {
             bdMatch = true;
