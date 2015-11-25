@@ -8,12 +8,14 @@ package fi.csc.emrex.common.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
  *
  * @author salum
  */
+@Slf4j
 public class Person {
 
     private String firstName;
