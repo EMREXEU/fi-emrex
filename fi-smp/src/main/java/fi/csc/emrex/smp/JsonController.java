@@ -146,10 +146,10 @@ public class JsonController {
         }
         byte[] bytePDF = (byte[]) context.getSession().getAttribute("pdf");
         byte[] elmoXml = ((String) context.getSession().getAttribute("elmoxmlstring")).getBytes("UTF-8");
-        InstitutionDataWriter institutionDataWriter = new InstitutionDataWriter(user);
+        InstitutionDataWriter institutionDataWriter = new InstitutionDataWriter(user, dirMap, pdfBaseDir);
         institutionDataWriter.setVerified(true);
-        institutionDataWriter.setDirMap(dirMap);
-        institutionDataWriter.setPdfBaseDir(pdfBaseDir);
+        //institutionDataWriter.setDirMap(dirMap);
+        //institutionDataWriter.setPdfBaseDir(pdfBaseDir);
         institutionDataWriter.writeDataToInstitutionFolder(bytePDF, ".pdf");
         institutionDataWriter.writeDataToInstitutionFolder(elmoXml, ".xml");
     }

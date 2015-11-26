@@ -1,3 +1,10 @@
 {
-  "blaablaa.fi": "testFolderFor/Blaablaa"
+    "blaablaa.fi": {
+        "path": "testFolderFor/Blaablaa",
+        "email": "test@example.com",
+        "key": "verypublickey"
+    },
+    "example.com": {
+        "path": "testFolderFor/example"
+    }
 }

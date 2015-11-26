@@ -15,10 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Created by jpentika on 02/11/15.
  */
+@Getter
 @Setter
 @Slf4j
 public class InstitutionDataWriter {
@@ -28,18 +31,41 @@ public class InstitutionDataWriter {
     private Person user;
     private String verificationScore;
     private boolean verified;
+    private String email;
+    private String key;
 
-    public InstitutionDataWriter(Person user) {
+    private String filename;
+
+    @Value("${smp.email.body.file}")
+    private String emailBodyFile;
+    private String emailBody;
+    @Value("${smp.email.topic}")
+    private String emailTopic;
+
+    private String path;
+
+    /**
+     * public InstitutionDataWriter(Person user) { this.user = user; this.email
+     * = null; this.key = null; this.path = this.generatePath(); }
+     */
+    InstitutionDataWriter(Person user, String dirMap, String pdfBaseDir) {
         this.user = user;
+        this.email = null;
+        this.key = null;
+
+        this.dirMap = dirMap;
+        this.pdfBaseDir = pdfBaseDir;
+        this.generatePath();
     }
 
     public void writeDataToInstitutionFolder(byte[] bytePDF, String fileType) {
         createPath();
         writeToFile(bytePDF, fileType);
+
     }
 
     private void writeToFile(byte[] bytePDF, String fileType) {
-        try (FileOutputStream fos = new FileOutputStream(generatePath() + "/" + generateFileName() + fileType)) {
+        try (FileOutputStream fos = new FileOutputStream(this.path + "/" + generateFileName() + fileType)) {
             fos.write(bytePDF);
         } catch (IOException ioe) {
             Logger.getLogger(JsonController.class.getName()).log(Level.SEVERE, null, ioe);
@@ -63,12 +89,12 @@ public class InstitutionDataWriter {
     }
 
     private void createPath() {
-        String path = generatePath();
-        log.debug("Generated path:" + path);
+        //String path = generatePath();
+        log.debug("Generated path:" + this.path);
         new File(path).mkdirs();
     }
 
-    private String generatePath() {
+    private void generatePath() {
         String dirname = this.pdfBaseDir;
         log.debug("map file: " + dirMap);
         try {
@@ -78,9 +104,17 @@ public class InstitutionDataWriter {
             String json = FileUtils.readFileToString(jsonfile, "UTF-8");
             JSONObject root = (JSONObject) JSONValue.parse(json);
 
-            String home = (String) root.get(user.getHomeOrganization());
+            JSONObject home = (JSONObject) root.get(user.getHomeOrganization());
             if (home != null) {
-                dirname += home;
+                System.out.println(home);
+                this.email = (String) home.get("email");
+                this.key = (String) home.get("key");
+                String path = (String) home.get("path");
+                if (path != null) {
+                    dirname += path;
+                } else {
+                    dirname += "unknown_organization";
+                }
             } else {
                 dirname += "unknown_organization";
             }
@@ -88,6 +122,10 @@ public class InstitutionDataWriter {
         } catch (Exception ex) {
             Logger.getLogger(JsonController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return dirname;
+        this.path = dirname;
+    }
+
+    private void sendMail() {
+
     }
 }
