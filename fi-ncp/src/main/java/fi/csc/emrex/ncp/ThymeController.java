@@ -31,7 +31,7 @@ import java.util.List;
  * @author salum
  */
 @EnableAutoConfiguration(exclude = {
-        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+    org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
 })
 @Controller
 @Slf4j
@@ -49,13 +49,13 @@ public class ThymeController {
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
     public String ncpReview(@RequestParam(value = "courses", required = false) String[] courses,
-                            Model model) throws Exception {
+            Model model) throws Exception {
         return this.review(courses, model);
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String review(@RequestParam(value = "courses", required = false) String[] courses,
-                         Model model) throws Exception {
+            Model model) throws Exception {
 
         model.addAttribute("sessionId", context.getSession().getAttribute("sessionId"));
         model.addAttribute("returnUrl", context.getSession().getAttribute("returnUrl"));
@@ -81,10 +81,15 @@ public class ThymeController {
         StatisticalLogger.log(statisticalLogLine);
 
         xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
-
-        model.addAttribute("elmo", xmlString);
+        if (courses != null) {
+            model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
+            model.addAttribute("elmo", xmlString);
+        } else {
+            model.addAttribute("returnCode", "NCP_NO_RESULTS");
+            model.addAttribute("elmo", null);
+        }
         model.addAttribute("buttonText", "Confirm selection");
-        model.addAttribute("returnCode", context.getSession().getAttribute("returnCode"));
+
         model.addAttribute("buttonClass", "pure-button custom-go-button custom-inline");
 
         return "review";
@@ -92,12 +97,13 @@ public class ThymeController {
 
     private String getElmoXml(@RequestParam(value = "courses", required = false) String[] courses, ElmoParser parser) throws ParserConfigurationException {
         String xmlString;
-        if (courses != null && courses.length > 0) {
+        if (courses != null) {
             List<String> courseList = Arrays.asList(courses);
             xmlString = parser.getCourseData(courseList);
         } else {
-            xmlString = parser.getCourseData();
+            xmlString = parser.getCourseData(null);
         }
+
         return xmlString;
     }
 
@@ -149,7 +155,6 @@ public class ThymeController {
                     elmoXML = virtaClient.fetchStudies(OID, personalId);
                 }
 
-
                 ElmoParser parser = null;
                 if (elmoXML == null) {
                     context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
@@ -158,7 +163,6 @@ public class ThymeController {
                     context.getSession().setAttribute("returnCode", "NCP_OK");
                     parser = ElmoParser.elmoParserFromVirta(elmoXML);
                     context.getSession().setAttribute("elmo", parser);
-
 
                 }
                 String personalLogLine = generatePersonalLogLine(customRequest, headerHandler, parser);
@@ -179,10 +183,11 @@ public class ThymeController {
         String personalLogLine = "NCP\t" + customRequest.getSessionId();
         personalLogLine += "\t" + customRequest.getReturnUrl();
         personalLogLine += "\t" + headerHandler.getFirstName() + " " + headerHandler.getLastName();
-        if (parser == null)
+        if (parser == null) {
             personalLogLine += "\t" + "not-available";
-        else
+        } else {
             personalLogLine += "\t" + parser.getHostInstitution();
+        }
         return personalLogLine;
     }
 
@@ -193,8 +198,9 @@ public class ThymeController {
             statisticalLogLine += "\t" + parser.getCoursesCount();
             statisticalLogLine += "\t" + parser.getETCSCount();
             statisticalLogLine += "\t" + parser.getHostInstitution();
-        } else
+        } else {
             statisticalLogLine += "\t0\t0\tfi"; // zero courses, zero ects, from finland
+        }
         return statisticalLogLine;
     }
 

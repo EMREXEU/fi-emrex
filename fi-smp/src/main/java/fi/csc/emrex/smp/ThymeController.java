@@ -112,6 +112,7 @@ public class ThymeController {
         String personalLogLine = generatePersonalLogLine(httpRequest, person, source);
 
         if (elmo == null) {
+            PersonalLogger.log(personalLogLine + "\tfailed");
             return abort(model);
         }
 

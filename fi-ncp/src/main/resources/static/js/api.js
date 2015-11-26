@@ -3,7 +3,7 @@ angular.module('api', [])
 
         var getElmoAll = function() {
             var deferred = $q.defer();
-            $http.get('/ncp/api/elmo/').success(function (response) {
+            $http.get('/ncp/api/fullelmo').success(function (response) {
                 var reports = helperService.fixReports(response.elmo.report);
                 deferred.resolve(reports);
             }).error(function (error) {

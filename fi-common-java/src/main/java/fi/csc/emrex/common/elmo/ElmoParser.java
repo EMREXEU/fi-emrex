@@ -166,8 +166,12 @@ public class ElmoParser {
                     if (id.getParentNode() == specification) {
                         if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
                             String idContent = id.getTextContent();
-                            boolean doesntContain = !courses.contains(idContent);
-
+                            boolean doesntContain;
+                            if (courses == null) {
+                                doesntContain = true;
+                            } else {
+                                doesntContain = !courses.contains(idContent);
+                            }
                             if (doesntContain) {
                                 removeNodes.add(specification);
                                 log.trace("removed courseid " + idContent);
@@ -309,7 +313,7 @@ public class ElmoParser {
     }
 
     private void flattenLearningOpportunityHierarchy() {
-    //    System.out.println("doc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
+        //    System.out.println("doc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
         //            + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
         NodeList reports = this.document.getElementsByTagName("report");
         for (int k = 0; k < reports.getLength(); k++) {
@@ -331,7 +335,7 @@ public class ElmoParser {
                 parent.removeChild(part).getTextContent();
             }
         }
-    //    System.out.println("flattened hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
+        //    System.out.println("flattened hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
         //            + " lOS count: " + this.document.getElementsByTagName("learningOpportunitySpecification").getLength());
     }
 
