@@ -49,7 +49,7 @@ public class QuestionnaireLinkBuilder {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String link = "https://ankieter.mimuw.edu.pl/surveys/79/?session_id=" + sessionId;
+        String link = "https://ankieter.mimuw.edu.pl/en/surveys/79/?session_id=" + sessionId;
         link += "&home_institution=" + homeOrganization;
         link += "&home_country=" + "fi";
         link += "&host_institution=" + hostInstitution;
