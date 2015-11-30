@@ -150,7 +150,7 @@ public class JsonController {
         institutionDataWriter.setVerified(true);
         //institutionDataWriter.setDirMap(dirMap);
         //institutionDataWriter.setPdfBaseDir(pdfBaseDir);
-        institutionDataWriter.writeDataToInstitutionFolder(bytePDF, ".pdf");
-        institutionDataWriter.writeDataToInstitutionFolder(elmoXml, ".xml");
+        institutionDataWriter.writeData(bytePDF, elmoXml);
+
     }
 }

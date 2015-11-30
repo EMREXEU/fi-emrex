@@ -12,10 +12,35 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.mail.Message;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.Session;
+
+import com.sun.mail.smtp.SMTPTransport;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
+
 import lombok.Getter;
+import org.bouncycastle.openpgp.PGPException;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -41,8 +66,15 @@ public class InstitutionDataWriter {
     private String emailBody;
     @Value("${smp.email.topic}")
     private String emailTopic;
+    @Value("${smp.email.host}")
+    private String emailHost;
+    @Value("${smp.email.sender}")
+    private String emailSender = "no-reply@emrex01.csc.fi";
 
     private String path;
+
+    private List<String> files;
+    private PGPEncryptor pgp;
 
     /**
      * public InstitutionDataWriter(Person user) { this.user = user; this.email
@@ -56,6 +88,8 @@ public class InstitutionDataWriter {
         this.dirMap = dirMap;
         this.pdfBaseDir = pdfBaseDir;
         this.generatePath();
+        this.files = new ArrayList<>();
+        this.pgp = new PGPEncryptor();
     }
 
     public void writeDataToInstitutionFolder(byte[] bytePDF, String fileType) {
@@ -64,9 +98,19 @@ public class InstitutionDataWriter {
 
     }
 
+    void writeData(byte[] bytePDF, byte[] elmoXml) {
+        this.writeDataToInstitutionFolder(bytePDF, ".pdf");
+        this.writeDataToInstitutionFolder(elmoXml, ".xml");
+        if (this.email != null && this.key != null) {
+            this.createMail(email, key);
+        }
+    }
+
     private void writeToFile(byte[] bytePDF, String fileType) {
-        try (FileOutputStream fos = new FileOutputStream(this.path + "/" + generateFileName() + fileType)) {
+        String filename = this.path + "/" + generateFileName() + fileType;
+        try (FileOutputStream fos = new FileOutputStream(filename)) {
             fos.write(bytePDF);
+            this.files.add(filename);
         } catch (IOException ioe) {
             Logger.getLogger(JsonController.class.getName()).log(Level.SEVERE, null, ioe);
             ioe.printStackTrace();
@@ -125,7 +169,63 @@ public class InstitutionDataWriter {
         this.path = dirname;
     }
 
-    private void sendMail() {
+    private void createMail(String email, String Key) {
 
+        // Get system properties
+        Properties properties = System.getProperties();
+
+        // Setup mail server
+        properties.setProperty("mail.smtp.host", this.emailHost);
+
+        // Get the default Session object.
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(this.emailSender));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject(this.emailTopic);
+
+            BodyPart messageBodyPart = new MimeBodyPart();
+            Multipart multipart = new MimeMultipart();
+            messageBodyPart.setText(this.emailBody);
+            multipart.addBodyPart(messageBodyPart);
+            for (String filename : this.files) {
+                File inFile =new File(filename);
+                String cryptFile=filename +".asc";
+                File outFile = new File(cryptFile);
+                messageBodyPart = new MimeBodyPart();
+                this.pgp.encryptFile(inFile,new File(this.key), outFile , true);
+                DataSource source = new FileDataSource(cryptFile);
+ 
+              
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(filename);
+                multipart.addBodyPart(messageBodyPart);
+            }
+
+            // Send the complete message parts
+    
+            message.setContent(multipart);
+
+            // Send message
+            SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
+            /**
+             * t.connect(this.emailHost, username, password);
+             * t.sendMessage(message, message.getAllRecipients()); t.close();
+             */
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PGPException ex) {
+            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
 }
