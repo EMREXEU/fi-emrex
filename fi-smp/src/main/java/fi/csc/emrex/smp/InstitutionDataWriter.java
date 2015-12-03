@@ -67,7 +67,7 @@ public class InstitutionDataWriter {
     @Value("${smp.email.topic}")
     private String emailTopic;
     @Value("${smp.email.host}")
-    private String emailHost;
+    private String emailHost = "mailtrap.io";
     @Value("${smp.email.sender}")
     private String emailSender = "no-reply@emrex01.csc.fi";
 
@@ -101,8 +101,9 @@ public class InstitutionDataWriter {
     void writeData(byte[] bytePDF, byte[] elmoXml) {
         this.writeDataToInstitutionFolder(bytePDF, ".pdf");
         this.writeDataToInstitutionFolder(elmoXml, ".xml");
+        log.debug("Created files");
         if (this.email != null && this.key != null) {
-            this.createMail(email, key);
+            this.createMail();
         }
     }
 
@@ -169,14 +170,18 @@ public class InstitutionDataWriter {
         this.path = dirname;
     }
 
-    private void createMail(String email, String Key) {
-
+    private void createMail() {
+        log.debug("Sending Mail");
         // Get system properties
-        Properties properties = System.getProperties();
+        Properties properties = new Properties();//System.getProperties();
 
         // Setup mail server
-        properties.setProperty("mail.smtp.host", this.emailHost);
-
+        properties.setProperty("mail.smtp.host", "mailtrap.io");
+        properties.setProperty("mail.smtp.port", "2525");
+        properties.setProperty("mail.smtp.user", "51654912ca3888833");
+        properties.setProperty("mail.smtp.pass", "8b80f0550205cd");
+        properties.setProperty("mail.smtp.auth", "true");
+        //TODO set props
         // Get the default Session object.
         Session session = Session.getDefaultInstance(properties);
 
@@ -184,37 +189,42 @@ public class InstitutionDataWriter {
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(this.emailSender));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
             message.setSubject(this.emailTopic);
-
+            this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), "UTF-8");
             BodyPart messageBodyPart = new MimeBodyPart();
             Multipart multipart = new MimeMultipart();
             messageBodyPart.setText(this.emailBody);
             multipart.addBodyPart(messageBodyPart);
             for (String filename : this.files) {
-                File inFile =new File(filename);
-                String cryptFile=filename +".asc";
+                log.debug("endcrypting " + filename);
+                File inFile = new File(filename);
+                String cryptFile = filename + ".sec";
                 File outFile = new File(cryptFile);
                 messageBodyPart = new MimeBodyPart();
-                this.pgp.encryptFile(inFile,new File(this.key), outFile , true);
+                this.pgp.encryptFile(inFile, new File(this.key), outFile, true);
                 DataSource source = new FileDataSource(cryptFile);
- 
-              
+
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(filename);
+                messageBodyPart.setFileName(cryptFile);
                 multipart.addBodyPart(messageBodyPart);
+                log.debug("encrypted" + cryptFile);
             }
 
             // Send the complete message parts
-    
             message.setContent(multipart);
 
             // Send message
-            SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
-            /**
-             * t.connect(this.emailHost, username, password);
-             * t.sendMessage(message, message.getAllRecipients()); t.close();
-             */
+            SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
+
+            t.setStartTLS(true);
+            t.connect("mailtrap.io", 2525, "51654912ca3888833", "8b80f0550205cd");
+            if (t.isConnected()) {
+                log.debug("connected");
+            }
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+
         } catch (MessagingException mex) {
             mex.printStackTrace();
         } catch (IOException ex) {
@@ -228,4 +238,16 @@ public class InstitutionDataWriter {
         }
     }
 
+    
+    public MimeMessage encrypt(Session session, MimeMessage mimeMessage, InternetAddress recipient) throws Exception {
+      // get the PGP EncryptionUtilities
+      EncryptionUtils pgpUtils = EncryptionManager.getEncryptionUtils(EncryptionManager.PGP);
+      // load the PGP keystore from the given file.
+      EncryptionKeyManager pgpKeyMgr = pgpUtils.createKeyManager();
+      pgpKeyMgr.loadPublicKeystore(new FileInputStream(new File(SystemData.getWatchDogConfig() + "test.asc")), null);
+      // get the PGP public key for encryption
+      java.security.Key pgpKey = pgpKeyMgr.getPublicKey((String) pgpKeyMgr.publicKeyAliases().iterator().next());
+      // encrypt the message
+      return pgpUtils.encryptMessage(session, mimeMessage, pgpKey);
+   }
 }

@@ -18,16 +18,19 @@ public class PDFWriterTests extends TestCase {
 
     private InstitutionDataWriter institutionDataWriter;
     private InstitutionDataWriter institutionDataWriter2;
+    private InstitutionDataWriter institutionDataWriter3;
 
     private static String pdfBaseDir = "/tmp/";
-    private static String mapFile = "test_dirmap.json";
+    private static String mapFile = "/shared/test_dirmap.json";
     private static String institutionDir1 = "testFolderFor";
     private static String institutionDir2 = "Blaablaa";
     private static String institutionDir3 = "example";
+
     @Before
     public void setup() {
         File resourcesDirectory = new File("src/test/resources");
         String resourcePath = resourcesDirectory.getAbsolutePath();
+        //mapFile = resourcePath + "/" + mapFile;
 
         Person user;
         user = new Person();
@@ -36,7 +39,7 @@ public class PDFWriterTests extends TestCase {
         user.setLastName("lastName");
         user.setHomeOrganization("blaablaa.fi");
 
-        institutionDataWriter = new InstitutionDataWriter(user, resourcePath + "/" + mapFile, pdfBaseDir);
+        institutionDataWriter = new InstitutionDataWriter(user, mapFile, pdfBaseDir);
         //institutionDataWriter.setPdfBaseDir(pdfBaseDir);
         //institutionDataWriter.setDirMap(resourcePath + "/" + mapFile);
 
@@ -47,9 +50,22 @@ public class PDFWriterTests extends TestCase {
         user2.setLastName("lastName2");
         user2.setHomeOrganization("example.com");
 
-        institutionDataWriter2 = new InstitutionDataWriter(user2, resourcePath + "/" + mapFile, pdfBaseDir);
+        institutionDataWriter2 = new InstitutionDataWriter(user2, mapFile, pdfBaseDir);
         //institutionDataWriter2.setPdfBaseDir(pdfBaseDir);
         //institutionDataWriter2.setDirMap(resourcePath + "/" + mapFile);
+
+        Person user3;
+        user3 = new Person();
+        user3.setHeiOid("HEIOID");
+        user3.setFirstName("firstName");
+        user3.setLastName("lastName");
+        user3.setHomeOrganization("blaablaa.fi");
+
+        institutionDataWriter3 = new InstitutionDataWriter(user3, mapFile, pdfBaseDir);
+        institutionDataWriter3.setEmailHost("smtp.gmail.com");
+        institutionDataWriter3.setEmailTopic("emrex testmail");
+        institutionDataWriter3.setEmailBodyFile(resourcePath + "/emailbody.txt");
+
     }
 
     @Before
@@ -57,7 +73,7 @@ public class PDFWriterTests extends TestCase {
         deleteFolder(new File(pdfBaseDir + institutionDir1 + "/" + institutionDir2));
         deleteFolder(new File(pdfBaseDir + institutionDir1 + "/" + institutionDir3));
         new File(pdfBaseDir + institutionDir1).delete();
-        
+
     }
 
     @Test
@@ -79,11 +95,12 @@ public class PDFWriterTests extends TestCase {
             fail("Write data to institution folder failed. " + ex.getMessage());
         }
         assertEquals(data, content);
-        assertEquals("test@example.com", institutionDataWriter.getEmail());
-        assertEquals("verypublickey", institutionDataWriter.getKey());
+        //assertEquals("test@example.com", institutionDataWriter.getEmail());
+        //assertEquals("verypublickey", institutionDataWriter.getKey());
+        deleteFolder(contentDir);
     }
 
-        @Test
+    @Test
     public void testWriteFile2() throws Exception {
         String data = "justTesting";
         byte[] testData = data.getBytes("UTF-8");
@@ -92,7 +109,7 @@ public class PDFWriterTests extends TestCase {
         File contentDir = new File(pdfBaseDir + institutionDir1 + "/" + institutionDir3);
         File[] files = contentDir.listFiles();
         String content = "";
-        
+
         //assertEquals(1, files.length);
         try {
             for (File f : files) {
@@ -103,8 +120,34 @@ public class PDFWriterTests extends TestCase {
             fail("Write data to institution folder failed. " + ex.getMessage());
         }
         //assertEquals(data, content);
-         assertNull(institutionDataWriter2.getEmail());
+        assertNull(institutionDataWriter2.getEmail());
+         deleteFolder(contentDir);
     }
+
+    @Test
+    public void testWriteFile3() throws Exception {
+        String data = "justTesting";
+        byte[] testData = data.getBytes("UTF-8");
+
+        institutionDataWriter3.writeData(testData, testData);
+        File contentDir = new File(pdfBaseDir + institutionDir1 + "/" + institutionDir2);
+        File[] files = contentDir.listFiles();
+        String content = "";
+        assertEquals(4, files.length);
+        try {
+            for (File f : files) {
+                content = FileUtils.readFileToString(f);
+            }
+
+        } catch (Exception ex) {
+            fail("Write data to institution folder failed. " + ex.getMessage());
+        }
+        //assertEquals(data, content);
+        //assertEquals("test@example.com", institutionDataWriter.getEmail());
+        //assertEquals("verypublickey", institutionDataWriter.getKey());
+         deleteFolder(contentDir);
+    }
+
     private static void deleteFolder(File folder) {
         File[] files = folder.listFiles();
         if (files != null) {
