@@ -238,16 +238,16 @@ public class InstitutionDataWriter {
         }
     }
 
-    
-    public MimeMessage encrypt(Session session, MimeMessage mimeMessage, InternetAddress recipient) throws Exception {
-      // get the PGP EncryptionUtilities
-      EncryptionUtils pgpUtils = EncryptionManager.getEncryptionUtils(EncryptionManager.PGP);
-      // load the PGP keystore from the given file.
-      EncryptionKeyManager pgpKeyMgr = pgpUtils.createKeyManager();
-      pgpKeyMgr.loadPublicKeystore(new FileInputStream(new File(SystemData.getWatchDogConfig() + "test.asc")), null);
-      // get the PGP public key for encryption
-      java.security.Key pgpKey = pgpKeyMgr.getPublicKey((String) pgpKeyMgr.publicKeyAliases().iterator().next());
-      // encrypt the message
-      return pgpUtils.encryptMessage(session, mimeMessage, pgpKey);
-   }
+// test using     http://javamail-crypto.sourceforge.net/
+//    public MimeMessage encrypt(Session session, MimeMessage mimeMessage, InternetAddress recipient) throws Exception {
+//      // get the PGP EncryptionUtilities
+//      EncryptionUtils pgpUtils = EncryptionManager.getEncryptionUtils(EncryptionManager.PGP);
+//      // load the PGP keystore from the given file.
+//      EncryptionKeyManager pgpKeyMgr = pgpUtils.createKeyManager();
+//      pgpKeyMgr.loadPublicKeystore(new FileInputStream(new File(SystemData.getWatchDogConfig() + "test.asc")), null);
+//      // get the PGP public key for encryption
+//      java.security.Key pgpKey = pgpKeyMgr.getPublicKey((String) pgpKeyMgr.publicKeyAliases().iterator().next());
+//      // encrypt the message
+//      return pgpUtils.encryptMessage(session, mimeMessage, pgpKey);
+//   }
 }
