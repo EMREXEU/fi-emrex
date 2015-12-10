@@ -22,7 +22,7 @@ public class PDFWriterTests extends TestCase {
     private InstitutionDataWriter institutionDataWriter3;
 
     private static String pdfBaseDir = "/tmp/";
-    private static String mapFile = "/shared/test_dirmap.json";
+    private static String mapFile = "src/test/resources/test_dirmap.json";
     private static String institutionDir1 = "testFolderFor";
     private static String institutionDir2 = "Blaablaa";
     private static String institutionDir3 = "example";

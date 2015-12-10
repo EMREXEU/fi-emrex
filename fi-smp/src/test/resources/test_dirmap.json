@@ -1,8 +1,8 @@
 {
     "blaablaa.fi": {
         "path": "testFolderFor/Blaablaa",
-        "email": "test@example.com",
-        "key": "verypublickey"
+        "email": "malach.bagheera@gmail.com",
+        "key":"src/test/resources//Salum_Abdul-Rahman_pub.asc"
     },
     "example.com": {
         "path": "testFolderFor/example"
