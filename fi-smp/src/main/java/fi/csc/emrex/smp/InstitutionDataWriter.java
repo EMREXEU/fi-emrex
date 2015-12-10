@@ -1,5 +1,6 @@
 package fi.csc.emrex.smp;
 
+import fi.csc.emrex.smp.openpgp.PGPEncryptor;
 import fi.csc.emrex.common.model.Person;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.Session;
 
 import com.sun.mail.smtp.SMTPTransport;
+
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
@@ -41,6 +44,7 @@ import javax.mail.internet.MimeMultipart;
 
 import lombok.Getter;
 import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPPublicKey;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -66,8 +70,8 @@ public class InstitutionDataWriter {
     private String emailBody;
     @Value("${smp.email.topic}")
     private String emailTopic;
-    @Value("${smp.email.host}")
-    private String emailHost = "mailtrap.io";
+    //@Value("${smp.email.host}")
+    //private String emailHost = "mailtrap.io";
     @Value("${smp.email.sender}")
     private String emailSender = "no-reply@emrex01.csc.fi";
 
@@ -84,7 +88,7 @@ public class InstitutionDataWriter {
         this.user = user;
         this.email = null;
         this.key = null;
-
+        this.filename = null;
         this.dirMap = dirMap;
         this.pdfBaseDir = pdfBaseDir;
         this.generatePath();
@@ -108,10 +112,11 @@ public class InstitutionDataWriter {
     }
 
     private void writeToFile(byte[] bytePDF, String fileType) {
-        String filename = this.path + "/" + generateFileName() + fileType;
-        try (FileOutputStream fos = new FileOutputStream(filename)) {
+        this.filename = generateFileName();
+        String tempfilename = this.path + "/" + this.filename + fileType;
+        try (FileOutputStream fos = new FileOutputStream(tempfilename)) {
             fos.write(bytePDF);
-            this.files.add(filename);
+            this.files.add(tempfilename);
         } catch (IOException ioe) {
             Logger.getLogger(JsonController.class.getName()).log(Level.SEVERE, null, ioe);
             ioe.printStackTrace();
@@ -173,15 +178,8 @@ public class InstitutionDataWriter {
     private void createMail() {
         log.debug("Sending Mail");
         // Get system properties
-        Properties properties = new Properties();//System.getProperties();
+        Properties properties = System.getProperties();
 
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", "mailtrap.io");
-        properties.setProperty("mail.smtp.port", "2525");
-        properties.setProperty("mail.smtp.user", "51654912ca3888833");
-        properties.setProperty("mail.smtp.pass", "8b80f0550205cd");
-        properties.setProperty("mail.smtp.auth", "true");
-        //TODO set props
         // Get the default Session object.
         Session session = Session.getDefaultInstance(properties);
 
@@ -196,29 +194,50 @@ public class InstitutionDataWriter {
             Multipart multipart = new MimeMultipart();
             messageBodyPart.setText(this.emailBody);
             multipart.addBodyPart(messageBodyPart);
-            for (String filename : this.files) {
-                log.debug("endcrypting " + filename);
-                File inFile = new File(filename);
-                String cryptFile = filename + ".sec";
-                File outFile = new File(cryptFile);
+            for (String tempFileName : this.files) {
+
+                File inFile = new File(tempFileName);
+
                 messageBodyPart = new MimeBodyPart();
-                this.pgp.encryptFile(inFile, new File(this.key), outFile, true);
-                DataSource source = new FileDataSource(cryptFile);
+
+                DataSource source = new FileDataSource(inFile);
 
                 messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(cryptFile);
+                messageBodyPart.setFileName(tempFileName);
                 multipart.addBodyPart(messageBodyPart);
-                log.debug("encrypted" + cryptFile);
+                log.debug("icnluded" + tempFileName);
             }
+            String mailFileName = this.path + "/" + this.filename + ".eml";
+            File mailFile = new File(mailFileName);
+            FileOutputStream mfOutStream = new FileOutputStream(mailFile);
+            multipart.writeTo(mfOutStream);
+            mfOutStream.flush();
+            mfOutStream.close();
+            ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
+            this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
 
             // Send the complete message parts
-            message.setContent(multipart);
+            message.setContent(mailContentStream.toString(), "application/pgp-encrypted");
 
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
 
             t.setStartTLS(true);
-            t.connect("mailtrap.io", 2525, "51654912ca3888833", "8b80f0550205cd");
+
+            if ("true".equals(properties.getProperty("mail.smtp.auth"))) {
+                System.out.println(properties.getProperty("mail.smtp.host") + ", "
+                        + properties.getProperty("mail.smtp.port") + ", "
+                        + properties.getProperty("mail.smtp.user") + ", "
+                        + properties.getProperty("mail.smtp.pass"));
+                t.connect(
+                        properties.getProperty("mail.smtp.host"),
+                        Integer.parseInt(properties.getProperty("mail.smtp.port")),
+                        properties.getProperty("mail.smtp.user"),
+                        properties.getProperty("mail.smtp.pass")
+                );
+            } else {
+                t.connect();
+            }
             if (t.isConnected()) {
                 log.debug("connected");
             }
@@ -231,23 +250,11 @@ public class InstitutionDataWriter {
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PGPException ex) {
+            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-// test using     http://javamail-crypto.sourceforge.net/
-//    public MimeMessage encrypt(Session session, MimeMessage mimeMessage, InternetAddress recipient) throws Exception {
-//      // get the PGP EncryptionUtilities
-//      EncryptionUtils pgpUtils = EncryptionManager.getEncryptionUtils(EncryptionManager.PGP);
-//      // load the PGP keystore from the given file.
-//      EncryptionKeyManager pgpKeyMgr = pgpUtils.createKeyManager();
-//      pgpKeyMgr.loadPublicKeystore(new FileInputStream(new File(SystemData.getWatchDogConfig() + "test.asc")), null);
-//      // get the PGP public key for encryption
-//      java.security.Key pgpKey = pgpKeyMgr.getPublicKey((String) pgpKeyMgr.publicKeyAliases().iterator().next());
-//      // encrypt the message
-//      return pgpUtils.encryptMessage(session, mimeMessage, pgpKey);
-//   }
 }

@@ -1,9 +1,9 @@
-package fi.csc.emrex.smp;
+package fi.csc.emrex.smp.openpgp;
 
 /**
- * PGP Encryptor for encryption of files
- *   source https://katariakapil.wordpress.com/2009/08/22/pgp-encryption-bouncycastle-openpgp/
-* 1) Download the dependent JARS
+ * PGP Encryptor for encryption of files source
+ * https://katariakapil.wordpress.com/2009/08/22/pgp-encryption-bouncycastle-openpgp/
+ * 1) Download the dependent JARS
  * http://www.bouncycastle.org/download/bcprov-jdk14-122.jar
  * http://www.bouncycastle.org/download/bcpg-jdk14-122.jar 2) Should have a
  * key/pair
@@ -106,10 +106,11 @@ public class PGPEncryptor {
             }
         }
     }
-        public OutputStream encryptFileToStream(File inFile, File keyFile, File outFile, boolean isArmoredOutput) throws IOException,
+
+    public void encryptFileToStream(File inFile, File keyFile, OutputStream out, boolean isArmoredOutput) throws IOException,
             NoSuchProviderException, NoSuchAlgorithmException, PGPException {
 
-        OutputStream out = null;
+        //OutputStream out = null;
         OutputStream cOut = null;
         PGPCompressedDataGenerator comData = null;
 
@@ -133,7 +134,7 @@ public class PGPEncryptor {
             );
 
 // init output stream
-            out = new FileOutputStream(outFile);
+            //out = new FileOutputStream(outFile);
             if (isArmoredOutput) {
                 out = new ArmoredOutputStream(out);
             }
@@ -154,15 +155,15 @@ public class PGPEncryptor {
             }
             if (cOut != null) {
                 cOut.close();
-            }
+            }/*
             if (out != null) {
                 return out;
-                
+
             }
             return null;
+                    */
         }
     }
-
 
     public boolean validateEncryptionKey(File keyFile) throws IOException, PGPException {
 

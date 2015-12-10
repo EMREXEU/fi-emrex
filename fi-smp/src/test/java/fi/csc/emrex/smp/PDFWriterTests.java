@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.File;
+import java.util.Properties;
 
 /**
  * Created by jpentika on 02/11/15.
@@ -62,10 +63,17 @@ public class PDFWriterTests extends TestCase {
         user3.setHomeOrganization("blaablaa.fi");
 
         institutionDataWriter3 = new InstitutionDataWriter(user3, mapFile, pdfBaseDir);
-        institutionDataWriter3.setEmailHost("smtp.gmail.com");
+        //institutionDataWriter3.setEmailHost("smtp.gmail.com");
         institutionDataWriter3.setEmailTopic("emrex testmail");
         institutionDataWriter3.setEmailBodyFile(resourcePath + "/emailbody.txt");
 
+                // Setup mail server
+        Properties properties =  System.getProperties();
+        properties.setProperty("mail.smtp.host", "mailtrap.io");
+        properties.setProperty("mail.smtp.port", "2525");
+        properties.setProperty("mail.smtp.user", "51654912ca3888833");
+        properties.setProperty("mail.smtp.pass", "8b80f0550205cd");
+        properties.setProperty("mail.smtp.auth", "true");
     }
 
     @Before
@@ -133,7 +141,7 @@ public class PDFWriterTests extends TestCase {
         File contentDir = new File(pdfBaseDir + institutionDir1 + "/" + institutionDir2);
         File[] files = contentDir.listFiles();
         String content = "";
-        assertEquals(4, files.length);
+        assertEquals(3, files.length);
         try {
             for (File f : files) {
                 content = FileUtils.readFileToString(f);
