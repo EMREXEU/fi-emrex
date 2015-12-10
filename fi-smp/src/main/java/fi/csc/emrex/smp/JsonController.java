@@ -42,6 +42,9 @@ public class JsonController {
     @Value("${smp.university.base.directory}")
     String pdfBaseDir;
 
+    @Value("${smp.email.body.file}")
+    private String emailBodyFile;
+
     @Autowired
     private HttpServletRequest context;
 
@@ -148,6 +151,7 @@ public class JsonController {
         byte[] elmoXml = ((String) context.getSession().getAttribute("elmoxmlstring")).getBytes("UTF-8");
         InstitutionDataWriter institutionDataWriter = new InstitutionDataWriter(user, dirMap, pdfBaseDir);
         institutionDataWriter.setVerified(true);
+        institutionDataWriter.setEmailBodyFile(this.emailBodyFile);
         //institutionDataWriter.setDirMap(dirMap);
         //institutionDataWriter.setPdfBaseDir(pdfBaseDir);
         institutionDataWriter.writeData(bytePDF, elmoXml);

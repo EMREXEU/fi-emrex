@@ -64,8 +64,6 @@ public class InstitutionDataWriter {
     private String key;
 
     private String filename;
-
-    @Value("${smp.email.body.file}")
     private String emailBodyFile;
     private String emailBody;
     @Value("${smp.email.topic}")
