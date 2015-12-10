@@ -74,9 +74,7 @@ public class InstitutionDataWriter {
     //private String emailHost = "mailtrap.io";
     @Value("${smp.email.sender}")
     private String emailSender = "no-reply@emrex01.csc.fi";
-
     private String path;
-
     private List<String> files;
     private PGPEncryptor pgp;
 
@@ -189,6 +187,7 @@ public class InstitutionDataWriter {
             message.setFrom(new InternetAddress(this.emailSender));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
             message.setSubject(this.emailTopic);
+            log.debug("this.emailBodyFile): " +this.emailBodyFile);
             this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), "UTF-8");
             BodyPart messageBodyPart = new MimeBodyPart();
             Multipart multipart = new MimeMultipart();
