@@ -69,7 +69,7 @@ public class InstitutionDataWriter {
     private String emailBodyFile;
     private String emailBody;
     @Value("${smp.email.topic}")
-    private String emailTopic;
+    private String emailTopic = "Emrex import";
     //@Value("${smp.email.host}")
     //private String emailHost = "mailtrap.io";
     @Value("${smp.email.sender}")
@@ -187,7 +187,7 @@ public class InstitutionDataWriter {
             message.setFrom(new InternetAddress(this.emailSender));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
             message.setSubject(this.emailTopic);
-            log.debug("this.emailBodyFile): " +this.emailBodyFile);
+            log.debug("this.emailBodyFile: " +this.emailBodyFile);
             this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), "UTF-8");
             BodyPart messageBodyPart = new MimeBodyPart();
             Multipart multipart = new MimeMultipart();
