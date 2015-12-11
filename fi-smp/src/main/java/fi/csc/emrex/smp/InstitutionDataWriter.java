@@ -186,32 +186,41 @@ public class InstitutionDataWriter {
             message.setFrom(new InternetAddress(this.emailSender));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
             message.setSubject(this.emailTopic);
-            log.debug("this.emailBodyFile: " +this.emailBodyFile);
+            log.debug("this.emailBodyFile: " + this.emailBodyFile);
             this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), Charset.forName("UTF-8"));
-            
-            BodyPart messageBodyPart = new MimeBodyPart();
-            Multipart multipart = new MimeMultipart();
-            messageBodyPart.setText(this.emailBody);
-            multipart.addBodyPart(messageBodyPart);
+
+            //BodyPart messageBodyPart = new MimeBodyPart();
+            //Multipart multipart = new MimeMultipart();
+            //messageBodyPart.setText(this.emailBody);
+            //multipart.addBodyPart(messageBodyPart);
+            String content = "MIME-Version: 1.0\nContent-Type: multipart/mixed; boundary=--frontier--\n";
+            content += "Content-Type: text/plain\n\n";
+            content += this.emailBody + "\n";
             for (String tempFileName : this.files) {
-
+                content += "--frontier--\nContent-Type: application/octet-stream\nContent-Transfer-Encoding: base64\n";
+                   
                 File inFile = new File(tempFileName);
-
+                content += "Content-Disposition: attachment; filename=\""+inFile.getName()+"\"\n\n";
+                content +=FileUtils.readFileToString(inFile, Charset.forName("UTF-8"));
+                /*
                 messageBodyPart = new MimeBodyPart();
 
                 DataSource source = new FileDataSource(inFile);
 
                 messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(tempFileName);
-                multipart.addBodyPart(messageBodyPart);
+                multipart.addBodyPart(messageBodyPart);*/
                 log.debug("icnluded" + tempFileName);
             }
+            content +="--frontier--\n";
             String mailFileName = this.path + "/" + this.filename + ".eml";
             File mailFile = new File(mailFileName);
+            FileUtils.writeStringToFile(mailFile, content);
+            /*
             FileOutputStream mfOutStream = new FileOutputStream(mailFile);
             multipart.writeTo(mfOutStream);
             mfOutStream.flush();
-            mfOutStream.close();
+            mfOutStream.close();*/
             ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
             this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
 
@@ -243,7 +252,6 @@ public class InstitutionDataWriter {
             t.sendMessage(message, message.getAllRecipients());
             t.close();
 
-         
         } catch (MessagingException | IOException | NoSuchProviderException | PGPException | NoSuchAlgorithmException ex) {
             //ex.printStackTrace(log.);log.error(ex.);
             log.error("Sending mail failed", ex);
