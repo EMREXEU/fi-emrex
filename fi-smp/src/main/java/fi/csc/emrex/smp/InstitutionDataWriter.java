@@ -241,15 +241,9 @@ public class InstitutionDataWriter {
             t.sendMessage(message, message.getAllRecipients());
             t.close();
 
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        } catch (IOException ex) {
-            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PGPException ex) {
-            Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
+         
+        } catch (MessagingException | IOException | NoSuchProviderException | PGPException | NoSuchAlgorithmException ex) {
+            log.error(ex.toString());
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
