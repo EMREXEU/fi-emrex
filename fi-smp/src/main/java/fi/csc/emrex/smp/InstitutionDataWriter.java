@@ -221,11 +221,14 @@ public class InstitutionDataWriter {
             multipart.writeTo(mfOutStream);
             mfOutStream.flush();
             mfOutStream.close();*/
-            ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
-            this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
-
+            //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
+            //this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
+            String cryptFile=this.path + "/" + this.filename + ".sec";
+            File crypted = new File(cryptFile);
+            this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
+            
             // Send the complete message parts
-            message.setContent(mailContentStream.toString(), "application/pgp-encrypted");
+            message.setContent(FileUtils.readFileToString(crypted), "application/pgp-encrypted");
 
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
