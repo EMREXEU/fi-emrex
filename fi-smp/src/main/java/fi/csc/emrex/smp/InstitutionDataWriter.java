@@ -228,7 +228,7 @@ public class InstitutionDataWriter {
             this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
             
             // Send the complete message parts
-            message.setContent(FileUtils.readFileToString(crypted), "application/pgp-encrypted");
+            message.setContent(FileUtils.readFileToString(crypted), "text/plain");
 
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
