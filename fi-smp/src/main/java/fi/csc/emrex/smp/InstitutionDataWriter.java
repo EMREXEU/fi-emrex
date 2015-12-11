@@ -31,6 +31,7 @@ import com.sun.mail.smtp.SMTPTransport;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import javax.activation.DataHandler;
@@ -186,7 +187,8 @@ public class InstitutionDataWriter {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
             message.setSubject(this.emailTopic);
             log.debug("this.emailBodyFile: " +this.emailBodyFile);
-            this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile));
+            this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), Charset.forName("UTF-8"));
+            
             BodyPart messageBodyPart = new MimeBodyPart();
             Multipart multipart = new MimeMultipart();
             messageBodyPart.setText(this.emailBody);
