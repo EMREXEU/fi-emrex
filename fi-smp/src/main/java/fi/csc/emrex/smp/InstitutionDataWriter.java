@@ -243,7 +243,8 @@ public class InstitutionDataWriter {
 
          
         } catch (MessagingException | IOException | NoSuchProviderException | PGPException | NoSuchAlgorithmException ex) {
-            log.error(ex.toString());
+            //ex.printStackTrace(log.);log.error(ex.);
+            log.error("Sending mail failed", ex);
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
