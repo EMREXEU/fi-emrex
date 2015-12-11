@@ -186,7 +186,7 @@ public class InstitutionDataWriter {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
             message.setSubject(this.emailTopic);
             log.debug("this.emailBodyFile: " +this.emailBodyFile);
-            this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), "UTF-8");
+            this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile));
             BodyPart messageBodyPart = new MimeBodyPart();
             Multipart multipart = new MimeMultipart();
             messageBodyPart.setText(this.emailBody);
