@@ -1,7 +1,6 @@
 package fi.csc.emrex.smp;
 
-//import fi.csc.emrex.smp.openpgp.PGPEncryptor;
-import fi.csc.emrex.smp.openpgp.PGPEncryptionUtil;
+import fi.csc.emrex.smp.openpgp.PGPEncryptor;
 import fi.csc.emrex.common.model.Person;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +29,8 @@ import javax.mail.Session;
 import com.sun.mail.smtp.SMTPTransport;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -49,7 +46,6 @@ import javax.mail.internet.MimeMultipart;
 import lombok.Getter;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
-import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -79,7 +75,7 @@ public class InstitutionDataWriter {
     private String emailSender = "no-reply@emrex01.csc.fi";
     private String path;
     private List<String> files;
-    //private PGPEncryptor pgp;
+    private PGPEncryptor pgp;
 
     /**
      * public InstitutionDataWriter(Person user) { this.user = user; this.email
@@ -94,7 +90,7 @@ public class InstitutionDataWriter {
         this.pdfBaseDir = pdfBaseDir;
         this.generatePath();
         this.files = new ArrayList<>();
-        //this.pgp = new PGPEncryptor();
+        this.pgp = new PGPEncryptor();
     }
 
     public void writeDataToInstitutionFolder(byte[] bytePDF, String fileType) {
@@ -193,59 +189,41 @@ public class InstitutionDataWriter {
             log.debug("this.emailBodyFile: " + this.emailBodyFile);
             this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), Charset.forName("UTF-8"));
 
-            //BodyPart messageBodyPart = new MimeBodyPart();
-            //Multipart multipart = new MimeMultipart();
-            //messageBodyPart.setText(this.emailBody);
-            //multipart.addBodyPart(messageBodyPart);
-            String content = "MIME-Version: 1.0\nContent-Type: multipart/mixed; boundary=--frontier--\n";
-            content += "Content-Type: text/plain\n\n";
-            content += this.emailBody + "\n";
+            BodyPart messageBodyPart1 = new MimeBodyPart();
+            Multipart multipart = new MimeMultipart();
+            OutputStream mailBodyStream = new ByteArrayOutputStream();
+            this.pgp.encryptFileToStream(new File(this.emailBodyFile),new File(this.key), mailBodyStream, true);
+
+            messageBodyPart1.setContent(mailBodyStream.toString(), "application/pgp-encrypted");
+
+            log.debug((String) messageBodyPart1.getContent());
+            multipart.addBodyPart(messageBodyPart1);
             for (String tempFileName : this.files) {
-                content += "--frontier--\nContent-Type: application/octet-stream\nContent-Transfer-Encoding: base64\n";
 
+                BodyPart messageBodyPart = new MimeBodyPart();
                 File inFile = new File(tempFileName);
-                content += "Content-Disposition: attachment; filename=\"" + inFile.getName() + "\"\n\n";
-                content += FileUtils.readFileToString(inFile, Charset.forName("UTF-8"));
+                OutputStream tempStream = new ByteArrayOutputStream();
+                this.pgp.encryptFileToStream(inFile, new File(this.key), tempStream, true);
+
+                messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setContent(tempStream.toString(), "application/pgp-encrypted");
                 /*
-                 messageBodyPart = new MimeBodyPart();
-
-                 DataSource source = new FileDataSource(inFile);
-
-                 messageBodyPart.setDataHandler(new DataHandler(source));
-                 messageBodyPart.setFileName(tempFileName);
-                 multipart.addBodyPart(messageBodyPart);*/
+                DataSource source = new FileDataSource(inFile);
+                messageBodyPart.setDataHandler(new DataHandler(source));*/
+                messageBodyPart.setFileName(tempFileName);
+                multipart.addBodyPart(messageBodyPart);
                 log.debug("icnluded" + tempFileName);
             }
-            content += "--frontier--\n";
             String mailFileName = this.path + "/" + this.filename + ".eml";
             File mailFile = new File(mailFileName);
-            FileUtils.writeStringToFile(mailFile, content);
-            /*
-             FileOutputStream mfOutStream = new FileOutputStream(mailFile);
-             multipart.writeTo(mfOutStream);
-             mfOutStream.flush();
-             mfOutStream.close();*/
-            //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
-            //this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
-            String cryptFile = this.path + "/" + this.filename + ".sec";
-            File crypted = new File(cryptFile);
-            InputStream keystream = new FileInputStream(new File(this.key));
-            PGPPublicKeyRing keyring = PGPEncryptionUtil.getKeyring(keystream);
-            PGPPublicKey encryptionKey = PGPEncryptionUtil.getEncryptionKey(keyring);
-            FileOutputStream cryptedFileOutputStream = new FileOutputStream(crypted);
-            PGPEncryptionUtil pgp = new PGPEncryptionUtil(encryptionKey, mailFileName, cryptedFileOutputStream);
-            pgp.getPayloadOutputStream().flush();
-            //cryptedFileOutputStream.close();
-            pgp.close();
-            try {
-                log.debug("Encrypted file size: " + getFileSize(cryptFile));
-                //this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
-            } catch (Exception ex) {
-                Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            FileOutputStream mfOutStream = new FileOutputStream(mailFile);
+            multipart.writeTo(mfOutStream);
+            mfOutStream.flush();
+            mfOutStream.close();
+            ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
 
             // Send the complete message parts
-            message.setContent(FileUtils.readFileToString(crypted), "text/plain");
+            message.setContent(mailContentStream.toString(), "application/pgp-encrypted");
 
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
@@ -272,21 +250,11 @@ public class InstitutionDataWriter {
             t.sendMessage(message, message.getAllRecipients());
             t.close();
 
-        } catch (MessagingException | IOException | NoSuchProviderException | PGPException ex) {
+        } catch (MessagingException | IOException | NoSuchProviderException | PGPException | NoSuchAlgorithmException ex) {
             //ex.printStackTrace(log.);log.error(ex.);
             log.error("Sending mail failed", ex);
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public long getFileSize(String name) throws Exception {
-        InputStream stream = null;
-        try {
-            URL url = new URL("file:"+name);
-            stream = url.openStream();
-            return stream.available();
-        } finally {
-            stream.close();
-        }
-    }
 }
