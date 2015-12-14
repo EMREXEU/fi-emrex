@@ -233,8 +233,8 @@ public class InstitutionDataWriter {
             PGPPublicKeyRing keyring = PGPEncryptionUtil.getKeyring(keystream);
             PGPPublicKey encryptionKey = PGPEncryptionUtil.getEncryptionKey(keyring);
             PGPEncryptionUtil pgp =new             PGPEncryptionUtil(encryptionKey, mailFileName ,new FileOutputStream(crypted));
-
-
+            pgp.getPayloadOutputStream().flush();
+            pgp.close();
             //this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
             
             // Send the complete message parts
