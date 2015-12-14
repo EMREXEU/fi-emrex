@@ -52,14 +52,7 @@ public class PGPEncryptionUtil {
     private final OutputStream literalOut;
 
     public PGPEncryptionUtil(PGPPublicKey key, String payloadFilename, OutputStream out) throws PGPException, NoSuchProviderException, IOException {
-        try {
-            Field field = Class.forName("javax.crypto.JceSecurity").
-                    getDeclaredField("isRestricted");
-            field.setAccessible(true);
-            field.set(null, java.lang.Boolean.FALSE);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+
         // write data out using "ascii-armor" encoding.  This is the
         // normal PGP text output.
         this.armoredOutputStream = new ArmoredOutputStream(out);
