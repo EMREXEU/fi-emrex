@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.util.Date;
 
 /**
@@ -52,7 +53,7 @@ public class PGPEncryptionUtil {
     private final OutputStream literalOut;
 
     public PGPEncryptionUtil(PGPPublicKey key, String payloadFilename, OutputStream out) throws PGPException, NoSuchProviderException, IOException {
-
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         // write data out using "ascii-armor" encoding.  This is the
         // normal PGP text output.
         this.armoredOutputStream = new ArmoredOutputStream(out);
