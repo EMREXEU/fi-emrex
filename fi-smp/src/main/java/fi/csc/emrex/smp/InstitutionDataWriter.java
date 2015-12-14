@@ -212,7 +212,7 @@ public class InstitutionDataWriter {
                 messageBodyPart.setDataHandler(new DataHandler(source));*/
                 messageBodyPart.setFileName(tempFileName);
                 multipart.addBodyPart(messageBodyPart);
-                log.debug("icnluded" + tempFileName);
+                log.debug("included" + tempFileName);
             }
             String mailFileName = this.path + "/" + this.filename + ".eml";
             File mailFile = new File(mailFileName);

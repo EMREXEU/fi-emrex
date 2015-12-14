@@ -46,10 +46,11 @@ public class PGPEncryptor {
         /**
          * Initialize the Bouncy Castle provider.
          */
-        if (bcp == null) {
+       /* if (bcp == null) {
             bcp = new BouncyCastleProvider();
             Security.addProvider(bcp);
-        }
+        }*/
+         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
 
     public void encryptFile(File inFile, File keyFile, File outFile, boolean isArmoredOutput) throws IOException,
