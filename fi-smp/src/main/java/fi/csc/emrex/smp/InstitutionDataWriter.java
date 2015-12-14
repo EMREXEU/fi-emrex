@@ -1,6 +1,7 @@
 package fi.csc.emrex.smp;
 
-import fi.csc.emrex.smp.openpgp.PGPEncryptor;
+//import fi.csc.emrex.smp.openpgp.PGPEncryptor;
+import fi.csc.emrex.smp.openpgp.PGPEncryptionUtil;
 import fi.csc.emrex.common.model.Person;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import javax.mail.Session;
 import com.sun.mail.smtp.SMTPTransport;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -46,6 +48,7 @@ import javax.mail.internet.MimeMultipart;
 import lombok.Getter;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -75,7 +78,7 @@ public class InstitutionDataWriter {
     private String emailSender = "no-reply@emrex01.csc.fi";
     private String path;
     private List<String> files;
-    private PGPEncryptor pgp;
+    //private PGPEncryptor pgp;
 
     /**
      * public InstitutionDataWriter(Person user) { this.user = user; this.email
@@ -90,7 +93,7 @@ public class InstitutionDataWriter {
         this.pdfBaseDir = pdfBaseDir;
         this.generatePath();
         this.files = new ArrayList<>();
-        this.pgp = new PGPEncryptor();
+        //this.pgp = new PGPEncryptor();
     }
 
     public void writeDataToInstitutionFolder(byte[] bytePDF, String fileType) {
@@ -193,6 +196,7 @@ public class InstitutionDataWriter {
             //Multipart multipart = new MimeMultipart();
             //messageBodyPart.setText(this.emailBody);
             //multipart.addBodyPart(messageBodyPart);
+            
             String content = "MIME-Version: 1.0\nContent-Type: multipart/mixed; boundary=--frontier--\n";
             content += "Content-Type: text/plain\n\n";
             content += this.emailBody + "\n";
@@ -225,7 +229,13 @@ public class InstitutionDataWriter {
             //this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
             String cryptFile=this.path + "/" + this.filename + ".sec";
             File crypted = new File(cryptFile);
-            this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
+            InputStream keystream = new FileInputStream(new File(this.key));
+            PGPPublicKeyRing keyring = PGPEncryptionUtil.getKeyring(keystream);
+            PGPPublicKey encryptionKey = PGPEncryptionUtil.getEncryptionKey(keyring);
+            PGPEncryptionUtil pgp =new             PGPEncryptionUtil(encryptionKey, mailFileName ,new FileOutputStream(crypted));
+
+
+            //this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
             
             // Send the complete message parts
             message.setContent(FileUtils.readFileToString(crypted), "text/plain");
@@ -255,7 +265,7 @@ public class InstitutionDataWriter {
             t.sendMessage(message, message.getAllRecipients());
             t.close();
 
-        } catch (MessagingException | IOException | NoSuchProviderException | PGPException | NoSuchAlgorithmException ex) {
+        } catch (MessagingException | IOException | NoSuchProviderException | PGPException ex) {
             //ex.printStackTrace(log.);log.error(ex.);
             log.error("Sending mail failed", ex);
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
