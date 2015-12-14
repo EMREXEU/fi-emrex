@@ -33,6 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -196,47 +197,53 @@ public class InstitutionDataWriter {
             //Multipart multipart = new MimeMultipart();
             //messageBodyPart.setText(this.emailBody);
             //multipart.addBodyPart(messageBodyPart);
-            
             String content = "MIME-Version: 1.0\nContent-Type: multipart/mixed; boundary=--frontier--\n";
             content += "Content-Type: text/plain\n\n";
             content += this.emailBody + "\n";
             for (String tempFileName : this.files) {
                 content += "--frontier--\nContent-Type: application/octet-stream\nContent-Transfer-Encoding: base64\n";
-                   
+
                 File inFile = new File(tempFileName);
-                content += "Content-Disposition: attachment; filename=\""+inFile.getName()+"\"\n\n";
-                content +=FileUtils.readFileToString(inFile, Charset.forName("UTF-8"));
+                content += "Content-Disposition: attachment; filename=\"" + inFile.getName() + "\"\n\n";
+                content += FileUtils.readFileToString(inFile, Charset.forName("UTF-8"));
                 /*
-                messageBodyPart = new MimeBodyPart();
+                 messageBodyPart = new MimeBodyPart();
 
-                DataSource source = new FileDataSource(inFile);
+                 DataSource source = new FileDataSource(inFile);
 
-                messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(tempFileName);
-                multipart.addBodyPart(messageBodyPart);*/
+                 messageBodyPart.setDataHandler(new DataHandler(source));
+                 messageBodyPart.setFileName(tempFileName);
+                 multipart.addBodyPart(messageBodyPart);*/
                 log.debug("icnluded" + tempFileName);
             }
-            content +="--frontier--\n";
+            content += "--frontier--\n";
             String mailFileName = this.path + "/" + this.filename + ".eml";
             File mailFile = new File(mailFileName);
             FileUtils.writeStringToFile(mailFile, content);
             /*
-            FileOutputStream mfOutStream = new FileOutputStream(mailFile);
-            multipart.writeTo(mfOutStream);
-            mfOutStream.flush();
-            mfOutStream.close();*/
+             FileOutputStream mfOutStream = new FileOutputStream(mailFile);
+             multipart.writeTo(mfOutStream);
+             mfOutStream.flush();
+             mfOutStream.close();*/
             //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
             //this.pgp.encryptFileToStream(mailFile, new File(this.key), mailContentStream, true);
-            String cryptFile=this.path + "/" + this.filename + ".sec";
+            String cryptFile = this.path + "/" + this.filename + ".sec";
             File crypted = new File(cryptFile);
             InputStream keystream = new FileInputStream(new File(this.key));
             PGPPublicKeyRing keyring = PGPEncryptionUtil.getKeyring(keystream);
             PGPPublicKey encryptionKey = PGPEncryptionUtil.getEncryptionKey(keyring);
-            PGPEncryptionUtil pgp =new             PGPEncryptionUtil(encryptionKey, mailFileName ,new FileOutputStream(crypted));
+            FileOutputStream cryptedFileOutputStream = new FileOutputStream(crypted);
+            PGPEncryptionUtil pgp = new PGPEncryptionUtil(encryptionKey, mailFileName, cryptedFileOutputStream);
             pgp.getPayloadOutputStream().flush();
+            //cryptedFileOutputStream.close();
             pgp.close();
-            //this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
-            
+            try {
+                log.debug("Encrypted file size: " + getFileSize(cryptFile));
+                //this.pgp.encryptFile(mailFile, new File(this.key), crypted, true);
+            } catch (Exception ex) {
+                Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             // Send the complete message parts
             message.setContent(FileUtils.readFileToString(crypted), "text/plain");
 
@@ -272,4 +279,14 @@ public class InstitutionDataWriter {
         }
     }
 
+    public long getFileSize(String name) throws Exception {
+        InputStream stream = null;
+        try {
+            URL url = new URL("file:"+name);
+            stream = url.openStream();
+            return stream.available();
+        } finally {
+            stream.close();
+        }
+    }
 }
