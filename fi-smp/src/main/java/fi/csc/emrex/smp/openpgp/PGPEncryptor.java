@@ -113,7 +113,7 @@ public class PGPEncryptor {
 
         //OutputStream out = null;
         OutputStream cOut = null;
-        PGPCompressedDataGenerator comData = null;
+        //S PGPCompressedDataGenerator comData = null;
 
         try {
 // get public key
@@ -145,15 +145,15 @@ public class PGPEncryptor {
             cPk.addMethod(encKey);
 
             cOut = cPk.open(out, new byte[1 << 16]);
-            comData = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
+            //S comData = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
 
 // write encrypted content to a file
-            PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, inFile, new byte[1 << 16]);
-
+            PGPUtil.writeFileToLiteralData(cOut, PGPLiteralData.BINARY, inFile, new byte[1 << 16]);
+           
         } finally {
-            if (comData != null) {
+           /* S if (comData != null) {
                 comData.close();
-            }
+            }*/
             if (cOut != null) {
                 cOut.close();
             }
