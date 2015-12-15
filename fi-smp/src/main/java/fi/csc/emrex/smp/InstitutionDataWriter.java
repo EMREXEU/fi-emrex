@@ -222,10 +222,14 @@ public class InstitutionDataWriter {
             multipart.writeTo(mfOutStream);
             mfOutStream.flush();
             mfOutStream.close();
+        
             //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
             String content = new String(Files.readAllBytes(Paths.get(mailFileName)));
             // Send the complete message parts
-            message.setContent(content, "application/pgp-encrypted");
+            String boundary = content.substring(0, content.indexOf('\n'));
+            message.setContent(multipart, "multipart/encrypted");
+                   // + "boundary="+boundary+
+                   // "; protocol=\"application/pgp-encrypted\"");
 
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
