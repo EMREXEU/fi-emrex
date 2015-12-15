@@ -201,23 +201,24 @@ public class InstitutionDataWriter {
             log.debug((String) cryptPart.getContent());
             for (String tempFileName : this.files) {
 
-                BodyPart messageBodyPart = new MimeBodyPart();
+                MimeBodyPart messageBodyPart = new MimeBodyPart();
                 File inFile = new File(tempFileName);
                 OutputStream tempStream = new ByteArrayOutputStream();
                 String fileType = "";
-                messageBodyPart = new MimeBodyPart();
+                
                 if (tempFileName.endsWith("xml")) {
                     fileType = "application/xml; charset=UTF-8";
                 }
                 if (tempFileName.endsWith("pdf")) {
                     fileType = "application/pdf";
                 }
-                
+                messageBodyPart.attachFile(tempFileName);
                 //messageBodyPart.setContent(tempStream.toString(), fileType);
-                
-                 DataSource source = new FileDataSource(inFile);
-                 messageBodyPart.setDataHandler(new DataHandler(source));
+     
+                 //DataSource source = new FileDataSource(inFile);
+                 //messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(tempFileName);
+           
                 //log.debug((String) messageBodyPart.getContent());
                 BodyPart encryptBodyPart = this.encryptBodyPart(messageBodyPart, tempFileName );
                 //this.pgp.encryptFileToStream(inFile, new File(this.key), tempStream, true);
@@ -233,13 +234,13 @@ public class InstitutionDataWriter {
             mfOutStream.close();
 
             //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
-            //String content = new String(Files.readAllBytes(Paths.get(mailFileName)));
+            String content = new String(Files.readAllBytes(Paths.get(mailFileName)));
+            log.debug(content);
             // Send the complete message parts
-            //String boundary = content.substring(0, content.indexOf('\n'));
-            message.setContent(multipart, "multipart/encrypted");
-                   // + "boundary="+boundary+
-            // "; protocol=\"application/pgp-encrypted\"");
-
+            String boundary = content.substring(0, content.indexOf('\n'));
+            String contentType="multipart/encrypted; protocol=\"application/pgp-encrypted\"";
+            log.debug(contentType);
+            message.setContent(multipart);
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
 
@@ -286,6 +287,7 @@ public class InstitutionDataWriter {
         this.pgp.encryptFileToStream(partFile, new File(this.key), partStream, true);
 
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
+        
         return messageBodyPart;
     }
 }
