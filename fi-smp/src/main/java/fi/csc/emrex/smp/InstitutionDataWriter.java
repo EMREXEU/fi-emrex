@@ -275,6 +275,10 @@ public class InstitutionDataWriter {
     }
 
     BodyPart encryptBodyPart(BodyPart part, String filename) throws FileNotFoundException, IOException, MessagingException, NoSuchProviderException, NoSuchAlgorithmException, PGPException {
+        
+        if(filename.endsWith("pdf")){
+            return part;
+        }
         BodyPart messageBodyPart = new MimeBodyPart();
         File partFile = new File(filename + "mprt");
         //File cryptFile = new File(filename + "mprt.sec");
