@@ -141,7 +141,7 @@ public class PDFWriterTests extends TestCase {
         File contentDir = new File(pdfBaseDir + institutionDir1 + "/" + institutionDir2);
         File[] files = contentDir.listFiles();
         String content = "";
-        assertEquals(3, files.length);
+        assertEquals(5, files.length);
         try {
             for (File f : files) {
                 content = FileUtils.readFileToString(f);
