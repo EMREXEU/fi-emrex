@@ -108,7 +108,7 @@ public class PGPEncryptor {
         }
     }
 
-    public void encryptFileToStream(File inFile, File keyFile, OutputStream out, boolean isArmoredOutput) throws IOException,
+    public OutputStream encryptFileToStream(File inFile, File keyFile, OutputStream out, boolean isArmoredOutput) throws IOException,
             NoSuchProviderException, NoSuchAlgorithmException, PGPException {
 
         //OutputStream out = null;
@@ -156,13 +156,15 @@ public class PGPEncryptor {
             }
             if (cOut != null) {
                 cOut.close();
-            }/*
+            }
             if (out != null) {
+                out.flush();
+                out.close();
                 return out;
 
             }
             return null;
-                    */
+                    
         }
     }
 

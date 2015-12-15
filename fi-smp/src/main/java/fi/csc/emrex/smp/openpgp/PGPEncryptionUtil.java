@@ -94,14 +94,16 @@ public class PGPEncryptionUtil {
      */
     public void close() throws IOException {
         // close the literal output
+        literalOut.flush();
         literalOut.close();
-
+        compressedOut.flush();
         // close the compressor
         compressedOut.close();
 
         // close the encrypted output
+        encryptedOut.flush();
         encryptedOut.close();
-
+        armoredOutputStream.flush();
         // close the armored output
         armoredOutputStream.close();
     }

@@ -32,6 +32,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import javax.activation.DataHandler;
@@ -220,10 +222,10 @@ public class InstitutionDataWriter {
             multipart.writeTo(mfOutStream);
             mfOutStream.flush();
             mfOutStream.close();
-            ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
-
+            //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
+            String content = new String(Files.readAllBytes(Paths.get(mailFileName)));
             // Send the complete message parts
-            message.setContent(mailContentStream.toString(), "application/pgp-encrypted");
+            message.setContent(content, "application/pgp-encrypted");
 
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
