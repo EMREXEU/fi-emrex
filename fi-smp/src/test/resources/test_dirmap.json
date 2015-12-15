@@ -2,7 +2,7 @@
     "blaablaa.fi": {
         "path": "testFolderFor/Blaablaa",
         "email": "malach.bagheera@gmail.com",
-        "key":"src/test/resources//Salum_Abdul-Rahman_pub.asc"
+        "key":"src/test/resources//Salum_pub.asc"
     },
     "example.com": {
         "path": "testFolderFor/example"

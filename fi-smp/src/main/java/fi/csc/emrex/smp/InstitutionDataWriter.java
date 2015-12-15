@@ -37,10 +37,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Enumeration;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
+import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
@@ -194,18 +196,18 @@ public class InstitutionDataWriter {
             Multipart multipart = new MimeMultipart();
             BodyPart messageBodyPart1 = new MimeBodyPart();
             messageBodyPart1.setText(this.emailBody);
-            BodyPart cryptPart = this.encryptBodyPart(messageBodyPart1, this.emailBodyFile);
+            //BodyPart cryptPart = this.encryptBodyPart(messageBodyPart1, this.emailBodyFile);
 
-            log.debug((String) messageBodyPart1.getContent());
-            multipart.addBodyPart(cryptPart);
-            log.debug((String) cryptPart.getContent());
+            //log.debug((String) messageBodyPart1.getContent());
+            multipart.addBodyPart(messageBodyPart1);
+            //log.debug((String) cryptPart.getContent());
             for (String tempFileName : this.files) {
-
+                log.debug("including" + tempFileName);
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
                 File inFile = new File(tempFileName);
                 OutputStream tempStream = new ByteArrayOutputStream();
                 String fileType = "";
-                
+
                 if (tempFileName.endsWith("xml")) {
                     fileType = "application/xml; charset=UTF-8";
                 }
@@ -214,13 +216,13 @@ public class InstitutionDataWriter {
                 }
                 messageBodyPart.attachFile(tempFileName);
                 //messageBodyPart.setContent(tempStream.toString(), fileType);
-     
-                 //DataSource source = new FileDataSource(inFile);
-                 //messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(tempFileName);
-           
+
+                //DataSource source = new FileDataSource(inFile);
+                //messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(tempFileName.substring(tempFileName.lastIndexOf("/") + 1));
+                messageBodyPart.setHeader("Content-Type", fileType);
                 //log.debug((String) messageBodyPart.getContent());
-                BodyPart encryptBodyPart = this.encryptBodyPart(messageBodyPart, tempFileName );
+                BodyPart encryptBodyPart = this.encryptBodyPart(messageBodyPart, tempFileName);
                 //this.pgp.encryptFileToStream(inFile, new File(this.key), tempStream, true);
                 multipart.addBodyPart(encryptBodyPart);
                 //log.debug((String) encryptBodyPart.getContent());
@@ -237,9 +239,7 @@ public class InstitutionDataWriter {
             String content = new String(Files.readAllBytes(Paths.get(mailFileName)));
             log.debug(content);
             // Send the complete message parts
-            String boundary = content.substring(0, content.indexOf('\n'));
-            String contentType="multipart/encrypted; protocol=\"application/pgp-encrypted\"";
-            log.debug(contentType);
+
             message.setContent(multipart);
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
@@ -279,6 +279,17 @@ public class InstitutionDataWriter {
         File partFile = new File(filename + "mprt");
         //File cryptFile = new File(filename + "mprt.sec");
         FileOutputStream partFileStream = new FileOutputStream(partFile);
+        //part.setDisposition(part.getDisposition()+"; filename="+);
+        Enumeration headers = part.getAllHeaders();
+        String headerString = "";
+        while (headers.hasMoreElements()) {
+            Header head = (Header) headers.nextElement();
+
+            headerString += head.getName() + ": " + head.getValue() + "\n";
+        }
+        log.debug(headerString);
+        //log.debug("FileName:" + );
+        partFileStream.write(headerString.getBytes());
         part.writeTo(partFileStream);
         partFileStream.flush();
         partFileStream.close();
@@ -287,7 +298,7 @@ public class InstitutionDataWriter {
         this.pgp.encryptFileToStream(partFile, new File(this.key), partStream, true);
 
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
-        
+
         return messageBodyPart;
     }
 }
