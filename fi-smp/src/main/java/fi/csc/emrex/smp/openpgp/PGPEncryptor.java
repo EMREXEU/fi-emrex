@@ -8,6 +8,7 @@ package fi.csc.emrex.smp.openpgp;
  * http://www.bouncycastle.org/download/bcpg-jdk14-122.jar 2) Should have a
  * key/pair
  */
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.util.Date;
 import java.util.Iterator;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -27,6 +29,7 @@ import org.bouncycastle.openpgp.PGPEncryptedData;
 import org.bouncycastle.openpgp.PGPEncryptedDataGenerator;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPLiteralData;
+import org.bouncycastle.openpgp.PGPLiteralDataGenerator;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
@@ -209,14 +212,4 @@ public class PGPEncryptor {
         return key;
     }
 
-    public static void main(String[] args) throws NoSuchProviderException, NoSuchAlgorithmException, IOException, PGPException {
-        PGPEncryptor encryptor = null;
-        if (encryptor == null) {
-            encryptor = new PGPEncryptor();
-        }
-
-        encryptor.encryptFile(new File("c:\\pgp\\test.txt"), new File("c:\\pgp\\test.pgp"),
-                new File("c:\\pgp\\encrypt.pgp"), false);
-
-    }
 }
