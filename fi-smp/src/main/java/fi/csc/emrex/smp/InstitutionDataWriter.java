@@ -29,8 +29,8 @@ import javax.mail.Session;
 import com.sun.mail.smtp.SMTPTransport;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -38,9 +38,8 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Enumeration;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.mail.BodyPart;
 import javax.mail.Header;
 import javax.mail.MessagingException;
@@ -50,7 +49,6 @@ import javax.mail.internet.MimeMultipart;
 
 import lombok.Getter;
 import org.bouncycastle.openpgp.PGPException;
-import org.bouncycastle.openpgp.PGPPublicKey;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -212,8 +210,15 @@ public class InstitutionDataWriter {
                     fileType = "application/xml; charset=UTF-8";
                 }
                 if (tempFileName.endsWith("pdf")) {
-                    fileType = "application/pdf";
+                    String tempZipFile = tempFileName + ".zip";
+                    if (this.zipFile(tempFileName, tempZipFile) != null) {
+                        tempFileName = tempZipFile;
+                        fileType = "application/zip";
+                    } else {
+                        fileType = "application/pdf";
+                    }
                 }
+
                 messageBodyPart.attachFile(tempFileName);
                 //messageBodyPart.setContent(tempStream.toString(), fileType);
 
@@ -275,7 +280,7 @@ public class InstitutionDataWriter {
     }
 
     BodyPart encryptBodyPart(BodyPart part, String filename) throws FileNotFoundException, IOException, MessagingException, NoSuchProviderException, NoSuchAlgorithmException, PGPException {
-        
+
         BodyPart messageBodyPart = new MimeBodyPart();
         File partFile = new File(filename + "mprt");
         //File cryptFile = new File(filename + "mprt.sec");
@@ -301,5 +306,35 @@ public class InstitutionDataWriter {
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
 
         return messageBodyPart;
+    }
+
+    private File zipFile(String fileIn, String zipFileOut) {
+        byte[] buffer = new byte[1024];
+
+        try {
+
+            FileOutputStream fos = new FileOutputStream(zipFileOut);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            ZipEntry ze = new ZipEntry("spy.log");
+            zos.putNextEntry(ze);
+            FileInputStream in = new FileInputStream(fileIn);
+
+            int len;
+            while ((len = in.read(buffer)) > 0) {
+                zos.write(buffer, 0, len);
+            }
+
+            in.close();
+            zos.closeEntry();
+
+            //remember close it
+            zos.close();
+
+            return new File(zipFileOut);
+        } catch (IOException ex) {
+            log.debug(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return null;
     }
 }
