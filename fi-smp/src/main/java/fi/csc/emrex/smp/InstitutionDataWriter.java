@@ -34,9 +34,13 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Base64;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -210,13 +214,18 @@ public class InstitutionDataWriter {
                     fileType = "application/xml; charset=UTF-8";
                 }
                 if (tempFileName.endsWith("pdf")) {
-                    String tempZipFile = tempFileName + ".zip";
+                    Base64.Encoder encoder = Base64.getEncoder();
+                    String base64fileName= tempFileName+".64";
+                    String base64pdf =encoder.encodeToString(Files.readAllBytes(Paths.get(tempFileName)));
+                    Files.write(Paths.get(base64fileName),base64pdf.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.WRITE );
+                    tempFileName =  base64fileName;
+                    /*String tempZipFile = tempFileName + ".zip";
                     if (this.zipFile(tempFileName, tempZipFile) != null) {
                         tempFileName = tempZipFile;
                         fileType = "application/zip";
-                    } else {
+                    } else {*/
                         fileType = "application/pdf";
-                    }
+                  //  }
                 }
 
                 messageBodyPart.attachFile(tempFileName);
@@ -282,7 +291,7 @@ public class InstitutionDataWriter {
     BodyPart encryptBodyPart(BodyPart part, String filename) throws FileNotFoundException, IOException, MessagingException, NoSuchProviderException, NoSuchAlgorithmException, PGPException {
 
         BodyPart messageBodyPart = new MimeBodyPart();
-        File partFile = new File(filename + "mprt");
+        File partFile = new File(filename + ".mprt");
         //File cryptFile = new File(filename + "mprt.sec");
         FileOutputStream partFileStream = new FileOutputStream(partFile);
         //part.setDisposition(part.getDisposition()+"; filename="+);
@@ -293,6 +302,7 @@ public class InstitutionDataWriter {
 
             headerString += head.getName() + ": " + head.getValue() + "\n";
         }
+        headerString+='\n';
         log.debug(headerString);
         //log.debug("FileName:" + );
         partFileStream.write(headerString.getBytes());
