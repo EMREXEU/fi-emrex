@@ -5,6 +5,8 @@
  */
 package fi.csc.emrex.common.elmo;
 
+import com.github.ooxi.jdatauri.DataUri;
+import java.nio.charset.Charset;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -93,16 +95,28 @@ public class ElmoParser {
     }
 
     public byte[] getAttachedPDF() throws Exception {
-        NodeList attachments = document.getElementsByTagName("attachment");
-        log.debug(attachments.getLength() + " attachments found");
-        if (attachments.getLength() == 1) {
-            NodeList childs = attachments.item(0).getChildNodes();
-            if (childs.getLength() == 1) {
-                return DatatypeConverter.parseBase64Binary(childs.item(0).getTextContent());
+        NodeList reports = document.getElementsByTagName("report");
+        if (reports.getLength() > 0) {
+
+            Element report = (Element) reports.item(0);
+            NodeList attachments = report.getElementsByTagName("attachment");
+            log.debug(attachments.getLength() + " attachments found");
+            for (int i = 0; i < attachments.getLength(); i++) {
+                //NodeList childs = attachments.item(0).getChildNodes();
+                Element attachment = (Element) attachments.item(i);
+                NodeList content = attachment.getElementsByTagName("content");
+                if (content.getLength() == 1) {
+                    log.debug(content.item(0).getTextContent());
+                    DataUri parse = DataUri.parse(content.item(0).getTextContent(), Charset.forName("UTF-8"));
+                    return parse.getData();
+                    //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
+                }
             }
+            throw new Exception("PDF not attached to xml");
         }
-        throw new Exception("PDF not attached to xml");
+        throw new Exception("No reports");
     }
+    
 
     public void addPDFAttachment(byte[] pdf) {
         NodeList reports = document.getElementsByTagName("report");
@@ -120,9 +134,12 @@ public class ElmoParser {
             // Add pdf attachment
             Element attachment = document.createElement("attachment");
             attachment.setAttribute("title", "Transcription of studies");
-            attachment.setAttribute("contentType", "application/pdf");
-            attachment.setAttribute("encoding", "base64");
-            attachment.setTextContent(DatatypeConverter.printBase64Binary(pdf));
+            //attachment.setAttribute("contentType", "application/pdf");
+            //attachment.setAttribute("encoding", "base64");
+            String data = "data:application/pdf;base64," + DatatypeConverter.printBase64Binary(pdf);
+            Element content = document.createElement("content");
+            content.setTextContent(data);
+            attachment.appendChild(content);
             reports.item(0).appendChild(attachment); // we assume that only one report exists
         }
     }
