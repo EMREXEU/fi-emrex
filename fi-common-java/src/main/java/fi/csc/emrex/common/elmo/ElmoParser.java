@@ -105,16 +105,19 @@ public class ElmoParser {
                 //NodeList childs = attachments.item(0).getChildNodes();
                 Element attachment = (Element) attachments.item(i);
                 NodeList content = attachment.getElementsByTagName("content");
-                if (content.getLength() == 1) {
-                    log.debug(content.item(0).getTextContent());
-                    DataUri parse = DataUri.parse(content.item(0).getTextContent(), Charset.forName("UTF-8"));
+                for (int j = 0; j < content.getLength(); j++) {
+                    
+              
+                    log.debug(content.item(j).getTextContent());
+                    DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
                     return parse.getData();
                     //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
                 }
+                throw new Exception("no content attachment in report in  xml");
             }
-            throw new Exception("PDF not attached to xml");
+            throw new Exception("no attachments in report in  xml");
         }
-        throw new Exception("No reports");
+        throw new Exception("No reports in xml");
     }
     
 
