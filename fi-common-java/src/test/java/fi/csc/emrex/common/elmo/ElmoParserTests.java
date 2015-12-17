@@ -28,8 +28,8 @@ import static org.junit.Assert.assertArrayEquals;
  */
 public class ElmoParserTests extends TestCase {
 
-    private String testXML = "elmo-1.0-example.xml";
-    //private String testXML = "swedish_1_elmo1.0.xml";
+    //private String testXML = "elmo-1.0-example.xml";
+    private String testXML = "swedish_1_elmo1.0.xml";
     @Test
     public void testRemoveCourses() throws Exception {
         String elmo = TestUtil.getFileContent(testXML);

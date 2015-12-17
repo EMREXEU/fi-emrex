@@ -95,34 +95,43 @@ public class ElmoParser {
     }
 
     public byte[] getAttachedPDF() throws Exception {
-        NodeList reports = document.getElementsByTagName("report");
-        if (reports.getLength() > 0) {
+        NodeList elmos = document.getElementsByTagName("elmo");
+        if (elmos.getLength() > 0) {
 
-            Element report = (Element) reports.item(0);
-            NodeList attachments = report.getElementsByTagName("attachment");
+            Element elmo = (Element) elmos.item(0);
+            NodeList attachments = elmo.getElementsByTagName("attachment");
             log.debug(attachments.getLength() + " attachments found");
             for (int i = 0; i < attachments.getLength(); i++) {
                 //NodeList childs = attachments.item(0).getChildNodes();
                 Element attachment = (Element) attachments.item(i);
-                NodeList content = attachment.getElementsByTagName("content");
-                for (int j = 0; j < content.getLength(); j++) {
-                    
-              
-                    log.debug(content.item(j).getTextContent());
-                    DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
-                    return parse.getData();
-                    //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
+                if (attachment.getParentNode().equals(elmo)) {
+                    NodeList types = attachment.getElementsByTagName("type");
+                    Element type = (Element) types.item(0);
+                    if (type != null) {
+                        if ("Transcript of Records".equals(type.getTextContent())) {
+
+                            NodeList content = attachment.getElementsByTagName("content");
+
+                            for (int j = 0; j < content.getLength(); j++) {
+
+                                log.debug(content.item(j).getTextContent());
+                                DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
+                                return parse.getData();
+                                //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
+                            }
+                        }
+                    }
+                    throw new Exception("no content attachment in elmo in  xml");
                 }
-                throw new Exception("no content attachment in report in  xml");
+                
             }
-            throw new Exception("no attachments in report in  xml");
+            throw new Exception("no attachments in elmo in  xml");
         }
-        throw new Exception("No reports in xml");
+        throw new Exception("No elmo in xml");  
     }
-    
 
     public void addPDFAttachment(byte[] pdf) {
-        NodeList reports = document.getElementsByTagName("report");
+        NodeList reports = document.getElementsByTagName("elmo");
         if (reports.getLength() > 0) {
 
             //remove existing attachments to avoid duplicates
@@ -136,7 +145,9 @@ public class ElmoParser {
 
             // Add pdf attachment
             Element attachment = document.createElement("attachment");
-            attachment.setAttribute("title", "Transcription of studies");
+            Element type = document.createElement("type");
+            type.setTextContent("Transcript of Records");
+            attachment.appendChild(type);
             //attachment.setAttribute("contentType", "application/pdf");
             //attachment.setAttribute("encoding", "base64");
             String data = "data:application/pdf;base64," + DatatypeConverter.printBase64Binary(pdf);

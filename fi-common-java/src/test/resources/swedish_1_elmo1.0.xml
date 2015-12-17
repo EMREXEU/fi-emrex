@@ -1,0 +1,1452 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<elmo xmlns="http://purl.org/net/elmo">
+    <generatedDate>2015-12-17T15:23:28+01:00</generatedDate>
+    <learner>
+        <identifier type="nationalIdentifier">19711020-8639</identifier>
+        <givenNames>Thom</givenNames>
+        <familyName>Jönsson</familyName>
+        <bday>1971-10-20</bday>
+    </learner>
+    <report>
+        <issuer>
+            <country>SE</country>
+            <identifier type="national">UMU</identifier>
+            <identifier type="erasmus">S UMEA01</identifier>
+            <identifier type="pic">999881821</identifier>
+            <identifier type="schac">umu.se</identifier>
+            <title xml:lang="sv">Umeå TEST-TEST</title>
+            <title xml:lang="en">Umeå University</title>
+            <url>http://www.umu.se</url>
+        </issuer>
+        <learningOpportunitySpecification>
+            <identifier type="local">1GK1H</identifier>
+            <identifier type="elmo">796056033</identifier>
+            <title xml:lang="sv">Kandidatprogrammet i datavetenskap</title>
+            <title xml:lang="en">Bachelor Of Science Programme in Computing Science</title>
+            <type>Degree Programme</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date>2013-10-07</date>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <level>Bachelor</level>
+                        <value>180.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">3OM159</identifier>
+                    <identifier type="elmo">386641812</identifier>
+                    <title xml:lang="sv">Omvårdnadens grund</title>
+                    <title xml:lang="en">Basic Health Care</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV107</identifier>
+                    <identifier type="elmo">1712783429</identifier>
+                    <title xml:lang="sv">Metoder och verktyg för datavetare</title>
+                    <title xml:lang="en">Methods and Tools for Computer Scientists</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV114</identifier>
+                    <identifier type="elmo">623351251</identifier>
+                    <title xml:lang="sv">Programmering i C</title>
+                    <title xml:lang="en">Programming in C</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">2IN047</identifier>
+                    <identifier type="elmo">295365634</identifier>
+                    <title xml:lang="sv">Systemutveckling och organisationsförändring</title>
+                    <title xml:lang="en">Systems Development and Organisational Change</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5MA016</identifier>
+                    <identifier type="elmo">1931579374</identifier>
+                    <title xml:lang="sv">Grundläggande analys</title>
+                    <title xml:lang="en">Basic Calculus</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5MA008</identifier>
+                    <identifier type="elmo">162778499</identifier>
+                    <title xml:lang="sv">Introduktion till diskret matematik</title>
+                    <title xml:lang="en">Introduction to Discrete Mathematics</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV108</identifier>
+                    <identifier type="elmo">932601706</identifier>
+                    <title xml:lang="sv">Datastrukturer och algoritmer</title>
+                    <title xml:lang="en">Data Structures and Algorithms</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV112</identifier>
+                    <identifier type="elmo">67833924</identifier>
+                    <title xml:lang="sv">Interaktionsteknik</title>
+                    <title xml:lang="en">Interaction Techniques</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV109</identifier>
+                    <identifier type="elmo">466272832</identifier>
+                    <title xml:lang="sv">Objektorienterad programmeringsmetodik</title>
+                    <title xml:lang="en">Object-Oriented Programming Methodology</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV088</identifier>
+                    <identifier type="elmo">551956526</identifier>
+                    <title xml:lang="sv">Systemnära programmering</title>
+                    <title xml:lang="en">C programming and Unix</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV085</identifier>
+                    <identifier type="elmo">1943551074</identifier>
+                    <title xml:lang="sv">Applikationsprogrammering i Java</title>
+                    <title xml:lang="en">Application Programming in Java</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV125</identifier>
+                    <identifier type="elmo">1229458042</identifier>
+                    <title xml:lang="sv">Webbutveckling med HTML5</title>
+                    <title xml:lang="en">Web Development with HTML5</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV037</identifier>
+                    <identifier type="elmo">858968062</identifier>
+                    <title xml:lang="sv">Datavetenskapens grunder</title>
+                    <title xml:lang="en">Fundamentals of Computer Science</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV087</identifier>
+                    <identifier type="elmo">1849886943</identifier>
+                    <title xml:lang="sv">Programvaruteknik</title>
+                    <title xml:lang="en">Software Engineering</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5MA017</identifier>
+                    <identifier type="elmo">31389086</identifier>
+                    <title xml:lang="sv">Grundläggande linjär algebra</title>
+                    <title xml:lang="en">Basic Linear Algebra</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV013</identifier>
+                    <identifier type="elmo">373192484</identifier>
+                    <title xml:lang="sv">Datakommunikation och datornät</title>
+                    <title xml:lang="en">Computer Networks</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV121</identifier>
+                    <identifier type="elmo">482332503</identifier>
+                    <title xml:lang="sv">Artificiell intelligens - grunderna</title>
+                    <title xml:lang="en">Fundamentals of Artificial Intelligence</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5BY008</identifier>
+                    <identifier type="elmo">528203388</identifier>
+                    <title xml:lang="sv">Projektledning 1</title>
+                    <title xml:lang="en">Project Management 1</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV119</identifier>
+                    <identifier type="elmo">1354276894</identifier>
+                    <title xml:lang="sv">Introduktion till databashantering</title>
+                    <title xml:lang="en">Introduction to Database Management</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV129</identifier>
+                    <identifier type="elmo">10114128</identifier>
+                    <title xml:lang="sv">Examensarbete för kandidatexamen i datavetenskap</title>
+                    <title xml:lang="en">Degree Project: Bachelor of Science in Computing Science</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV134</identifier>
+                    <identifier type="elmo">1387350726</identifier>
+                    <title xml:lang="sv">Utveckling av mobila applikationer</title>
+                    <title xml:lang="en">Development of mobile applications</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">TGDAV</identifier>
+            <identifier type="elmo">587071791</identifier>
+            <title xml:lang="sv">Kandidatprogrammet i datavetenskap</title>
+            <title xml:lang="en">Bachelor Of Science Programme in Computing Science</title>
+            <type>Module</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>180</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV107</identifier>
+                    <identifier type="elmo">1111620311</identifier>
+                    <title xml:lang="sv">Metoder och verktyg för datavetare</title>
+                    <title xml:lang="en">Methods and Tools for Computer Scientists</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2010-10-01</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">MOM1</identifier>
+                            <identifier type="elmo">1290506436</identifier>
+                            <title xml:lang="sv">Studieprogrammet o yrkesrollen</title>
+                            <title xml:lang="en">Syllabus and the professional role</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2010-10-01</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">MOM2</identifier>
+                            <identifier type="elmo">1816352836</identifier>
+                            <title xml:lang="sv">Matematisk färdighetsträning</title>
+                            <title xml:lang="en">Exercises in mathematical skills</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2010-10-01</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV114</identifier>
+                    <identifier type="elmo">1206846105</identifier>
+                    <title xml:lang="sv">Programmering i C</title>
+                    <title xml:lang="en">Programming in C</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2010-12-10</date>
+                            <resultLabel>5</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">MOM2</identifier>
+                            <identifier type="elmo">2146425374</identifier>
+                            <title xml:lang="sv">Färdighetsövning i programmering</title>
+                            <title xml:lang="en">Programming application</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2010-12-06</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">MOM3</identifier>
+                            <identifier type="elmo">905274152</identifier>
+                            <title xml:lang="sv">Praktisk tillämpning av programmering</title>
+                            <title xml:lang="en">Applied programming</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2010-12-10</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>1.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">511033372</identifier>
+                            <title xml:lang="sv">Programmeringsteori</title>
+                            <title xml:lang="en">Programmingtheory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2010-10-29</date>
+                                    <resultLabel>5</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">2IN047</identifier>
+                    <identifier type="elmo">1782008395</identifier>
+                    <title xml:lang="sv">Systemutveckling och organisationsförändring</title>
+                    <title xml:lang="en">Systems Development and Organisational Change</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-01-05</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">SYOR</identifier>
+                            <identifier type="elmo">1661763845</identifier>
+                            <title xml:lang="sv">Systemutveckling och organisationsförändring</title>
+                            <title xml:lang="en">Systems Development  and Organisational Change</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-01-05</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>7.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5MA016</identifier>
+                    <identifier type="elmo">1354916855</identifier>
+                    <title xml:lang="sv">Grundläggande analys</title>
+                    <title xml:lang="en">Basic Calculus</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-01-15</date>
+                            <resultLabel>4</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">GRAN</identifier>
+                            <identifier type="elmo">2117488066</identifier>
+                            <title xml:lang="sv">Grundläggande analys</title>
+                            <title xml:lang="en">Introduction to Basic Calculus</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-01-15</date>
+                                    <resultLabel>4</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>7.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5MA008</identifier>
+                    <identifier type="elmo">1100891460</identifier>
+                    <title xml:lang="sv">Introduktion till diskret matematik</title>
+                    <title xml:lang="en">Introduction to Discrete Mathematics</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-03-18</date>
+                            <resultLabel>3</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">ENDA</identifier>
+                            <identifier type="elmo">209287749</identifier>
+                            <title xml:lang="sv">Introduktion till diskret matematik</title>
+                            <title xml:lang="en">Introduction to Discrete Mathematics</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-03-18</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>7.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV108</identifier>
+                    <identifier type="elmo">568091454</identifier>
+                    <title xml:lang="sv">Datastrukturer och algoritmer</title>
+                    <title xml:lang="en">Data Structures and Algorithms</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-04-19</date>
+                            <resultLabel>3</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">MOM1</identifier>
+                            <identifier type="elmo">990826876</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-03-26</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">MOM2</identifier>
+                            <identifier type="elmo">69706031</identifier>
+                            <title xml:lang="sv">Problemlösning</title>
+                            <title xml:lang="en">Problemsolving</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-04-19</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV112</identifier>
+                    <identifier type="elmo">447885816</identifier>
+                    <title xml:lang="sv">Interaktionsteknik</title>
+                    <title xml:lang="en">Interaction Techniques</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-05-30</date>
+                            <resultLabel>3</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LABO</identifier>
+                            <identifier type="elmo">816339585</identifier>
+                            <title xml:lang="sv">Laboration</title>
+                            <title xml:lang="en">Computer exercise</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-05-30</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">237958727</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-05-30</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV109</identifier>
+                    <identifier type="elmo">1567771271</identifier>
+                    <title xml:lang="sv">Objektorienterad programmeringsmetodik</title>
+                    <title xml:lang="en">Object-Oriented Programming Methodology</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-08-31</date>
+                            <resultLabel>4</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">PROB</identifier>
+                            <identifier type="elmo">568900022</identifier>
+                            <title xml:lang="sv">Problemlösning</title>
+                            <title xml:lang="en">Problem solving</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-06-01</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>2.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">PROJ</identifier>
+                            <identifier type="elmo">581808770</identifier>
+                            <title xml:lang="sv">Projekt</title>
+                            <title xml:lang="en">Project</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-06-01</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>1.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">1581296037</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-08-31</date>
+                                    <resultLabel>4</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV088</identifier>
+                    <identifier type="elmo">1691208398</identifier>
+                    <title xml:lang="sv">Systemnära programmering</title>
+                    <title xml:lang="en">C programming and Unix</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-11-08</date>
+                            <resultLabel>3</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LABO</identifier>
+                            <identifier type="elmo">638847228</identifier>
+                            <title xml:lang="sv">Laboration</title>
+                            <title xml:lang="en">Computer exercises</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-11-08</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">745349135</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-11-08</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV085</identifier>
+                    <identifier type="elmo">1664385676</identifier>
+                    <title xml:lang="sv">Applikationsprogrammering i Java</title>
+                    <title xml:lang="en">Application Programming in Java</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2012-01-16</date>
+                            <resultLabel>4</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LABO</identifier>
+                            <identifier type="elmo">607797569</identifier>
+                            <title xml:lang="sv">Laboration</title>
+                            <title xml:lang="en">Computer exercises</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-01-16</date>
+                                    <resultLabel>4</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">1490777316</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-01-16</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV125</identifier>
+                    <identifier type="elmo">1590628382</identifier>
+                    <title xml:lang="sv">Webbutveckling med HTML5</title>
+                    <title xml:lang="en">Web Development with HTML5</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2012-01-20</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">ENDA</identifier>
+                            <identifier type="elmo">1472686990</identifier>
+                            <title xml:lang="sv">Webbutveckling med HTML5</title>
+                            <title xml:lang="en">Webbutveckling med HTML5</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-01-20</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>7.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV037</identifier>
+                    <identifier type="elmo">1015422753</identifier>
+                    <title xml:lang="sv">Datavetenskapens grunder</title>
+                    <title xml:lang="en">Fundamentals of Computer Science</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2012-03-28</date>
+                            <resultLabel>4</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">ENDA</identifier>
+                            <identifier type="elmo">1367891604</identifier>
+                            <title xml:lang="sv">Datavetenskapens grunder</title>
+                            <title xml:lang="en">Fundamentals of computer science</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-03-28</date>
+                                    <resultLabel>4</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>7.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV087</identifier>
+                    <identifier type="elmo">1419895096</identifier>
+                    <title xml:lang="sv">Programvaruteknik</title>
+                    <title xml:lang="en">Software Engineering</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2012-06-21</date>
+                            <resultLabel>4</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">PROJ</identifier>
+                            <identifier type="elmo">207411257</identifier>
+                            <title xml:lang="sv">Projekt</title>
+                            <title xml:lang="en">Project</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-06-21</date>
+                                    <resultLabel>5</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>9.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">1111480011</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-03-29</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>6.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV013</identifier>
+                    <identifier type="elmo">244900200</identifier>
+                    <title xml:lang="sv">Datakommunikation och datornät</title>
+                    <title xml:lang="en">Computer Networks</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2012-11-19</date>
+                            <resultLabel>3</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LABO</identifier>
+                            <identifier type="elmo">1021016701</identifier>
+                            <title xml:lang="sv">Laboration</title>
+                            <title xml:lang="en">Computer exercises</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-11-19</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">819781987</identifier>
+                            <title xml:lang="sv">Teori</title>
+                            <title xml:lang="en">Theory</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-10-05</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV121</identifier>
+                    <identifier type="elmo">755777867</identifier>
+                    <title xml:lang="sv">Artificiell intelligens - grunderna</title>
+                    <title xml:lang="en">Fundamentals of Artificial Intelligence</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2013-01-11</date>
+                            <resultLabel>3</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LABO</identifier>
+                            <identifier type="elmo">1472926902</identifier>
+                            <title xml:lang="sv">Laboration</title>
+                            <title xml:lang="en">Computer exercices</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2012-12-12</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>2.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">1468168133</identifier>
+                            <title xml:lang="sv">Artificiell intelligens - grunderna</title>
+                            <title xml:lang="en">Fundamentals of aritifical intelligence</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2013-01-11</date>
+                                    <resultLabel>3</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>5.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV119</identifier>
+                    <identifier type="elmo">1113076303</identifier>
+                    <title xml:lang="sv">Introduktion till databashantering</title>
+                    <title xml:lang="en">Introduction to Database Management</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2013-03-27</date>
+                            <resultLabel>4</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LABO</identifier>
+                            <identifier type="elmo">89418953</identifier>
+                            <title xml:lang="sv">Laboration</title>
+                            <title xml:lang="en">Computer exercise</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2013-03-27</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>3.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">TEOR</identifier>
+                            <identifier type="elmo">1907274154</identifier>
+                            <title xml:lang="sv">Introduktion till databashantering</title>
+                            <title xml:lang="en">Introduction to Database Management</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2013-03-27</date>
+                                    <resultLabel>4</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>4.5</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV129</identifier>
+                    <identifier type="elmo">1252146664</identifier>
+                    <title xml:lang="sv">Examensarbete för kandidatexamen i datavetenskap</title>
+                    <title xml:lang="en">Degree Project: Bachelor of Science in Computing Science</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2013-06-26</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">PROJ</identifier>
+                            <identifier type="elmo">1440786003</identifier>
+                            <title xml:lang="sv">Projektarbete</title>
+                            <title xml:lang="en">Projekt work</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2013-06-26</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>15.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5DV086</identifier>
+                    <identifier type="elmo">1648287441</identifier>
+                    <title xml:lang="sv">Programspråk</title>
+                    <title xml:lang="en">Programming Languages</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5MA019</identifier>
+                    <identifier type="elmo">2037591344</identifier>
+                    <title xml:lang="sv">Linjär algebra</title>
+                    <title xml:lang="en">Linear Algebra</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                    <hasPart>
+                        <learningOpportunitySpecification>
+                            <identifier type="local">LAB0</identifier>
+                            <identifier type="elmo">432837078</identifier>
+                            <title xml:lang="sv">Datorlaborationer</title>
+                            <title xml:lang="en">Computer Exercises</title>
+                            <type>Class</type>
+                            <specifies>
+                                <learningOpportunityInstance>
+                                    <date>2011-10-25</date>
+                                    <resultLabel>G</resultLabel>
+                                    <credit>
+                                        <scheme>ects</scheme>
+                                        <value>1.0</value>
+                                    </credit>
+                                </learningOpportunityInstance>
+                            </specifies>
+                        </learningOpportunitySpecification>
+                    </hasPart>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">5TN009</identifier>
+                    <identifier type="elmo">1744590374</identifier>
+                    <title xml:lang="sv">Meritportfölj för programstudenter</title>
+                    <title xml:lang="en">Portfolio for program students</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <issueDate dtf="yyyy-MM-dd">2015-12-17</issueDate>
+        <additionalLanguage>sv</additionalLanguage>
+    </report>
+    <attachment>
+        <title xml:lang="en">Transcript of Records</title>
+        <type>Transcript of Records</type>
+        <content>data:application/pdf;base64,JVBERi0xLjQKJeLjz9MKMTAgMCBvYmoKPDwvUCAxMSAwIFIvU3VidHlwZS9XaWRnZXQvVChTaWduYXR1cmUxKS9WIDEgMCBSL0YgMTMyL1R5cGUvQW5ub3QvRlQvU2lnL0RSPDwvWE9iamVjdDw8L0ZSTSA4IDAgUj4+Pj4vUmVjdFsxMCA4MDAgMTE4IDgzMl0vQVA8PC9OIDkgMCBSPj4+PgplbmRvYmoKMSAwIG9iago8PC9SIDY1NTQxL0NvbnRlbnRzIDwwNDgxODAyOTlhNDNlYzEzYTQyMGFlZmU2ODE2ZTkwNjdlNmE4ZDk2YjBlNmM3NWM0YTc3ZjRlNDFkOTdiMjYxMDg2YTE2YmQ5ZDMxMmI3N2RkMzE5ZmQ2YzJlN2Y0YzE4NDIzOTQ3NjM5YmNmNjM5ZTg0YmE1MjA4ODIwNzRhYzNiMjZmMjk4ZGYzZTU5MmMzMGMxNjA4MzI0MTFiOTYyYjNiNmJmOTRhMGU3NTVmZmY5YTM3ZGZkYzQ1YTYwNzU0OWJlYjM3NTc5NzBlMjJjNzYzZTcxZWQ2MjcxZmVkNGU0YjA2MjU3MjBhNzQ4YzI5ZDE2MjM3YzAyNDE0M2U4MGZkMjI5Pi9GaWx0ZXIvQWRvYmUuUFBLTGl0ZS9DZXJ0KDCCAfUwggFeAlx0APNwv+6Sza22MFxyBlx0KoZIhvdccgEBBQUAMD8xCzBcdAYDVQQGEwJOTzETMBEGA1UEXGJcZlxuU29tZS1TdGF0ZTFccjALBgNVBAdcZgRPc2xvMVxmMFxuBgNVBFxuXGYDVWlPMB4XXHIxNTAyMDUxMzQxNTJaF1xyMTgwNTIwMTM0MTUyWjA/MQswXHQGA1UEBhMCTk8xEzARBgNVBFxiXGZcblNvbWUtU3RhdGUxXHIwCwYDVQQHXGYET3NsbzFcZjBcbgYDVQRcblxmA1VpTzCBnzBccgZcdCqGSIb3XHIBAQEFAAOBjQAwgYkCgYEAsnI3V1JKOl6Ghlxm7uQDkrFBXFwl959cKP3y4lkVzW18T8AXkLKjNWQxJpW7h7kqeEZcKXJcKMAhX/FEy7y8R5uuhp2H2Og44P548v3lWcDFwzHLdJ2sbFEnlFnA1/WXlQHGbjXpp1xiR78frlFX2kKz8kz0gmOmqFFey3zZm7ZdiKw9fTsCAwEAATBccgZcdCqGSIb3XHIBAQUFAAOBgQBn6MlnleclAG/BVF4irljHag7OOopxTlQzb1V/mR0kYtsr6PZzXHQyXcMFOWGFjxtoXamEc8snZRBoneTj3lx0W01A1AbzIoNcdIeCS571jSbQ7VxyJ9CEeJr+0ni6ud+5lQWmn7Vdx3Z8qEi3F0KQ3qf2pFDmvE6T8FYP/tlO01jRiXkpL1R5cGUvU2lnL0J5dGVSYW5nZSBbMCAxOTkgNDYzIDgyMzUgXSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC9TdWJGaWx0ZXIvYWRiZS54NTA5LnJzYV9zaGExL1JlYXNvbihTaWduZWQgYnkgU3dlZGlzaCBFTVJFWCAtIE5DUCkvTG9jYXRpb24oU3dlZGVuKS9NKEQ6MjAxNTEyMTcxNTIzMjgrMDEnMDAnKT4+CmVuZG9iagoxMiAwIG9iago8PC9OYW1lL0hlbHYvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQvQmFzZUZvbnQvSGVsdmV0aWNhL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZz4+CmVuZG9iagoxMyAwIG9iago8PC9OYW1lL1phRGIvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQvQmFzZUZvbnQvWmFwZkRpbmdiYXRzPj4KZW5kb2JqCjUgMCBvYmoKPDwvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQvQmFzZUZvbnQvSGVsdmV0aWNhL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZz4+CmVuZG9iago2IDAgb2JqCjw8L1N1YnR5cGUvRm9ybS9GaWx0ZXIvRmxhdGVEZWNvZGUvVHlwZS9YT2JqZWN0L01hdHJpeCBbMSAwIDAgMSAwIDBdL0Zvcm1UeXBlIDEvUmVzb3VyY2VzPDwvUHJvY1NldCBbL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSV0+Pi9CQm94WzAgMCAxMDAgMTAwXS9MZW5ndGggMTg+PnN0cmVhbQp4nFNVcAl2yknMy+YCAA5XAs8KZW5kc3RyZWFtCmVuZG9iago5IDAgb2JqCjw8L1N1YnR5cGUvRm9ybS9GaWx0ZXIvRmxhdGVEZWNvZGUvVHlwZS9YT2JqZWN0L01h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CmVuZG9iagp4cmVmCjAgMjIKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMTcxIDAwMDAwIG4gCjAwMDAwMDMxNDggMDAwMDAgbiAKMDAwMDAwMjI4NCAwMDAwMCBuIAowMDAwMDAzMzY3IDAwMDAwIG4gCjAwMDAwMDE0MzUgMDAwMDAgbiAKMDAwMDAwMTUyMyAwMDAwMCBuIAowMDAwMDAxOTkzIDAwMDAwIG4gCjAwMDAwMDI4MjggMDAwMDAgbiAKMDAwMDAwMTc0MiAwMDAwMCBuIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDYzODMgMDAwMDAgbiAKMDAwMDAwMTI1OSAwMDAwMCBuIAowMDAwMDAxMzU4IDAwMDAwIG4gCjAwMDAwMDM3NDMgMDAwMDAgbiAKMDAwMDAwMzgzNyAwMDAwMCBuIAowMDAwMDAzOTI2IDAwMDAwIG4gCjAwMDAwMDYzMTEgMDAwMDAgbiAKMDAwMDAwNzY1MyAwMDAwMCBuIAowMDAwMDA2NTY0IDAwMDAwIG4gCjAwMDAwMDc4MDkgMDAwMDAgbiAKMDAwMDAwNzk3NyAwMDAwMCBuIAp0cmFpbGVyCjw8L0luZm8gMjEgMCBSL0lEIFs8MGU0MjIyZmMyNDZiNDY5NDM4ZDU5OTBhZDlkNjI4Zjg+PGFlM2Y3MGJhNWZlNzY0ODA0ZjQ4NTlkYzE3NmJhZGE1Pl0vUm9vdCAyMCAwIFIvU2l6ZSAyMj4+CnN0YXJ0eHJlZgo4MTA4CiUlRU9GCg==</content>
+    </attachment>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <Reference URI="">
+                <Transforms>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <DigestValue>/O3MX34InJehoKpElufedaypuH4=</DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue>mHMmGPVQB3uWljWXZNaqYu5lq7+ecTVFWYrdnE4ubJJo72YgUrlusuiFaQci4y+zgtzr0vpFgqRG
+            jW8YRPZ5WHJc3R/CxjUlhscwhdUtAeabIOT96n0Ku6zRtQ71zMRaDadEsgMoMlJ/0IrMLqlMPDSk
+            WF7bNl6IAK6EgTQX3ls=</SignatureValue>
+        <KeyInfo>
+            <X509Data>
+                <X509SubjectName>O=UiO,L=Oslo,ST=Some-State,C=NO</X509SubjectName>
+                <X509Certificate>MIIB9TCCAV4CCQDzcL/uks2ttjANBgkqhkiG9w0BAQUFADA/MQswCQYDVQQGEwJOTzETMBEGA1UE
+                    CAwKU29tZS1TdGF0ZTENMAsGA1UEBwwET3NsbzEMMAoGA1UECgwDVWlPMB4XDTE1MDIwNTEzNDE1
+                    MloXDTE4MDUyMDEzNDE1MlowPzELMAkGA1UEBhMCTk8xEzARBgNVBAgMClNvbWUtU3RhdGUxDTAL
+                    BgNVBAcMBE9zbG8xDDAKBgNVBAoMA1VpTzCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAsnI3
+                    V1JKOl6Ghgzu5AOSsUFcJfefKP3y4lkVzW18T8AXkLKjNWQxJpW7h7kqeEYpcijAIV/xRMu8vEeb
+                    roadh9joOOD+ePL95VnAxcMxy3SdrGxRJ5RZwNf1l5UBxm416acIR78frlFX2kKz8kz0gmOmqFFe
+                    y3zZm7ZdiKw9fTsCAwEAATANBgkqhkiG9w0BAQUFAAOBgQBn6MlnleclAG/BVF4irljHag7OOopx
+                    TlQzb1V/mR0kYtsr6PZzCTJdwwU5YYWPG2hdqYRzyydlEGid5OPeCVtNQNQG8yKDCYeCS571jSbQ
+                    7Q0n0IR4mv7SeLq537mVBaaftV3HdnyoSLcXQpDep/akUOa8TpPwVg/+2U7TWNGJeQ==</X509Certificate>
+            </X509Data>
+        </KeyInfo>
+    </Signature>
+</elmo>
