@@ -131,8 +131,8 @@ public class ElmoParser {
     }
 
     public void addPDFAttachment(byte[] pdf) {
-        NodeList reports = document.getElementsByTagName("elmo");
-        if (reports.getLength() > 0) {
+        NodeList elmos = document.getElementsByTagName("elmo");
+        if (elmos.getLength() > 0) {
 
             //remove existing attachments to avoid duplicates
             NodeList removeNodes = document.getElementsByTagName("attachment");
@@ -154,7 +154,7 @@ public class ElmoParser {
             Element content = document.createElement("content");
             content.setTextContent(data);
             attachment.appendChild(content);
-            reports.item(0).appendChild(attachment); // we assume that only one report exists
+            elmos.item(0).appendChild(attachment); // we assume that only one report exists
         }
     }
 
