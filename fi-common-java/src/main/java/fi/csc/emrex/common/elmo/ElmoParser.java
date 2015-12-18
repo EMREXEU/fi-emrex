@@ -123,11 +123,11 @@ public class ElmoParser {
                     }
                     throw new Exception("no content attachment in elmo in  xml");
                 }
-                
+
             }
             throw new Exception("no attachments in elmo in  xml");
         }
-        throw new Exception("No elmo in xml");  
+        throw new Exception("No elmo in xml");
     }
 
     public void addPDFAttachment(byte[] pdf) {
@@ -258,29 +258,58 @@ public class ElmoParser {
         NodeList learningOpportunities = (NodeList) learningOpportunityExpression.evaluate(document, XPathConstants.NODESET);
         for (int i = 0; i < learningOpportunities.getLength(); i++) {
             String type = "undefined";
-            NodeList types = ((Element) learningOpportunities.item(i)).getElementsByTagName("type");
+            Element opportunitySpecification = (Element) learningOpportunities.item(i);
+            NodeList types = opportunitySpecification.getElementsByTagName("type");
             for (int j = 0; j < types.getLength(); j++) {
-                if (types.item(j).getParentNode() == learningOpportunities.item(i)) {
+                if (types.item(j).getParentNode() == opportunitySpecification) {
                     type = types.item(j).getTextContent();
                 }
             }
 
             Integer credits = 0;
-            XPathExpression valueExpression = xpath.compile("credit/value");
-            String valueContent = ((Node) valueExpression.evaluate(learningOpportunities.item(i), XPathConstants.NODE)).getTextContent();
-            credits = Integer.parseInt(valueContent);
+            //XPathExpression valueExpression = xpath.compile("//specifies/learningOpportunityInstance/credit");
+            //Element credit = (Element) valueExpression.evaluate( XPathConstants.NODE);
+            List<Element> specifications = this.toElementList(opportunitySpecification.getElementsByTagName("specifies"));
+            for (Element spec : specifications) {
+                if (opportunitySpecification.equals(spec.getParentNode())) {
+                    List<Element> instances = this.toElementList(spec.getElementsByTagName("learningOpportunityInstance"));
+                    for (Element instance : instances) {
+                        if (spec.equals(instance.getParentNode())) {
+                            List<Element> creditElemnets = this.toElementList(spec.getElementsByTagName("credit"));
+                            for (Element credit : creditElemnets) {
+                                NodeList schemes = credit.getElementsByTagName("scheme");
+                                for (int j = 0; j < schemes.getLength(); j++) {
+                                    Node scheme = schemes.item(j);
+                                    if ("ects".equalsIgnoreCase(scheme.getTextContent())) {
+                                        Node item = credit.getElementsByTagName("value").item(0);
+                                        if (item != null) {
+                                            String valueContent = item.getTextContent();
+                                            double doubleValue = Double.parseDouble(valueContent);
+                                            //log.debug(type + " double: " + doubleValue);
+                                            credits = (int) doubleValue;
+                                            //log.debug(type + " int: " + credits);
+                                            if (result.containsKey(type)) {
+                                                credits += result.get(type);
+                                                result.replace(type, credits);
+                                            } else {
+                                                result.put(type, credits);
+                                            }
+                                        }
 
-            if (result.containsKey(type)) {
-                credits += result.get(type);
-                result.replace(type, credits);
-            } else {
-                result.put(type, credits);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
-
         // lets take biggest number by type so same numbers are not counted several times
         int count = 0;
         for (Map.Entry<String, Integer> entry : result.entrySet()) {
+           // log.debug(entry.toString());
             if (entry.getValue() > count) {
                 count = entry.getValue().intValue();
             }
