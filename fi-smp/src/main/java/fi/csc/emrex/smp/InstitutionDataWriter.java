@@ -62,7 +62,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Setter
 @Slf4j
 public class InstitutionDataWriter {
-
+    
     private String dirMap;
     private String pdfBaseDir;
     private Person user;
@@ -70,7 +70,7 @@ public class InstitutionDataWriter {
     private boolean verified;
     private String email;
     private String key;
-
+    
     private String filename;
     private String emailBodyFile;
     private String emailBody;
@@ -99,13 +99,13 @@ public class InstitutionDataWriter {
         this.files = new ArrayList<>();
         this.pgp = new PGPEncryptor();
     }
-
+    
     public void writeDataToInstitutionFolder(byte[] bytePDF, String fileType) {
         createPath();
         writeToFile(bytePDF, fileType);
-
+        
     }
-
+    
     void writeData(byte[] bytePDF, byte[] elmoXml) {
         this.writeDataToInstitutionFolder(bytePDF, ".pdf");
         this.writeDataToInstitutionFolder(elmoXml, ".xml");
@@ -114,7 +114,7 @@ public class InstitutionDataWriter {
             this.createMail();
         }
     }
-
+    
     private void writeToFile(byte[] bytePDF, String fileType) {
         this.filename = generateFileName();
         String tempfilename = this.path + "/" + this.filename + fileType;
@@ -126,7 +126,7 @@ public class InstitutionDataWriter {
             ioe.printStackTrace();
         }
     }
-
+    
     private String generateFileName() {
         String filename = "emrex_";
         String name = user.getFirstName() + "_" + user.getLastName() + "_";
@@ -141,23 +141,23 @@ public class InstitutionDataWriter {
         log.debug("Generated filename: " + filename);
         return filename;
     }
-
+    
     private void createPath() {
         //String path = generatePath();
         log.debug("Generated path:" + this.path);
         new File(path).mkdirs();
     }
-
+    
     private void generatePath() {
         String dirname = this.pdfBaseDir;
         log.debug("map file: " + dirMap);
         try {
-
+            
             File jsonfile = new File(dirMap);
             log.debug("JSON file location: " + jsonfile.getAbsolutePath());
             String json = FileUtils.readFileToString(jsonfile, "UTF-8");
             JSONObject root = (JSONObject) JSONValue.parse(json);
-
+            
             JSONObject home = (JSONObject) root.get(user.getHomeOrganization());
             if (home != null) {
                 System.out.println(home);
@@ -172,13 +172,13 @@ public class InstitutionDataWriter {
             } else {
                 dirname += "unknown_organization";
             }
-
+            
         } catch (Exception ex) {
             Logger.getLogger(JsonController.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.path = dirname;
     }
-
+    
     private void createMail() {
         log.debug("Sending Mail");
         // Get system properties
@@ -186,9 +186,9 @@ public class InstitutionDataWriter {
 
         // Get the default Session object.
         Session session = Session.getDefaultInstance(properties);
-
+        
         try {
-
+            
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(this.emailSender));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
@@ -209,25 +209,25 @@ public class InstitutionDataWriter {
                 File inFile = new File(tempFileName);
                 OutputStream tempStream = new ByteArrayOutputStream();
                 String fileType = "";
-
+                
                 if (tempFileName.endsWith("xml")) {
                     fileType = "application/xml; charset=UTF-8";
                 }
                 if (tempFileName.endsWith("pdf")) {
                     Base64.Encoder encoder = Base64.getEncoder();
-                    String base64fileName= tempFileName+".64";
-                    String base64pdf =encoder.encodeToString(Files.readAllBytes(Paths.get(tempFileName)));
-                    Files.write(Paths.get(base64fileName),base64pdf.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.WRITE );
-                    tempFileName =  base64fileName;
+                    String base64fileName = tempFileName + ".64";
+                    String base64pdf = encoder.encodeToString(Files.readAllBytes(Paths.get(tempFileName)));
+                    Files.write(Paths.get(base64fileName), base64pdf.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+                    tempFileName = base64fileName;
                     /*String tempZipFile = tempFileName + ".zip";
-                    if (this.zipFile(tempFileName, tempZipFile) != null) {
-                        tempFileName = tempZipFile;
-                        fileType = "application/zip";
-                    } else {*/
-                        fileType = "application/pdf";
-                  //  }
+                     if (this.zipFile(tempFileName, tempZipFile) != null) {
+                     tempFileName = tempZipFile;
+                     fileType = "application/zip";
+                     } else {*/
+                    fileType = "application/pdf";
+                    //  }
                 }
-
+                
                 messageBodyPart.attachFile(tempFileName);
                 //messageBodyPart.setContent(tempStream.toString(), fileType);
 
@@ -257,9 +257,9 @@ public class InstitutionDataWriter {
             message.setContent(multipart);
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
-
+            
             t.setStartTLS(true);
-
+            
             if ("true".equals(properties.getProperty("mail.smtp.auth"))) {
                 System.out.println(properties.getProperty("mail.smtp.host") + ", "
                         + properties.getProperty("mail.smtp.port") + ", "
@@ -280,16 +280,16 @@ public class InstitutionDataWriter {
             Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
             t.sendMessage(message, message.getAllRecipients());
             t.close();
-
+            
         } catch (MessagingException | IOException | NoSuchProviderException | PGPException | NoSuchAlgorithmException ex) {
             //ex.printStackTrace(log.);log.error(ex.);
             log.error("Sending mail failed", ex);
             Logger.getLogger(InstitutionDataWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     BodyPart encryptBodyPart(BodyPart part, String filename) throws FileNotFoundException, IOException, MessagingException, NoSuchProviderException, NoSuchAlgorithmException, PGPException {
-
+        
         BodyPart messageBodyPart = new MimeBodyPart();
         File partFile = new File(filename + ".mprt");
         //File cryptFile = new File(filename + "mprt.sec");
@@ -299,10 +299,10 @@ public class InstitutionDataWriter {
         String headerString = "";
         while (headers.hasMoreElements()) {
             Header head = (Header) headers.nextElement();
-
+            
             headerString += head.getName() + ": " + head.getValue() + "\n";
         }
-        headerString+='\n';
+        headerString += '\n';
         log.debug(headerString);
         //log.debug("FileName:" + );
         //partFileStream.write(headerString.getBytes());
@@ -315,38 +315,37 @@ public class InstitutionDataWriter {
         
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
         String disp = messageBodyPart.getDisposition();
-        if (disp == null || disp.equals("")){
-            disp ="filename="+filename+".pgp";
-        }else
-            disp ="; filename="+filename+".pgp";
-        {
-            
+        if (disp == null || disp.equals("")) {
+            disp = "filename=" + filename + ".pgp";
+        } else {
+            disp = "; filename=" + filename + ".pgp";
         }
+        messageBodyPart.setDisposition(disp);
         return messageBodyPart;
     }
-
+    
     private File zipFile(String fileIn, String zipFileOut) {
         byte[] buffer = new byte[1024];
-
+        
         try {
-
+            
             FileOutputStream fos = new FileOutputStream(zipFileOut);
             ZipOutputStream zos = new ZipOutputStream(fos);
             ZipEntry ze = new ZipEntry("spy.log");
             zos.putNextEntry(ze);
             FileInputStream in = new FileInputStream(fileIn);
-
+            
             int len;
             while ((len = in.read(buffer)) > 0) {
                 zos.write(buffer, 0, len);
             }
-
+            
             in.close();
             zos.closeEntry();
 
             //remember close it
             zos.close();
-
+            
             return new File(zipFileOut);
         } catch (IOException ex) {
             log.debug(ex.getMessage());
