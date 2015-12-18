@@ -314,13 +314,7 @@ public class InstitutionDataWriter {
         this.pgp.encryptFileToStream(partFile, new File(this.key), partStream, true);
         
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
-        String disp = messageBodyPart.getDisposition();
-        if (disp == null || disp.equals("")) {
-            disp = "filename=" + filename + ".pgp";
-        } else {
-            disp = "; filename=" + filename + ".pgp";
-        }
-        messageBodyPart.setDisposition(disp);
+        log.debug(messageBodyPart.getDisposition());
         return messageBodyPart;
     }
     
