@@ -305,16 +305,23 @@ public class InstitutionDataWriter {
         headerString+='\n';
         log.debug(headerString);
         //log.debug("FileName:" + );
-        partFileStream.write(headerString.getBytes());
+        //partFileStream.write(headerString.getBytes());
         part.writeTo(partFileStream);
         partFileStream.flush();
         partFileStream.close();
         //this.pgp.encryptFile(partFile, keyfile, cryptFile, verified);
         OutputStream partStream = new ByteArrayOutputStream();
         this.pgp.encryptFileToStream(partFile, new File(this.key), partStream, true);
-
+        
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
-
+        String disp = messageBodyPart.getDisposition();
+        if (disp == null || disp.equals("")){
+            disp ="filename="+filename+".pgp";
+        }else
+            disp ="; filename="+filename+".pgp";
+        {
+            
+        }
         return messageBodyPart;
     }
 

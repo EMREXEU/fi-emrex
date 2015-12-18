@@ -107,19 +107,21 @@ public class ElmoParser {
                 if (attachment.getParentNode().equals(elmo)) {
                     NodeList types = attachment.getElementsByTagName("type");
                     Element type = (Element) types.item(0);
-                    if (type != null) {
-                        if ("Transcript of Records".equals(type.getTextContent())) {
+                    //if (type != null) {
+                    //  if ("Transcript of Records".equals(type.getTextContent())) { // need to check for "Emrex trenscript"
 
-                            NodeList content = attachment.getElementsByTagName("content");
+                    NodeList content = attachment.getElementsByTagName("content");
 
-                            for (int j = 0; j < content.getLength(); j++) {
+                    for (int j = 0; j < content.getLength(); j++) {
 
-                                log.debug(content.item(j).getTextContent());
-                                DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
-                                return parse.getData();
-                                //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
-                            }
+                        //log.debug(content.item(j).getTextContent());
+                        DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
+                        if ("application/pdf".equals(parse.getMime())) {
+                            return parse.getData();
                         }
+                        //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
+                        //      }
+                        //  }
                     }
                     throw new Exception("no content attachment in elmo in  xml");
                 }
@@ -309,7 +311,7 @@ public class ElmoParser {
         // lets take biggest number by type so same numbers are not counted several times
         int count = 0;
         for (Map.Entry<String, Integer> entry : result.entrySet()) {
-           // log.debug(entry.toString());
+            // log.debug(entry.toString());
             if (entry.getValue() > count) {
                 count = entry.getValue().intValue();
             }
