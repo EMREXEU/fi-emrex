@@ -39,7 +39,7 @@ app.controller('home', function ($scope, $http, $sce, $cookies, $timeout) {
 
         $scope.ncps = ncps;
 
-        if (ncps.length == 1) {
+        if (ncps.length >= 1) {
             $scope.ncpUrl = $sce.trustAsResourceUrl(ncps[0].url);
             $http.post('api/sessiondata', {url: ncps[0].url}).success(function (response) {
                 $cookies.elmoSessionId = response.sessionId;
