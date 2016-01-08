@@ -3,7 +3,6 @@ package fi.csc.emrex.common;
 /**
  * Created by marko.hollanti on 20/08/15.
  */
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
@@ -17,17 +16,15 @@ import javax.xml.xpath.XPathFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ElmoXmlImportHelper {
 
     private final Logger logger = LoggerFactory.getLogger(ElmoXmlImportHelper.class);
 
-
     public ElmoDocument getDocument(Node report) throws Exception {
         ElmoDocument doc = new ElmoDocument();
-        String firstName = getValueForTag(report, "learner/givenNames");
-        String lastName = getValueForTag(report, "learner/familyName");
-        String birthday = getValueForTag(report, "learner/bday");
+        String firstName = getValueForTag(report.getParentNode(), "learner/givenNames");
+        String lastName = getValueForTag(report.getParentNode(), "learner/familyName");
+        String birthday = getValueForTag(report.getParentNode(), "learner/bday");
         doc.setBirthday(birthday);
         doc.setPersonName(firstName + " " + lastName);
         doc.setInstitutionName(getValueForTag(report, "issuer/title"));
@@ -61,7 +58,7 @@ public class ElmoXmlImportHelper {
 
     private void getLearningOpportunityValues(Node los, XPath xpath, ElmoResult res) throws Exception {
         res.setCode(getLocalContentValue(los, xpath, "identifier"));
-        res.setType(getValueForTag(los,"type"));
+        res.setType(getValueForTag(los, "type"));
         res.setLevel(getLevel(los, xpath));
         res.setName(getEnglishContentValue(los, xpath, "title"));
         res.setCredits(getValueForTag(los, "credit/value"));
@@ -73,19 +70,20 @@ public class ElmoXmlImportHelper {
 
         String endDate;
         endDate = getValueForTag(los, "specifies/learningOpportunityInstance/end");
-        if (endDate.isEmpty())
+        if (endDate.isEmpty()) {
             return getValueForTag(los, "specifies/learningOpportunityInstance/start");
-        else
+        } else {
             return endDate;
+        }
     }
 
-
     private String getLevel(Node los, XPath xpath) throws Exception {
-        String simpleLevel = getValueForTag(los,"level");
-        if (!simpleLevel.isEmpty())
+        String simpleLevel = getValueForTag(los, "level");
+        if (!simpleLevel.isEmpty()) {
             return simpleLevel;
-        else
+        } else {
             return getPreferredContentValue(los, xpath, "qualification/educationLevel", "xml:lang", "en");
+        }
     }
 
     private void loopChildren(List<ElmoResult> results, Node los, XPath xpath, String path) throws Exception {
@@ -105,6 +103,8 @@ public class ElmoXmlImportHelper {
                 results.add(resultFromModule(results, node, xpath));
             } else if (type.getTextContent().equalsIgnoreCase("module group")) {
                 results.add(resultFromModule(results, node, xpath));
+            } else if (type.getTextContent().equalsIgnoreCase("course")) {
+                results.add(resultFromModule(results, node, xpath));
             }
         }
     }
@@ -123,7 +123,6 @@ public class ElmoXmlImportHelper {
         return getPreferredContentValue(node, xpath, expr, "type", "local");
     }
 
-
     // returns english content, if not available any, if anything is not available we return default text
     private String getEnglishContentValue(Node node, XPath xpath, String expr) throws Exception {
         return getPreferredContentValue(node, xpath, expr, "xml:lang", "en");
@@ -136,8 +135,9 @@ public class ElmoXmlImportHelper {
         for (int i = 0; i < nList.getLength(); i++) {
             Node n = (Node) nList.item(i);
             String possibleContent = n.getTextContent();
-            if (possibleContent != null && !possibleContent.isEmpty())
+            if (possibleContent != null && !possibleContent.isEmpty()) {
                 content = possibleContent;
+            }
             NamedNodeMap map = n.getAttributes();
             Node item = map.getNamedItem(itemName);
 

@@ -51,7 +51,7 @@ public class ElmoParser {
     private int gcc;
 
     protected ElmoParser(String elmo) {
-        this.gcc=0;
+        this.gcc = 0;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         //Get the DOM Builder
         DocumentBuilder builder;
@@ -201,7 +201,7 @@ public class ElmoParser {
                     if (id.getParentNode() == specification) {
                         if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
                             String idContent = id.getTextContent();
-                            log.debug("idContent "+idContent);
+                            // log.debug("idContent "+idContent);
                             boolean doesntContain;
                             if (courses == null) {
                                 doesntContain = true;
@@ -234,10 +234,10 @@ public class ElmoParser {
             }
             List<Node> removeEmptyReports = new ArrayList<>();
             NodeList reports = doc.getElementsByTagName("report");
-            log.debug("reports.getLength() "+reports.getLength());
+            //log.debug("reports.getLength() " + reports.getLength());
             for (int i = 0; i < reports.getLength(); i++) {
                 Element report = (Element) reports.item(i);
-                log.debug("Report " + i);
+                //log.debug("Report " + i);
                 NodeList learnList = report.getElementsByTagName("learningOpportunitySpecification");
                 if (learnList.getLength() < 1) {
                     log.error("Empty report " + i);
@@ -245,7 +245,7 @@ public class ElmoParser {
                 }
             }
             for (Node report : removeEmptyReports) {
-                
+
                 report.getParentNode().removeChild(report);
             }
             return getStringFromDoc(doc);

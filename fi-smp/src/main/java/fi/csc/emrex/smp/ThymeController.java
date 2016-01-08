@@ -180,7 +180,7 @@ public class ThymeController {
                     VerifiedReport vr = new VerifiedReport();
                     Element report = (Element) reports.item(i);
                     vr.setReport(nodeToString(report));
-                    Person elmoPerson = getUserFromElmoReport(report);
+                    Person elmoPerson = getUserFromElmoReport((Element)report.getParentNode());
 
                     if (elmoPerson != null) {
                         VerificationReply verification = VerificationReply.verify(person, elmoPerson, verificationThreshold);
@@ -191,7 +191,7 @@ public class ThymeController {
 
                     } else {
                         vr.addMessage("Elmo learner missing");
-                        //todo fix this
+                        //TODO fix this
                     }
                     results.add(vr);
                 }
