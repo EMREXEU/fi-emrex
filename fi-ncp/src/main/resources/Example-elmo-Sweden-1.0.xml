@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?><elmo xmlns="https://github.com/emrex-eu/elmo-schemas/tree/v1">
+    <generatedDate>2016-01-07T17:11:21+01:00</generatedDate>
+    <learner>
+        <identifier type="nationalIdentifier">19740617-7811</identifier>
+        <givenNames>Mattias</givenNames>
+        <familyName>Holmlund</familyName>
+        <bday>1974-06-17</bday>
+    </learner>
+    <report>
+        <issuer>
+            <country>SE</country>
+            <identifier type="national">UMU</identifier>
+            <identifier type="erasmus">S UMEA01</identifier>
+            <identifier type="pic">999881821</identifier>
+            <identifier type="schac">umu.se</identifier>
+            <title xml:lang="sv">Umeå TEST-TEST</title>
+            <title xml:lang="en">Umeå University</title>
+            <url>http://www.umu.se</url>
+        </issuer>
+        <learningOpportunitySpecification>
+            <identifier type="local">FKANS</identifier>
+            <title xml:lang="sv">Systemvetenskapliga programmet</title>
+            <title xml:lang="en">Study Programme for Systems Analysis</title>
+            <type>Degree Programme</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date>2010-03-11</date>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>120.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">STAA19</identifier>
+                    <title xml:lang="sv">Statistik A2000</title>
+                    <title xml:lang="en">Basic Statistics</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>30.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">KOMA16</identifier>
+                    <title xml:lang="sv">Multimedia</title>
+                    <title xml:lang="en">Multimedia</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">SVEX15</identifier>
+                    <title xml:lang="sv">Kommunikationsteknik</title>
+                    <title xml:lang="en">Communication Skills</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">STAA40</identifier>
+                    <title xml:lang="sv">Statistik - samhällsvetenskaplig metod</title>
+                    <title xml:lang="en">Statistics, Introductory Level</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">MATA83</identifier>
+                    <title xml:lang="sv">Diskret matematik för samhällsvetare</title>
+                    <title xml:lang="en">Discrete Mathematics for the Social Sciences</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">INFA06</identifier>
+                    <title xml:lang="sv">Informatik A</title>
+                    <title xml:lang="en">Informatics</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>30.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">INFB03</identifier>
+                    <title xml:lang="sv">Informatik B</title>
+                    <title xml:lang="en">Informatics</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <level>Bachelor</level>
+                                <value>30.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">FEKA53</identifier>
+                    <title xml:lang="sv">Företagsekonomi A</title>
+                    <title xml:lang="en">Business Administration (Basic Course)</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>30.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">INFC03</identifier>
+                    <title xml:lang="sv">Informatik C - metoder och konstruktion</title>
+                    <title xml:lang="en">Informatics - Methods and Construction of Informations Systems</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">INFC01</identifier>
+                    <title xml:lang="sv">Informatik C - uppsatsarbete</title>
+                    <title xml:lang="en">Informatics - Thesis</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">KOMA22</identifier>
+                    <title xml:lang="sv">Internet och multimedia</title>
+                    <title xml:lang="en">Internet and Multimedia</title>
+                    <type>Course</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">STAA19</identifier>
+            <title xml:lang="sv">Statistik A2000</title>
+            <title xml:lang="en">Basic Statistics</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date>1997-02-03</date>
+                    <resultLabel>G</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>30.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">REGR</identifier>
+                    <title xml:lang="sv">Regressions- och variansanalys</title>
+                    <title xml:lang="en">Statistical Structutal Analysis</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1996-12-13</date>
+                            <resultLabel>VG</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">STAM</identifier>
+                    <title xml:lang="sv">Statistiska modeller</title>
+                    <title xml:lang="en">Probability Models</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1996-10-19</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">STAT</identifier>
+                    <title xml:lang="sv">Statistikteori</title>
+                    <title xml:lang="en">Statistical Inference</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1996-11-15</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">STUN</identifier>
+                    <title xml:lang="sv">Statistiska undersökningar</title>
+                    <title xml:lang="en">Survey Methods</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1997-02-03</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">KOMA16</identifier>
+            <title xml:lang="sv">Multimedia</title>
+            <title xml:lang="en">Multimedia</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date>1997-06-02</date>
+                    <resultLabel>G</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>7.5</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">MOM1</identifier>
+                    <title xml:lang="sv">Multimedia</title>
+                    <title xml:lang="en">Examination</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1997-06-02</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">KOMA22</identifier>
+            <title xml:lang="sv">Internet och multimedia</title>
+            <title xml:lang="en">Internet and Multimedia</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date>2001-04-06</date>
+                    <resultLabel>G</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>15.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">KOI1</identifier>
+                    <title xml:lang="sv">Internet och multimedia</title>
+                    <title xml:lang="en">Internet and Mlultimedia</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2001-04-06</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>15.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">2MR011</identifier>
+            <title xml:lang="sv">Vin och mat</title>
+            <title xml:lang="en">Wine and Food</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <date>2011-01-28</date>
+                    <resultLabel>G</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <level>Bachelor</level>
+                        <value>7.5</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">ENDA</identifier>
+                    <title xml:lang="sv">ENDA</title>
+                    <title xml:lang="en">ONLY</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>2011-01-28</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>7.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">ADBA21</identifier>
+            <title xml:lang="sv">Datakunskap I</title>
+            <title xml:lang="en">Informatics I</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>15.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">EKHA45</identifier>
+            <title xml:lang="sv">Miljön och den ekonomiska utvecklingen</title>
+            <title xml:lang="en">Environment and Economic Development. 10 000 Years of Resource Crises.</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>15.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">STAB02</identifier>
+            <title xml:lang="sv">Statistik B2000</title>
+            <title xml:lang="en">Statistics Intermediate Level</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <level>Bachelor</level>
+                        <value>30.0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">M2.1</identifier>
+                    <title xml:lang="sv">Statistisk metodologi I</title>
+                    <title xml:lang="en">Examination</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1997-03-21</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>4.5</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">M2.2</identifier>
+                    <title xml:lang="sv">Statistisk metodologi II</title>
+                    <title xml:lang="en">Examination</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1997-06-06</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>3.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+            <hasPart>
+                <learningOpportunitySpecification>
+                    <identifier type="local">MOM3</identifier>
+                    <title xml:lang="sv">Statistiska undersökningar</title>
+                    <title xml:lang="en">Survey Methods</title>
+                    <type>Class</type>
+                    <specifies>
+                        <learningOpportunityInstance>
+                            <date>1997-06-06</date>
+                            <resultLabel>G</resultLabel>
+                            <credit>
+                                <scheme>ects</scheme>
+                                <value>12.0</value>
+                            </credit>
+                        </learningOpportunityInstance>
+                    </specifies>
+                </learningOpportunitySpecification>
+            </hasPart>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="local">SVEA44</identifier>
+            <title xml:lang="sv">Kommunikation för IT</title>
+            <title xml:lang="en">Communication for IT</title>
+            <type>Course</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>7.5</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <issueDate>2016-01-07T17:11:09+01:00</issueDate>
+    </report>
+    <attachment>
+        <title xml:lang="en">Transcript of Records</title>
+        <type>Transcript of Records</type>
+        <content>data:application/pdf;base64,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/zjtkD4cohAX0mYKaYsp0rHDFHmPcrWMgsDsCvk3r4+2byZONYfuwdIH37IQ/vVm+R/65T2mCmVuZHN0cmVhbQplbmRvYmoKMTcgMCBvYmoKPDwvS2lkc1sxMSAwIFJdL1R5cGUvUGFnZXMvQ291bnQgMS9JVFhUKDUuMC42KT4+CmVuZG9iagoxMSAwIG9iago8PC9Db250ZW50cyAxNiAwIFIvVHlwZS9QYWdlL1Jlc291cmNlczw8L1Byb2NTZXRbL1BERi9UZXh0L0ltYWdlQi9JbWFnZUMvSW1hZ2VJXS9Gb250PDwvRjEgMTQgMCBSL0YyIDE1IDAgUj4+Pj4vUGFyZW50IDE3IDAgUi9Bbm5vdHNbMTAgMCBSXS9NZWRpYUJveFswIDAgNTk1IDg0Ml0+PgplbmRvYmoKMTggMCBvYmoKPDwvVHlwZS9DYXRhbG9nL0Fjcm9Gb3JtPDwvU2lnRmxhZ3MgMy9GaWVsZHNbMTAgMCBSXS9EQSgvSGVsdiAwIFRmIDAgZyApL0RSPDwvWE9iamVjdDw8L0ZSTSA4IDAgUj4+L0ZvbnQ8PC9aYURiIDEzIDAgUi9IZWx2IDEyIDAgUj4+Pj4+Pi9QYWdlcyAxNyAwIFI+PgplbmRvYmoKMTkgMCBvYmoKPDwvTW9kRGF0ZShEOjIwMTYwMTA3MTcxMTIxKzAxJzAwJykvQ3JlYXRpb25EYXRlKEQ6MjAxNjAxMDcxNzExMjErMDEnMDAnKS9Qcm9kdWNlcihpVGV4dCA1LjAuNiBcKGNcKSAxVDNYVCBCVkJBKT4+CmVuZG9iagp4cmVmCjAgMjAKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMTcxIDAwMDAwIG4gCjAwMDAwMDMyMzMgMDAwMDAgbiAKMDAwMDAwMjM2OSAwMDAwMCBuIAowMDAwMDAxNTIzIDAwMDAwIG4gCjAwMDAwMDE0MzUgMDAwMDAgbiAKMDAwMDAwMjE1MCAwMDAwMCBuIAowMDAwMDAzNDUyIDAwMDAwIG4gCjAwMDAwMDI5MTMgMDAwMDAgbiAKMDAwMDAwMTg5OSAwMDAwMCBuIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDU1MzcgMDAwMDAgbiAKMDAwMDAwMTI1OSAwMDAwMCBuIAowMDAwMDAxMzU4IDAwMDAwIG4gCjAwMDAwMDM3NDMgMDAwMDAgbiAKMDAwMDAwMzgzNyAwMDAwMCBuIAowMDAwMDAzOTI2IDAwMDAwIG4gCjAwMDAwMDU0NzIgMDAwMDAgbiAKMDAwMDAwNTcxOCAwMDAwMCBuIAowMDAwMDA1ODg2IDAwMDAwIG4gCnRyYWlsZXIKPDwvSW5mbyAxOSAwIFIvSUQgWzxmNGRkNWVhZmJkYjY4OTg5OWM1MGQ0MTVmOWE4Y2FiNz48OTRlMjVhN2U2MjBmMGVkNTM2NWFjNjgzOTcxMWIzODI+XS9Sb290IDE4IDAgUi9TaXplIDIwPj4Kc3RhcnR4cmVmCjYwMTcKJSVFT0YK</content>
+    </attachment>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <Reference URI="">
+                <Transforms>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <DigestValue>ngM2cCXUshDdlxyhUVDWjkYEfek=</DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue>PMZTb9UBEJy6xzbpR0VcaN4jsUURi9vyKnEBNtIt56duCyWnXHe+UZ00u8/zj+te2DwcpPj3cd7Z
+            P6CiCT8z5RPsf3yIZhgI7OrQjccSARmE9JOG68bkbtpun95wHfZ0FTTbnJlv5hiDkIFmNtePHjg7
+            fCM+SL852JTSzgMGXjQ=</SignatureValue>
+        <KeyInfo>
+            <X509Data>
+                <X509SubjectName>O=UiO,L=Oslo,ST=Some-State,C=NO</X509SubjectName>
+                <X509Certificate>MIIB9TCCAV4CCQDzcL/uks2ttjANBgkqhkiG9w0BAQUFADA/MQswCQYDVQQGEwJOTzETMBEGA1UE
+                    CAwKU29tZS1TdGF0ZTENMAsGA1UEBwwET3NsbzEMMAoGA1UECgwDVWlPMB4XDTE1MDIwNTEzNDE1
+                    MloXDTE4MDUyMDEzNDE1MlowPzELMAkGA1UEBhMCTk8xEzARBgNVBAgMClNvbWUtU3RhdGUxDTAL
+                    BgNVBAcMBE9zbG8xDDAKBgNVBAoMA1VpTzCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAsnI3
+                    V1JKOl6Ghgzu5AOSsUFcJfefKP3y4lkVzW18T8AXkLKjNWQxJpW7h7kqeEYpcijAIV/xRMu8vEeb
+                    roadh9joOOD+ePL95VnAxcMxy3SdrGxRJ5RZwNf1l5UBxm416acIR78frlFX2kKz8kz0gmOmqFFe
+                    y3zZm7ZdiKw9fTsCAwEAATANBgkqhkiG9w0BAQUFAAOBgQBn6MlnleclAG/BVF4irljHag7OOopx
+                    TlQzb1V/mR0kYtsr6PZzCTJdwwU5YYWPG2hdqYRzyydlEGid5OPeCVtNQNQG8yKDCYeCS571jSbQ
+                    7Q0n0IR4mv7SeLq537mVBaaftV3HdnyoSLcXQpDep/akUOa8TpPwVg/+2U7TWNGJeQ==</X509Certificate>
+            </X509Data>
+        </KeyInfo>
+    </Signature>
+</elmo>
