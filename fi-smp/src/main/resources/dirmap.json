@@ -34,7 +34,11 @@
   "uta.fi" : { "path":  "TaY"},
   "lut.fi" : { "path":  "LTY"},
   "utu.fi" : { "path":  "TY"},
-  "hanken.fi" : { "path":  "SHH","email": "salum.abdul-rahman@gofore.com", "key":"test" },},
+  "hanken.fi" : { 
+      "path":  "SHH",
+      "email": "salum.abdul-rahman@gofore.com", 
+      "key":"test" 
+      },
   "laurea.fi" : { "path":  "LAUREA"},
   "mamk.fi" : { "path":  "MAMK"},
   "ksamk.fi" : { "path":  "MAMK"},
