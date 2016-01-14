@@ -68,10 +68,11 @@ public class ElmoParser {
         this.gcc = 0;
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        /* TODO fix validation
         factory.setValidating(true);
         factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
         factory.setAttribute(JAXP_SCHEMA_SOURCE, schemas);
-
+        */
         DocumentBuilder builder = factory.newDocumentBuilder();
         StringReader sr = new StringReader(elmo);
         InputSource s = new InputSource(sr);
