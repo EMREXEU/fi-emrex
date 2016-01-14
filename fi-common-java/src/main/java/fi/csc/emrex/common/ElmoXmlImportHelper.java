@@ -25,6 +25,7 @@ public class ElmoXmlImportHelper {
         String firstName = getValueForTag(report.getParentNode(), "learner/givenNames");
         String lastName = getValueForTag(report.getParentNode(), "learner/familyName");
         String birthday = getValueForTag(report.getParentNode(), "learner/bday");
+        
         doc.setBirthday(birthday);
         doc.setPersonName(firstName + " " + lastName);
         doc.setInstitutionName(getValueForTag(report, "issuer/title"));
@@ -50,7 +51,7 @@ public class ElmoXmlImportHelper {
     private ElmoResult resultFromModule(List<ElmoResult> results, Node los, XPath xpath) throws Exception {
         ElmoResult res = new ElmoResult();
         getLearningOpportunityValues(los, xpath, res);
-        res.setResult(getValueForTag(los, "specifies/learningOpportunityInstance/result"));
+        res.setResult(getValueForTag(los, "specifies/learningOpportunityInstance/resultLabel"));
         loopChildren(results, los, xpath, "hasPart/learningOpportunitySpecification");
 
         return res;
@@ -59,9 +60,9 @@ public class ElmoXmlImportHelper {
     private void getLearningOpportunityValues(Node los, XPath xpath, ElmoResult res) throws Exception {
         res.setCode(getLocalContentValue(los, xpath, "identifier"));
         res.setType(getValueForTag(los, "type"));
-        res.setLevel(getLevel(los, xpath));
+        res.setLevel(getValueForTag(los, "specifies/learningOpportunityInstance/credit/level"));
         res.setName(getEnglishContentValue(los, xpath, "title"));
-        res.setCredits(getValueForTag(los, "credit/value"));
+        res.setCredits(getValueForTag(los, "specifies/learningOpportunityInstance/credit/value"));
         res.setDate(getDate(los));
 
     }
@@ -69,7 +70,7 @@ public class ElmoXmlImportHelper {
     private String getDate(Node los) throws Exception {
 
         String endDate;
-        endDate = getValueForTag(los, "specifies/learningOpportunityInstance/end");
+        endDate = getValueForTag(los, "specifies/learningOpportunityInstance/date");
         if (endDate.isEmpty()) {
             return getValueForTag(los, "specifies/learningOpportunityInstance/start");
         } else {
