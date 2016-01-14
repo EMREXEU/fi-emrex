@@ -21,24 +21,33 @@ import java.time.LocalDate;
 @Component
 public class VirtaClient {
 
-    public static final String AVAIN = "salaisuus";
-    public static final String JARJESTELMA = "Emrex";
-    public static final String TUNNUS = "Test";
-
-    private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
-
+    /**
+     *
+     */
+    @Value("${ncp.virta.secret}")
+    private  String AVAIN;
+    @Value("${ncp.virta.system}")
+    private  String JARJESTELMA  ;
+    @Value("${ncp.virta.identifier}")
+    private String TUNNUS;
     @Value("${ncp.virta.url}")
     private String virtaUrl;
+    
+    private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
+    
     public String fetchStudies(String oid, String ssn) {
         return fetchStudies(new VirtaUser(oid, ssn));
     }
 
     public String fetchStudies(VirtaUser virtaUser) {
         try {
-            return VirtaMarshaller.marshal(sendRequest(virtaUser));
+            String marshal = VirtaMarshaller.marshal(sendRequest(virtaUser));
+            log.error("fetch Studies marshalled");
+            log.error(marshal);
+            return marshal;
         } catch (Exception e) {
-            log.error("FetchStudies failed. StudentID: {} PersonalID: {}", virtaUser.getOid(), virtaUser.getSsn() , e);
+            log.error("FetchStudies failed. StudentID: {} PersonalID: {}", virtaUser.getOid(), virtaUser.getSsn(), e);
             return null;
         }
     }
