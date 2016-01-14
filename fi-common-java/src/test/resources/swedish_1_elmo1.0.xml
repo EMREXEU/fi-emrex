@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<elmo xmlns="http://purl.org/net/elmo">
+<elmo xmlns="https://github.com/emrex-eu/elmo-schemas/tree/v1">
     <generatedDate>2015-12-17T15:23:28+01:00</generatedDate>
     <learner>
         <identifier type="nationalIdentifier">19711020-8639</identifier>
@@ -8,6 +8,7 @@
         <bday>1971-10-20</bday>
     </learner>
     <report>
+        <learner />
         <issuer>
             <country>SE</country>
             <identifier type="national">UMU</identifier>

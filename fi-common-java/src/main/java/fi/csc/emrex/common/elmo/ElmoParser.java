@@ -6,6 +6,7 @@
 package fi.csc.emrex.common.elmo;
 
 import com.github.ooxi.jdatauri.DataUri;
+import java.io.File;
 import java.nio.charset.Charset;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -30,6 +31,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +40,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.XMLConstants;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 /**
  * A class representing a single Elmo xml.
@@ -47,28 +53,33 @@ public class ElmoParser {
 
     final static org.slf4j.Logger log = LoggerFactory.getLogger(ElmoParser.class);
 
+    static final String elmoSchema = "src/main/resources/schema-10.xsd";
+    static final String euroPassSchema = "src/main/resources/EUROPASS_ISOCountries_V1.1.xsd";
+    static final String xmldsigSchema = "src/main/resources/xmldsig-core-schema.xsd";
+    static final String[] schemas = {euroPassSchema, xmldsigSchema,elmoSchema};
+    static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
+    static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+    static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+
     private Document document;
     private int gcc;
 
-    protected ElmoParser(String elmo) {
+    protected ElmoParser(String elmo) throws SAXException, MalformedURLException, ParserConfigurationException, IOException {
         this.gcc = 0;
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        //Get the DOM Builder
-        DocumentBuilder builder;
-        try {
-            builder = factory.newDocumentBuilder();
-            StringReader sr = new StringReader(elmo);
-            InputSource s = new InputSource(sr);
+        factory.setValidating(true);
+        factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
+        factory.setAttribute(JAXP_SCHEMA_SOURCE, schemas);
 
-            //Load and Parse the XML document
-            //document contains the complete XML as a Tree.
-            this.document = builder.parse(s);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        StringReader sr = new StringReader(elmo);
+        InputSource s = new InputSource(sr);
 
-        } catch (Exception ex) {
-            Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
-            log.error("Parsing of elmo failed", ex);
+        //Load and Parse the XML document
+        //document contains the complete XML as a Tree.
+        this.document = builder.parse(s);
 
-        }
     }
 
     /**
@@ -76,7 +87,7 @@ public class ElmoParser {
      *
      * @param elmo
      */
-    public static ElmoParser elmoParser(String elmo) {
+    public static ElmoParser elmoParser(String elmo) throws Exception {
         return new ElmoParser(elmo);
     }
 
@@ -86,7 +97,7 @@ public class ElmoParser {
      *
      * @param elmo
      */
-    public static ElmoParser elmoParserFromVirta(String elmo) {
+    public static ElmoParser elmoParserFromVirta(String elmo) throws Exception {
 
         ElmoParser parser = new ElmoParser(elmo);
         parser.addElmoIdentifiers();
