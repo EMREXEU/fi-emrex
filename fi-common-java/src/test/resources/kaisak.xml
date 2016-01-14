@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elmo xsi:schemaLocation="http://www.w3.org/2001/03/xml.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <generatedDate>2015-12-17T10:27:00+02:00</generatedDate>
+    <learner>
+        <citizenship>FI</citizenship>
+        <identifier type="SSN">180766-2213</identifier>
+        <identifier type="studentindentifier">17488477125</identifier>
+        <givenNames>Kaisa</givenNames>
+        <familyName>Keränen</familyName>
+        <bday>1966-07-18</bday>
+    </learner>
+    <report>
+        <issuer>
+            <country>FI</country>
+            <identifier type="pic">999903161</identifier>
+            <identifier type="Erasmus">SF TAMPERE01</identifier>
+            <title xml:lang="fi">Tampereen Yliopisto</title>
+            <title xml:lang="en">University of Tampere</title>
+            <url>www.uta.fi</url>
+        </issuer>
+        <learningOpportunitySpecification>
+            <identifier type="oodi">LTLY16</identifier>
+            <identifier type="subjectArea">11.3</identifier>
+            <title xml:lang="fi">Orjentoituvat opinnot</title>
+            <type>Module</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start>2012-11-14</start>
+                    <date>2012-11-14</date>
+                    <resultLabel>Hyv</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>2</value>
+                        <level>Bachelor</level>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="oodi">TIEY4</identifier>
+            <identifier type="subjectArea">11.4</identifier>
+            <title xml:lang="fi">Tietotekniikkataidot</title>
+            <type>Module</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start>2012-11-16</start>
+                    <date>2012-11-16</date>
+                    <resultLabel>Hyv</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>3</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <learningOpportunitySpecification>
+            <identifier type="oodi">KKRUHUK</identifier>
+            <identifier type="subjectArea">18.4</identifier>
+            <title xml:lang="fi">Ruotsin kielen kirjallinen ja suullinen viestintä</title>
+            <type>Module</type>
+            <specifies>
+                <learningOpportunityInstance>
+                    <start>2012-11-16</start>
+                    <date>2012-11-16</date>
+                    <resultLabel>Hyv</resultLabel>
+                    <credit>
+                        <scheme>ects</scheme>
+                        <value>0</value>
+                    </credit>
+                </learningOpportunityInstance>
+            </specifies>
+        </learningOpportunitySpecification>
+        <issueDate>2015-12-17T10:27:00+02:00</issueDate>
+    </report>
+</elmo>
