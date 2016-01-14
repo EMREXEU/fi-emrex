@@ -69,7 +69,7 @@ public class JsonController {
             String xmlString;
 
             xmlString = parser.getCourseData();
-
+            log.debug(xmlString);
             JSONObject json = XML.toJSONObject(xmlString);
             return json.toString();
         } catch (Exception e) {

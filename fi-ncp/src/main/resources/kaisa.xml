@@ -1,0 +1,108 @@
+<elmo xmlns="https://github.com/emrex-eu/elmo-schemas/tree/v1">
+            <generatedDate>2015-12-17T10:27:00+02:00</generatedDate>
+            <learner>
+               <citizenship>FI</citizenship>
+               <identifier type="SSN">180766-2213</identifier>
+               <identifier type="studentindentifier">17488477125</identifier>
+               <givenNames>Kaisa</givenNames>
+               <familyName>Keränen</familyName>
+               <bday>1966-07-18</bday>
+            </learner>
+            <report>
+               <issuer>
+                  <country>FI</country>
+                  <identifier type="pic">999903161</identifier>
+                  <identifier type="Erasmus">SF TAMPERE01</identifier>
+                  <title xml:lang="fi">Tampereen Yliopisto</title>
+                  <title xml:lang="en">University of Tampere</title>
+                  <url>www.uta.fi</url>
+               </issuer>
+               <learningOpportunitySpecification>
+                  <identifier type="oodi">LTLY16</identifier>
+                  <identifier type="subjectArea">11.3</identifier>
+                  <title xml:lang="fi">Orjentoituvat opinnot</title>
+                  <type>Module</type>
+                  <specifies>
+                     <learningOpportunityInstance>
+                        <start>2012-11-14</start>
+                        <date>2012-11-14</date>
+                        <resultLabel>Hyv</resultLabel>
+                        <credit>
+                           <scheme>ects</scheme>
+                           <value>2</value>
+                        </credit>
+                     </learningOpportunityInstance>
+                  </specifies>
+               </learningOpportunitySpecification>
+               <learningOpportunitySpecification>
+                  <identifier type="oodi">TIEY4</identifier>
+                  <identifier type="subjectArea">11.4</identifier>
+                  <title xml:lang="fi">Tietotekniikkataidot</title>
+                  <type>Module</type>
+                  <specifies>
+                     <learningOpportunityInstance>
+                        <start>2012-11-16</start>
+                        <date>2012-11-16</date>
+                        <resultLabel>Hyv</resultLabel>
+                        <credit>
+                           <scheme>ects</scheme>
+                           <value>3</value>
+                        </credit>
+                     </learningOpportunityInstance>
+                  </specifies>
+               </learningOpportunitySpecification>
+               <learningOpportunitySpecification>
+                  <identifier type="oodi">KKRUHUK</identifier>
+                  <identifier type="subjectArea">18.4</identifier>
+                  <title xml:lang="fi">Ruotsin kielen kirjallinen ja suullinen viestintä</title>
+                  <type>Module</type>
+                  <specifies>
+                     <learningOpportunityInstance>
+                        <start>2012-11-16</start>
+                        <date>2012-11-16</date>
+                        <resultLabel>Hyv</resultLabel>
+                        <credit>
+                           <scheme>ects</scheme>
+                           <value>0</value>
+                        </credit>
+                     </learningOpportunityInstance>
+                  </specifies>
+               </learningOpportunitySpecification>
+               <issueDate>2015-12-17T10:27:00+02:00</issueDate>
+            </report>
+            <attachment>
+               <title xml:lang="en">A</title>
+               <type>Transcript of Records</type>
+               <content>A</content>
+            </attachment>
+            <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+               <SignedInfo>
+                  <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                  <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                  <Reference URI="">
+                     <Transforms>
+                        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                     </Transforms>
+                     <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                     <DigestValue>vKIjYDBEhQxFnLC233qn0rrZ0+I=</DigestValue>
+                  </Reference>
+               </SignedInfo>
+               <SignatureValue>oekgEiYwLKbtEZri6zo5CKgmK/umAS2aNfUsyPQspkGBdP9H0XE+ITOrD7PKVBgZQ5Y56KghaziF
+            48a27hHFcPrvHizPXINlVXo6hwgje1SPM9QzjmdyQrhftUWJvpgaGmC4/r8o1yaPGqnkNoylEVUo
+            wJTWJHaSPcYjNB7eDVY=</SignatureValue>
+               <KeyInfo>
+                  <X509Data>
+                     <X509SubjectName>O=UiO,L=Oslo,ST=Some-State,C=NO</X509SubjectName>
+                     <X509Certificate>MIIB9TCCAV4CCQDzcL/uks2ttjANBgkqhkiG9w0BAQUFADA/MQswCQYDVQQGEwJOTzETMBEGA1UE
+                    CAwKU29tZS1TdGF0ZTENMAsGA1UEBwwET3NsbzEMMAoGA1UECgwDVWlPMB4XDTE1MDIwNTEzNDE1
+                    MloXDTE4MDUyMDEzNDE1MlowPzELMAkGA1UEBhMCTk8xEzARBgNVBAgMClNvbWUtU3RhdGUxDTAL
+                    BgNVBAcMBE9zbG8xDDAKBgNVBAoMA1VpTzCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAsnI3
+                    V1JKOl6Ghgzu5AOSsUFcJfefKP3y4lkVzW18T8AXkLKjNWQxJpW7h7kqeEYpcijAIV/xRMu8vEeb
+                    roadh9joOOD+ePL95VnAxcMxy3SdrGxRJ5RZwNf1l5UBxm416acIR78frlFX2kKz8kz0gmOmqFFe
+                    y3zZm7ZdiKw9fTsCAwEAATANBgkqhkiG9w0BAQUFAAOBgQBn6MlnleclAG/BVF4irljHag7OOopx
+                    TlQzb1V/mR0kYtsr6PZzCTJdwwU5YYWPG2hdqYRzyydlEGid5OPeCVtNQNQG8yKDCYeCS571jSbQ
+                    7Q0n0IR4mv7SeLq537mVBaaftV3HdnyoSLcXQpDep/akUOa8TpPwVg/+2U7TWNGJeQ==</X509Certificate>
+                  </X509Data>
+               </KeyInfo>
+            </Signature>
+         </elmo>

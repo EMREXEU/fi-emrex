@@ -21,8 +21,9 @@ public class FiNcpApplication {
     private static final String ELMO_XML_FIN_URL = "https://raw.githubusercontent.com/EMREXEU/fi-ncp/master/src/main/resources/Example-elmo-Finland.xml";
     private static final String ELMO_XML_SWE = "src/main/resources/Example-elmo-Sweden-1.0.xml";
     private static final String ELMO_XML_NOR_10 = "src/main/resources/nor-emrex-1.0.xml";
+    private static final String ELMO_XML_KAISA = "src/main/resources/kaisa.xml";
     public static String getElmo() throws Exception {
-        return new String(Files.readAllBytes(Paths.get(new File(ELMO_XML_NOR_10).getAbsolutePath())));
+        return new String(Files.readAllBytes(Paths.get(new File(ELMO_XML_KAISA).getAbsolutePath())));
     }
 
     public static void main(String[] args) {
