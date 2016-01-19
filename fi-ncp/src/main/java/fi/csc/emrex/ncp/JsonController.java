@@ -67,7 +67,7 @@ public class JsonController {
 
             ElmoParser parser = (ElmoParser) context.getSession().getAttribute("elmo");
             String xmlString;
-
+            
             xmlString = parser.getCourseData();
 
             JSONObject json = XML.toJSONObject(xmlString);

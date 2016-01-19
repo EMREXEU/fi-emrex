@@ -52,6 +52,8 @@ public class ElmoParser {
 
     protected ElmoParser(String elmo) {
         this.gcc = 0;
+        log.debug("    protected ElmoParser(String elmo)");
+        log.debug(elmo);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         //Get the DOM Builder
         DocumentBuilder builder;
