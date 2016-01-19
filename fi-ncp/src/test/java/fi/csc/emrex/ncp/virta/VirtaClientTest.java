@@ -25,6 +25,34 @@ public class VirtaClientTest extends TestCase {
         instance = new VirtaClient();
         instance.setElmoOpiskelijavaihtoService(elmoOpiskelijavaihtoService);
     }
+
+    /**
+     *
+     * Tällä testillä voi testata virtapalvelua, ei käytä mockeja
+     * Ei toimi jenkinsillä, koska sieltä ei ole pääsyä virtapalveluun
+     * Sen takia tämä on ignored
+     *
+     * @throws Exception
+     */
+    @Ignore
+    @Test
+    public void testFetchStudiesWithoutMocks() throws Exception {
+        VirtaClient v = new VirtaClient();
+        v.setElmoOpiskelijavaihtoService(new ELMOOpiskelijavaihtoService());
+        v.setTUNNUS("test");
+        v.setJARJESTELMA("Emrex");
+        v.setAVAIN("salaisuus");
+
+        // swenille toimii
+        v.setVirtaUrl("http://virtawstesti.csc.fi:80/emrex/ELMOOpiskelijavaihto");
+
+        // kaisalle ei
+//        final String studies = v.fetchStudies("17488477125", null);
+
+        final String studies = v.fetchStudies("17488924147", null);
+        assertNotNull(studies);
+    }
+
     @Ignore
     @Test
     public void testFetchStudies() throws Exception {
