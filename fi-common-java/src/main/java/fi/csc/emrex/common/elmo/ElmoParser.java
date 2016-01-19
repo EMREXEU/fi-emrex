@@ -66,7 +66,8 @@ public class ElmoParser {
 
     protected ElmoParser(String elmo) throws SAXException, MalformedURLException, ParserConfigurationException, IOException {
         this.gcc = 0;
-
+        log.debug("    protected ElmoParser(String elmo)");
+        log.debug(elmo);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /* TODO fix validation
         factory.setValidating(true);
