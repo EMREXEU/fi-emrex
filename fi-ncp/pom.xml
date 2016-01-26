@@ -220,8 +220,8 @@
                         <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
                         <wsdlOptions>
                             <wsdlOption>
-                                <!--<wsdl>http://virtawstesti.csc.fi/emrex/ELMOOpiskelijavaihto.wsdl</wsdl> -->
-                                <wsdl>${basedir}/src/main/resources/ELMOOpiskelijavaihto.wsdl</wsdl> 
+                                <wsdl>http://virtawstesti.csc.fi/emrex/ELMOOpiskelijavaihto.wsdl</wsdl> 
+                                <!--<wsdl>${basedir}/src/main/resources/ELMOOpiskelijavaihto.wsdl</wsdl> -->
                             </wsdlOption>
                         </wsdlOptions>
                     </configuration>
@@ -231,6 +231,14 @@
                 </execution>
             </executions>
         </plugin>
+        <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.9</version>
+    <configuration>
+        <argLine>-Xmx256M</argLine>
+    </configuration>
+</plugin>
         </plugins>
     </build>
 

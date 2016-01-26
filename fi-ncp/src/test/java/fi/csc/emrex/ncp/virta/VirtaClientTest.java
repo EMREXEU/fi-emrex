@@ -43,13 +43,13 @@ public class VirtaClientTest extends TestCase {
         v.setJARJESTELMA("Emrex");
         v.setAVAIN("salaisuus");
 
-        // swenille toimii
+        
         v.setVirtaUrl("http://virtawstesti.csc.fi:80/emrex/ELMOOpiskelijavaihto");
-
+       // swenille toimii
+       // final String studies = v.fetchStudies("17488924147", null);
         // kaisalle ei
-//        final String studies = v.fetchStudies("17488477125", null);
+        final String studies = v.fetchStudies("17488477125", null);
 
-        final String studies = v.fetchStudies("17488924147", null);
         assertNotNull(studies);
     }
 

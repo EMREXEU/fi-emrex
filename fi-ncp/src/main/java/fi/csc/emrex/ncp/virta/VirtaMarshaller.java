@@ -25,6 +25,7 @@ public class VirtaMarshaller {
         final Marshaller m = JAXBContext.newInstance(ElmoBase.class).createMarshaller();
         m.setProperty(Marshaller.JAXB_FRAGMENT, true);
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        m.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
         final StringWriter sw = new StringWriter();
        m.marshal(new JAXBElement<>(new QName(NAMESPACE_URI, LOCAL_PART), ElmoBase.class, response.getElmo()), sw);
         return sw.toString();

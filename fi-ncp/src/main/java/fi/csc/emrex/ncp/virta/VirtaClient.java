@@ -53,7 +53,11 @@ public class VirtaClient {
     }
 
     private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUser virtaUser) throws MalformedURLException {
-        return getService().getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(createRequest(virtaUser));
+        ELMOOpiskelijavaihtoRequest request = createRequest(virtaUser);
+        ELMOOpiskelijavaihtoResponse temp = getService().getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(request);
+        System.out.println(temp.toString());
+        System.out.println(temp.getElmo());
+        return temp;
     }
 
     private ELMOOpiskelijavaihtoService getService() throws MalformedURLException {
