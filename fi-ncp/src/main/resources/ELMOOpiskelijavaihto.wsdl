@@ -114,6 +114,7 @@
             elementFormDefault="qualified"
             targetNamespace="https://github.com/emrex-eu/elmo-schemas/tree/v1"
             xmlns="https://github.com/emrex-eu/elmo-schemas/tree/v1"
+            xmlns:xsi="https://github.com/emrex-eu/elmo-schemas/tree/v1"
         >
             <xs:import
                 schemaLocation="http://www.w3.org/2001/03/xml.xsd"

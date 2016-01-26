@@ -57,7 +57,7 @@ public class VirtaClientTest extends TestCase {
     @Test
     public void testFetchStudies() throws Exception {
 
-        final String expected = "<elmo xsi:nil=\"true\" xmlns=\"http://purl.org/net/elmo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>";
+    //    final String expected = "<elmo xsi:nil=\"true\" xmlns=\"http://purl.org/net/elmo\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"/>";
 
         ELMOOpiskelijavaihto elmoOpiskelijavaihto = Mockito.mock(ELMOOpiskelijavaihto.class);
         Mockito.when(elmoOpiskelijavaihtoService.getELMOOpiskelijavaihtoSoap11()).thenReturn(elmoOpiskelijavaihto);

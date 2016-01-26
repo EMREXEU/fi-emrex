@@ -2,7 +2,7 @@ package fi.csc.emrex.ncp.virta;
 
 import fi.csc.tietovaranto.emrex.ELMOOpiskelijavaihtoResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.purl.net.elmo.ElmoBase;
+import https.github_com.emrex_eu.elmo_schemas.tree.v1.Elmo;
 //import org.purl.net.elmo.ElmoBase.ElmoBase;
 //import https.github_com.emrex_eu.elmo_schemas.tree.v1.Elmo;
 import javax.xml.bind.JAXBContext;
@@ -22,12 +22,12 @@ public class VirtaMarshaller {
     public static final String LOCAL_PART = "elmo";
 
     public static String marshal(ELMOOpiskelijavaihtoResponse response) throws JAXBException {
-        final Marshaller m = JAXBContext.newInstance(ElmoBase.class).createMarshaller();
+        final Marshaller m = JAXBContext.newInstance(Elmo.class).createMarshaller();
         m.setProperty(Marshaller.JAXB_FRAGMENT, true);
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         m.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
         final StringWriter sw = new StringWriter();
-       m.marshal(new JAXBElement<>(new QName(NAMESPACE_URI, LOCAL_PART), ElmoBase.class, response.getElmo()), sw);
+       m.marshal(new JAXBElement<>(new QName(NAMESPACE_URI, LOCAL_PART), Elmo.class, response.getElmo()), sw);
         return sw.toString();
     }
     
