@@ -56,7 +56,7 @@ public class ElmoParser {
     static final String elmoSchema = "src/main/resources/schema-10.xsd";
     static final String euroPassSchema = "src/main/resources/EUROPASS_ISOCountries_V1.1.xsd";
     static final String xmldsigSchema = "src/main/resources/xmldsig-core-schema.xsd";
-    static final String[] schemas = {euroPassSchema, xmldsigSchema,elmoSchema};
+    static final String[] schemas = {euroPassSchema, xmldsigSchema, elmoSchema};
     static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
     static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
     static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
@@ -70,10 +70,10 @@ public class ElmoParser {
         log.debug(elmo);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /* TODO fix validation
-        factory.setValidating(true);
-        factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
-        factory.setAttribute(JAXP_SCHEMA_SOURCE, schemas);
-        */
+         factory.setValidating(true);
+         factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
+         factory.setAttribute(JAXP_SCHEMA_SOURCE, schemas);
+         */
         DocumentBuilder builder = factory.newDocumentBuilder();
         StringReader sr = new StringReader(elmo);
         InputSource s = new InputSource(sr);
@@ -122,21 +122,21 @@ public class ElmoParser {
                 if (attachment.getParentNode().equals(elmo)) {
                     NodeList types = attachment.getElementsByTagName("type");
                     Element type = (Element) types.item(0);
-                    //if (type != null) {
-                    //  if ("Transcript of Records".equals(type.getTextContent())) { // need to check for "Emrex trenscript"
+                    if (type != null) {
+                        if ("EMREX transcript".equals(type.getTextContent())) { // need to check for "Emrex trenscript"
 
-                    NodeList content = attachment.getElementsByTagName("content");
+                            NodeList content = attachment.getElementsByTagName("content");
 
-                    for (int j = 0; j < content.getLength(); j++) {
+                            for (int j = 0; j < content.getLength(); j++) {
 
-                        //log.debug(content.item(j).getTextContent());
-                        DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
-                        if ("application/pdf".equals(parse.getMime())) {
-                            return parse.getData();
+                                //log.debug(content.item(j).getTextContent());
+                                DataUri parse = DataUri.parse(content.item(j).getTextContent(), Charset.forName("UTF-8"));
+                                if ("application/pdf".equals(parse.getMime())) {
+                                    return parse.getData();
+                                }
+                                //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
+                            }
                         }
-                        //return DatatypeConverter.parseBase64Binary(content.item(0).getTextContent());
-                        //      }
-                        //  }
                     }
                     throw new Exception("no content attachment in elmo in  xml");
                 }
@@ -163,7 +163,7 @@ public class ElmoParser {
             // Add pdf attachment
             Element attachment = document.createElement("attachment");
             Element type = document.createElement("type");
-            type.setTextContent("Transcript of Records");
+            type.setTextContent("EMREX transcript");
             attachment.appendChild(type);
             //attachment.setAttribute("contentType", "application/pdf");
             //attachment.setAttribute("encoding", "base64");
