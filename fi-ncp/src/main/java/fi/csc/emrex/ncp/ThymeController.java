@@ -150,9 +150,7 @@ public class ThymeController {
                 
                 if (OID == null && personalId == null) {
                     //TODO delete 
-                    elmoXML = virtaClient.fetchStudies("17488477125", personalId);
-                    //elmoXML = virtaClient.fetchStudies("100011", null); //virta
-                    // elmoXML = FiNcpApplication.getElmo();
+                    elmoXML=null;
                 } else {
                     elmoXML = virtaClient.fetchStudies(OID, personalId);
                 }
