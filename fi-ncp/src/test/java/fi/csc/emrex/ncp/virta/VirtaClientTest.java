@@ -33,7 +33,7 @@ public class VirtaClientTest extends TestCase {
      * Sen takia tämä on ignored
      *
      * @throws Exception
-     */
+   
     @Ignore
     @Test
     public void testFetchStudiesWithoutMocks() throws Exception {
@@ -52,7 +52,7 @@ public class VirtaClientTest extends TestCase {
 
         assertNotNull(studies);
     }
-
+  */
     @Ignore
     @Test
     public void testFetchStudies() throws Exception {
