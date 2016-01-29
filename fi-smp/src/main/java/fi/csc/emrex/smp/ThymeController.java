@@ -152,9 +152,15 @@ public class ThymeController {
         log.info("Returned elmo XML " + decodedXml);
         context.getSession().setAttribute("elmoxmlstring", decodedXml);
         ElmoParser parser = ElmoParser.elmoParser(decodedXml);
+        try{
         byte[] pdf = parser.getAttachedPDF();
         context.getSession().setAttribute("pdf", pdf);
-
+        }catch(Exception e){
+            log.error("EMREX transcript missing." );
+            model.addAttribute("error", "EMREX transcript missing.");
+            PersonalLogger.log(personalLogLine + "\tfailed");
+            return "error";       
+        }
         model.addAttribute("elmoXml", decodedXml);
 
         Document document;
