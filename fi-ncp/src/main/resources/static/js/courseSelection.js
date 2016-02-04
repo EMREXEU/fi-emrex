@@ -5,24 +5,28 @@ angular.module('courseSelection', [])
         $scope.typeOptions = {};
         $scope.levelOptions = ["Any"];
 
-        var findOptionsRecursively = function (learningOpportunityArray, partOf) {
+        var findOptionsRecursively = function (innerFunction, learningOpportunityArray, partOf) {
             angular.forEach(learningOpportunityArray, function (opportunityWrapper) {
                 var opportunity = opportunityWrapper.learningOpportunitySpecification;
+                innerFunction(opportunity);
 
-                if (opportunity.type)
-                    $scope.typeOptions[opportunity.type] = true;
-
-                if (opportunity.level) {
-                    var indexOf = $scope.levelOptions.indexOf(opportunity.level)
-                    if (indexOf < 0)
-                        $scope.levelOptions.push(opportunity.level);
-                }
 
                 if (opportunity.hasPart)
-                    findOptionsRecursively(opportunity.hasPart, opportunity)
+                    findOptionsRecursively(innerFunction, opportunity.hasPart, opportunity)
             });
             return;
         };
+
+        var collectOptions = function(opportunity){
+            if (opportunity.type)
+                $scope.typeOptions[opportunity.type] = true;
+
+            if (opportunity.level) {
+                var indexOf = $scope.levelOptions.indexOf(opportunity.level)
+                if (indexOf < 0)
+                    $scope.levelOptions.push(opportunity.level);
+            }
+        }
 
         var collectDataFromReports = function(reports){
             angular.forEach(reports, function (report) {
@@ -31,7 +35,7 @@ angular.module('courseSelection', [])
                 var issuerTitle = helperService.getRightLanguage(report.issuer.title);
                 $scope.educationInstitutionOptions[issuerTitle] = true;
 
-                findOptionsRecursively(report.learningOpportunitySpecification);
+                findOptionsRecursively(collectOptions, report.learningOpportunitySpecification);
             });
         };
 
@@ -52,7 +56,18 @@ angular.module('courseSelection', [])
 
         $scope.issuerFilter = function (report) {
             var title = helperService.getRightLanguage(report.issuer.title);
-            return $scope.educationInstitutionOptions[title];
+            var visible = (!!$scope.educationInstitutionOptions[title]);
+
+            var deselectInvisibleOpportunities = function(opportunity){
+                if (opportunity.selected !== undefined)
+                    opportunity.selected = false;
+            };
+
+            if (!visible){
+                findOptionsRecursively(deselectInvisibleOpportunities, report.learningOpportunitySpecification);
+            }
+            return visible;
+
         };
 
         $scope.sendIds = function () {
