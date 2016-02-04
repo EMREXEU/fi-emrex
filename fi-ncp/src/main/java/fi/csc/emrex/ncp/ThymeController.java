@@ -145,7 +145,10 @@ public class ThymeController {
                 }
                 if (customRequest.getReturnUrl() != null) {
                     String returnUrl = customRequest.getReturnUrl();
-                    if (returnUrl != this.stripXSS(returnUrl)) {
+                    log.info("unprocessed returnURL: "+ returnUrl);
+                    String temp =this.stripXSS(returnUrl);
+                    log.info("processed returnURL: "+ temp);
+                    if (!returnUrl.equals(temp)) {
                         throw new Exception("Invalid Return Url");
                     }
                     if (!returnUrl.startsWith("https")) {
