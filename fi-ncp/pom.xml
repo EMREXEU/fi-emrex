@@ -121,7 +121,7 @@
                 <executions>
                     <execution>
                         <!-- Serves *only* to filter the wro.xml so it can get an absolute
-                            path for the project -->
+                        path for the project -->
                         <id>copy-resources</id>
                         <phase>validate</phase>
                         <goals>
@@ -198,7 +198,9 @@
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
-                        <goals><goal>add-source</goal></goals>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/generated-sources/cxf</source>
@@ -209,36 +211,36 @@
             </plugin>
 
             <plugin>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-codegen-plugin</artifactId>
-            <version>3.1.2</version>
-            <executions>
-                <execution>
-                    <id>generate-sources</id>
-                    <phase>generate-sources</phase>
-                    <configuration>
-                        <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
-                        <wsdlOptions>
-                            <wsdlOption>
-                                <!--<wsdl>http://virtawstesti.csc.fi/emrex/ELMOOpiskelijavaihto.wsdl</wsdl> -->
-                                <wsdl>${basedir}/src/main/resources/ELMOOpiskelijavaihto.wsdl</wsdl> 
-                            </wsdlOption>
-                        </wsdlOptions>
-                    </configuration>
-                    <goals>
-                        <goal>wsdl2java</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.9</version>
-    <configuration>
-        <argLine>-Xmx256M</argLine>
-    </configuration>
-</plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <!--<wsdl>http://virtawstesti.csc.fi/emrex/ELMOOpiskelijavaihto.wsdl</wsdl> -->
+                                    <wsdl>${basedir}/src/main/resources/ELMOOpiskelijavaihto.wsdl</wsdl> 
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <argLine>-Xmx256M</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
