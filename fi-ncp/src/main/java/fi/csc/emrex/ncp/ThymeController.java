@@ -26,6 +26,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author salum
@@ -124,60 +126,80 @@ public class ThymeController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String ncp1(@ModelAttribute CustomRequest customRequest, HttpServletRequest request) {
-        return this.greeting(customRequest, request);
+    public String ncp1(@ModelAttribute CustomRequest customRequest, HttpServletRequest request, Model model) {
+        return this.greeting(customRequest, request, model);
     }
 
     @RequestMapping(value = "/ncp/", method = RequestMethod.POST)
-    public String greeting(@ModelAttribute CustomRequest customRequest, HttpServletRequest request) {
+    public String greeting(@ModelAttribute CustomRequest customRequest, HttpServletRequest request, Model model) {
         log.info("/ncp/");
         if (customRequest != null) {
-            if (customRequest.getSessionId() != null) {
-                context.getSession().setAttribute("sessionId", customRequest.getSessionId());
-            }
-            if (customRequest.getReturnUrl() != null) {
-                context.getSession().setAttribute("returnUrl", customRequest.getReturnUrl());
-            }
-        }
-        log.info("Return URL: {}", context.getSession().getAttribute("returnUrl"));
-        log.info("Session ID: {}", context.getSession().getAttribute("sessionId"));
-
-        try {
-            if (context.getSession().getAttribute("elmo") == null) {
-                String elmoXML;
-                ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
-                log.debug(headerHandler.stringifyHeader());
-                String OID = headerHandler.getOID();
-                String personalId = headerHandler.getPersonalID();
-
-                if (OID == null && personalId == null) {
-                    //TODO delete
-                    elmoXML = virtaClient.fetchStudies("17488477125", personalId);
-                } else {
-                    elmoXML = virtaClient.fetchStudies(OID, personalId);
-                }
-                log.debug(elmoXML);
-                ElmoParser parser = null;
-                if (elmoXML == null) {
-                    log.debug("elmoXML null");
-                    context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
-
-                } else {
-                    context.getSession().setAttribute("returnCode", "NCP_OK");
-                    parser = ElmoParser.elmoParserFromVirta(elmoXML);
-                    context.getSession().setAttribute("elmo", parser);
+            try {
+                if (customRequest.getSessionId() != null) {
+                    if (StringUtils.isAlphanumeric(customRequest.getSessionId())) {
+                        context.getSession().setAttribute("sessionId", this.stripXSS(customRequest.getSessionId()));
+                    } else {
+                        throw new Exception("Invalid Session ID");
+                    }
 
                 }
-                String personalLogLine = generatePersonalLogLine(customRequest, headerHandler, parser);
+                if (customRequest.getReturnUrl() != null) {
+                    String returnUrl = customRequest.getReturnUrl();
+                    if (returnUrl != this.stripXSS(returnUrl)) {
+                        throw new Exception("Invalid Return Url");
+                    }
+                    if (!returnUrl.startsWith("https")) {
+                        throw new Exception("Only HTTPS allowed");
+                    }
+                    context.getSession().setAttribute("returnUrl", returnUrl);
 
-                String statisticalLogLine = generateStatisticalLogLine(parser, "NCP");
-                StatisticalLogger.log(statisticalLogLine);
-                PersonalLogger.log(personalLogLine);
+                }
+            } catch (Exception e) {
+                model.addAttribute("error", e.getMessage());
             }
-            return "norex";
+            log.info("Return URL: {}", context.getSession().getAttribute("returnUrl"));
+            log.info("Session ID: {}", context.getSession().getAttribute("sessionId"));
 
-        } catch (Exception e) {
-            log.error("Elmo was null and fetching elmo failed somehow.", e);
+            try {
+                if (context.getSession().getAttribute("elmo") == null) {
+                    String elmoXML;
+                    ShibbolethHeaderHandler headerHandler = new ShibbolethHeaderHandler(request);
+                    log.debug(headerHandler.stringifyHeader());
+                    String OID = headerHandler.getOID();
+                    String personalId = headerHandler.getPersonalID();
+
+                    if (OID == null && personalId == null) {
+                        //TODO delete 
+                        elmoXML = "";//virtaClient.fetchStudies("17488477125", personalId);
+                    } else {
+                        elmoXML = virtaClient.fetchStudies(OID, personalId);
+                    }
+                    log.debug(elmoXML);
+                    ElmoParser parser = null;
+                    if (elmoXML == null) {
+                        log.debug("elmoXML null");
+                        context.getSession().setAttribute("returnCode", "NCP_NO_RESULTS");
+
+                    } else {
+                        context.getSession().setAttribute("returnCode", "NCP_OK");
+                        parser = ElmoParser.elmoParserFromVirta(elmoXML);
+                        context.getSession().setAttribute("elmo", parser);
+
+                    }
+                    String personalLogLine = generatePersonalLogLine(customRequest, headerHandler, parser);
+
+                    String statisticalLogLine = generateStatisticalLogLine(parser, "NCP");
+                    StatisticalLogger.log(statisticalLogLine);
+                    PersonalLogger.log(personalLogLine);
+                }
+                return "norex";
+
+            } catch (Exception e) {
+                log.error("Elmo was null and fetching elmo failed somehow.", e);
+                model.addAttribute("error", e.getMessage());
+                return "error";
+            }
+
         }
         return "norex";
     }
@@ -207,4 +229,56 @@ public class ThymeController {
         return statisticalLogLine;
     }
 
+    private String stripXSS(String value) {
+
+        if (value != null) {
+
+            // Avoid null characters
+            value = value.replaceAll("", "");
+
+            // Avoid anything between script tags
+            Pattern scriptPattern = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
+
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Avoid anything in a src='...' type of expression
+            scriptPattern = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+            value = scriptPattern.matcher(value).replaceAll("");
+            scriptPattern = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Remove any lonesome </script> tag
+            scriptPattern = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Remove any lonesome <script ...> tag
+            scriptPattern = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Avoid eval(...) expressions
+            scriptPattern = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Avoid expression(...) expressions
+            scriptPattern = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Avoid javascript:... expressions
+            scriptPattern = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Avoid vbscript:... expressions
+            scriptPattern = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
+            value = scriptPattern.matcher(value).replaceAll("");
+
+            // Avoid onload= expressions
+            scriptPattern = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+            value = scriptPattern.matcher(value).replaceAll("");
+
+        }
+        return value;
+
+    }
 }
