@@ -159,6 +159,7 @@ public class ThymeController {
                 }
             } catch (Exception e) {
                 model.addAttribute("error", e.getMessage());
+                return "error";
             }
             log.info("Return URL: {}", context.getSession().getAttribute("returnUrl"));
             log.info("Session ID: {}", context.getSession().getAttribute("sessionId"));

@@ -373,7 +373,8 @@ public class ElmoParser {
                     Element title = (Element) titles.item(i);
                     String type = title.getAttribute("type").toLowerCase();
                     hostInstitution = titles.item(i).getTextContent();
-                    if (type == "schac") {
+                    if (type.equals("schac")) {
+                        log.info("instution identifier type schac");
                         return hostInstitution;
                     }
                 }
