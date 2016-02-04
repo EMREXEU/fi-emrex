@@ -25,12 +25,14 @@ public class QuestionnaireLinkBuilder {
         LocalDateTime startTime = (LocalDateTime) context.getSession().getAttribute("sessionStartTime");
 
         String hostInstitution = "X";
+        String hostCountry = "X";
         String ectsImported = "X";
 
         if (decodedXml != null) {
             try {
                 ElmoParser parser = ElmoParser.elmoParser(decodedXml);
                 hostInstitution = parser.getHostInstitution();
+                hostCountry =parser.getHostCountry();
                 ectsImported = Integer.toString(parser.getETCSCount());
             } catch (Exception ex) {
                 log.error("Creation of questionnaire url failed when decoding Elmo.", ex);
@@ -53,7 +55,7 @@ public class QuestionnaireLinkBuilder {
         link += "&home_institution=" + homeOrganization;
         link += "&home_country=" + "fi";
         link += "&host_institution=" + hostInstitution;
-        link += "&host_country=" + "X"; //not found in elmo
+        link += "&host_country=" + hostCountry; 
         link += "&date_of_import=" + LocalDateTime.now().format(dateFormatter);
         link += "&time_spent=" + duration;
         link += "&grades_imported=" + "X";

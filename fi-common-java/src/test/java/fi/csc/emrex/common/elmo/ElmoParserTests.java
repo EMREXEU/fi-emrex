@@ -57,7 +57,14 @@ public class ElmoParserTests extends TestCase {
         String elmo = TestUtil.getFileContent(testXML);
         ElmoParser parser = ElmoParser.elmoParserFromVirta(elmo);
         String host = parser.getHostInstitution();
-       // assertEquals("uw.edu.pl", host);
+        assertEquals("umu.se", host);
+    }
+        @Test
+    public void testGetHostCountry() throws Exception {
+        String elmo = TestUtil.getFileContent(testXML);
+        ElmoParser parser = ElmoParser.elmoParserFromVirta(elmo);
+        String host = parser.getHostCountry();
+        assertEquals("SE", host);
     }
 
     @Test

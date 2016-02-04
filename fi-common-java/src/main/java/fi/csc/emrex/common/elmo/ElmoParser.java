@@ -382,6 +382,24 @@ public class ElmoParser {
         return hostInstitution;
     }
 
+    public String getHostCountry() {
+
+        String hostCountry = "unknown";
+        NodeList reports = document.getElementsByTagName("report");
+        if (reports.getLength() == 1) {
+            NodeList issuers = ((Element) reports.item(0)).getElementsByTagName("issuer");
+            if (issuers.getLength() == 1) {
+                NodeList titles = ((Element) issuers.item(0)).getElementsByTagName("country");
+                for (int i = 0; i < titles.getLength(); i++) {
+                    Element title = (Element) titles.item(i);
+                    hostCountry = title.getTextContent();
+                }
+            }
+        }
+
+        return hostCountry;
+    }
+
     private void addElmoIdentifiers() {
         NodeList learnings = this.document.getElementsByTagName("learningOpportunitySpecification");
         for (int i = 0; i < learnings.getLength(); i++) {
