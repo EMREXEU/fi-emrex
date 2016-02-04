@@ -56,10 +56,10 @@
                     <fieldset>
                         <legend>Time Period</legend>
                         <div class="custom-option-margin">
-                            <datepicker>
+                            <datepicker date-format="yyyy-MM-dd">
                                 <input placeholder="" ng-model="startdate" type="text"/>
                             </datepicker>
-                            <datepicker>
+                            <datepicker date-format="yyyy-MM-dd">
                                 <input ng-model="enddate" type="text"/>
                             </datepicker>
                         </div>
@@ -72,7 +72,7 @@
 
         <div ng-repeat="learningReport in reports | filter:issuerFilter">
             <learning-report-directive report='learningReport' level-filter='selectedLevel'
-                                       type-filter='typeOptions'></learning-report-directive>
+                                       type-filter='typeOptions' start-date="startdate" end-date="enddate"></learning-report-directive>
         </div>
     </div>
 </div>
