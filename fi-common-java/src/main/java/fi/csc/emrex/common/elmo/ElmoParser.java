@@ -255,8 +255,6 @@ public class ElmoParser {
                 if (learnList.getLength() < 1) {
                     log.error("Empty report " + i);
                     removeEmptyReports.add(report);
-                } else {
-                    this.sortReport(report);
                 }
             }
             for (Node report : removeEmptyReports) {
@@ -455,6 +453,7 @@ public class ElmoParser {
     }
 
     private String getStringFromDoc(org.w3c.dom.Document doc) {
+        this.sortReport(doc);
         DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
         LSSerializer lsSerializer = domImplementation.createLSSerializer();
 
@@ -466,47 +465,63 @@ public class ElmoParser {
         return stringWriter.toString();
     }
 
-    private void sortReport(Element report) {
-        Element issuer =null;
-        ArrayList<Element> losses = new ArrayList<>(); //learningOpportunitySpecification;
-        Element issueDate =null;
-        ArrayList<Element> attachements = new ArrayList<>();
-        NodeList childNodes = report.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node temp = childNodes.item(i);
-            try {
-                Element e = (Element) temp;
-                if (e.getLocalName().equals("issuer")) {
-                    issuer = e;
-                } else if (e.getLocalName().equals("learningOpportunitySpecification")) {
-                    losses.add(e);
-                } else if (e.getLocalName().equals("issueDate")) {
-                    issueDate = e;
-                } else if (e.getLocalName().equals("attachment")) {
-                    attachements.add(e);
+    private void sortReport(org.w3c.dom.Document doc) {
+        Element elmo = doc.getDocumentElement();
+        NodeList reports = elmo.getElementsByTagName("report");
+        for (int j = 0; j < reports.getLength(); j++) {
+            Element report = (Element) reports.item(j);
+            Element issuer = null;
+            ArrayList<Element> losses = new ArrayList<>(); //learningOpportunitySpecification;
+            Element issueDate = null;
+            ArrayList<Element> attachements = new ArrayList<>();
+            NodeList childNodes = report.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node temp = childNodes.item(i);
+                try {
+                    Element e = (Element) temp;
+                    if (e != null) {
+                        if ("issuer".equals(e.getLocalName())) {
+                            issuer = e;
+                        } else if ("learningOpportunitySpecification".equals(e.getLocalName())) {
+                            losses.add(e);
+                        } else if ("issueDate".equals(e.getLocalName())) {
+                            issueDate = e;
+                        } else if ("attachment".equals(e.getLocalName())) {
+                            attachements.add(e);
+                        }
+                    }
+                } catch (ClassCastException cce) {
+                    log.debug(cce.getMessage());
                 }
-            } catch (ClassCastException cce) {
-                //ignore
-            }
 
+            }
+            //remove report children
+            if (issuer != null) {
+                report.removeChild(issuer);
+            }
+            for (Element e : losses) {
+                report.removeChild(e);
+            }
+            if (issueDate != null) {
+                report.removeChild(issueDate);
+            }
+            for (Element e : attachements) {
+                report.removeChild(e);
+            }
+            //add report children in order
+            if (issuer != null) {
+                report.appendChild(issuer);
+            }
+            for (Element e : losses) {
+                report.appendChild(e);
+            }
+            if (issueDate != null) {
+                report.appendChild(issueDate);
+            }
+            for (Element e : attachements) {
+                report.appendChild(e);
+            }
         }
-        report.removeChild(issuer);
-        for (Element e : losses) {
-            report.removeChild(e);
-        }
-        report.removeChild(issueDate);
-        for (Element e : attachements) {
-            report.removeChild(e);
-        }
-        report.appendChild(issuer);
-          for (Element e : losses) {
-            report.appendChild(e);
-        }
-        report.appendChild(issueDate);
-        for (Element e : attachements) {
-            report.appendChild(e);
-        }
-        
     }
 
 }
