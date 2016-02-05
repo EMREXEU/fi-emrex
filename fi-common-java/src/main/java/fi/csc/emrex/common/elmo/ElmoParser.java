@@ -255,6 +255,8 @@ public class ElmoParser {
                 if (learnList.getLength() < 1) {
                     log.error("Empty report " + i);
                     removeEmptyReports.add(report);
+                } else {
+                    this.sortReport(report);
                 }
             }
             for (Node report : removeEmptyReports) {
@@ -462,6 +464,49 @@ public class ElmoParser {
         lsOutput.setCharacterStream(stringWriter);
         lsSerializer.write(doc, lsOutput);
         return stringWriter.toString();
+    }
+
+    private void sortReport(Element report) {
+        Element issuer =null;
+        ArrayList<Element> losses = new ArrayList<>(); //learningOpportunitySpecification;
+        Element issueDate =null;
+        ArrayList<Element> attachements = new ArrayList<>();
+        NodeList childNodes = report.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node temp = childNodes.item(i);
+            try {
+                Element e = (Element) temp;
+                if (e.getLocalName().equals("issuer")) {
+                    issuer = e;
+                } else if (e.getLocalName().equals("learningOpportunitySpecification")) {
+                    losses.add(e);
+                } else if (e.getLocalName().equals("issueDate")) {
+                    issueDate = e;
+                } else if (e.getLocalName().equals("attachment")) {
+                    attachements.add(e);
+                }
+            } catch (ClassCastException cce) {
+                //ignore
+            }
+
+        }
+        report.removeChild(issuer);
+        for (Element e : losses) {
+            report.removeChild(e);
+        }
+        report.removeChild(issueDate);
+        for (Element e : attachements) {
+            report.removeChild(e);
+        }
+        report.appendChild(issuer);
+          for (Element e : losses) {
+            report.appendChild(e);
+        }
+        report.appendChild(issueDate);
+        for (Element e : attachements) {
+            report.appendChild(e);
+        }
+        
     }
 
 }
