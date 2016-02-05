@@ -136,12 +136,11 @@ public class ThymeController {
         if (customRequest != null) {
             try {
                 if (customRequest.getSessionId() != null) {
-                    if (StringUtils.isAlphanumeric(customRequest.getSessionId())) {
-                        context.getSession().setAttribute("sessionId", this.stripXSS(customRequest.getSessionId()));
+                    if (customRequest.getSessionId().equals(this.stripXSS(customRequest.getSessionId()))) {
+                        context.getSession().setAttribute("sessionId", customRequest.getSessionId());
                     } else {
-                        throw new Exception("Invalid Session ID");
+                        throw new Exception("Suspected XSS-injection");
                     }
-
                 }
                 if (customRequest.getReturnUrl() != null) {
                     String returnUrl = customRequest.getReturnUrl();
@@ -149,7 +148,7 @@ public class ThymeController {
                     String temp =this.stripXSS(returnUrl);
                     log.info("processed returnURL: "+ temp);
                     if (!returnUrl.equals(temp)) {
-                        throw new Exception("Invalid Return Url");
+                        throw new Exception("Suspected XSS-injection");
                     }
                     if (!returnUrl.startsWith("https")) {
                         throw new Exception("Only HTTPS allowed");
