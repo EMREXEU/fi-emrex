@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
+/*
  * Created by jpentika on 28/10/15.
  */
 @Slf4j
@@ -92,7 +92,8 @@ public class ShibbolethHeaderHandler {
         
         try {
             byte[] latin1 =text.getBytes("ISO-8859-1");
-            return new String(latin1,"UTF-8" );
+            String unsafe = new String(latin1,"UTF-8" );
+            return Security.stripXSS(unsafe);
         } catch (UnsupportedEncodingException| NullPointerException ex) {
             log.error(ex.getMessage());
             return text;
