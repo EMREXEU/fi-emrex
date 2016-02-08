@@ -210,78 +210,8 @@ public class ElmoParser {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         String copyElmo = this.getStringFromDoc(document);
-        try {
-
-            StringReader sr = new StringReader(copyElmo);
-            InputSource s = new InputSource(sr);
-            Document doc = docBuilder.parse(s);
-            //log.debug("getCourseDataCount "+ this.gcc++);
-            NodeList learnings = doc.getElementsByTagName("learningOpportunitySpecification");
-            List<Node> removeNodes = new ArrayList<>();
-            for (int i = 0; i < learnings.getLength(); i++) {
-                Element specification = (Element) learnings.item(i);
-                NodeList identifiers = specification.getElementsByTagName("identifier");
-                for (int j = 0; j < identifiers.getLength(); j++) {
-                    Element id = (Element) identifiers.item(j);
-                    if (id.getParentNode() == specification) {
-                        if (id.hasAttribute("type") && id.getAttribute("type").equals("elmo")) {
-                            String idContent = id.getTextContent();
-                            // log.debug("idContent "+idContent);
-                            boolean doesntContain;
-                            if (courses == null) {
-                                doesntContain = true;
-                            } else {
-                                doesntContain = !courses.contains(idContent);
-                            }
-                            if (doesntContain) {
-                                removeNodes.add(specification);
-                                log.trace("removed courseid " + idContent);
-                            } else {
-                                log.trace("found courseid " + idContent);
-                            }
-
-                        }
-                    }
-                }
-            }
-            for (Node remove : removeNodes) {
-                Node parent = remove.getParentNode();
-                if (parent != null) {
-                    if ("hasPart".equals(parent.getLocalName())) {
-                        Node parentsParent = parent.getParentNode();
-                        if (parentsParent != null) {
-                            parentsParent.removeChild(parent);
-                        }
-                    } else {
-                        parent.removeChild(remove);
-                    }
-                }
-            }
-            List<Node> removeEmptyReports = new ArrayList<>();
-            NodeList reports = doc.getElementsByTagName("report");
-            //log.debug("reports.getLength() " + reports.getLength());
-            for (int i = 0; i < reports.getLength(); i++) {
-                Element report = (Element) reports.item(i);
-                //log.debug("Report " + i);
-                NodeList learnList = report.getElementsByTagName("learningOpportunitySpecification");
-                if (learnList.getLength() < 1) {
-                    log.error("Empty report " + i);
-                    removeEmptyReports.add(report);
-                }
-            }
-            for (Node report : removeEmptyReports) {
-
-                report.getParentNode().removeChild(report);
-            }
-            return getStringFromDoc(doc);
-
-        } catch (SAXException | IOException ex) {
-            Logger.getLogger(ElmoParser.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-            return null;
-
-        }
+        return Util.getCourses(copyElmo, courses);
+    
     }
 
     public int getETCSCount() throws Exception {

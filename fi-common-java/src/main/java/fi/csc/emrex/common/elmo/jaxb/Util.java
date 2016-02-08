@@ -25,7 +25,9 @@ import org.slf4j.LoggerFactory;
  * @author salum
  */
 public class Util {
+
     final static org.slf4j.Logger log = LoggerFactory.getLogger(ElmoParser.class);
+
     public static List<LearningOpportunitySpecification> getAllLearningOpportunities(LearningOpportunitySpecification los, List<LearningOpportunitySpecification> losList) {
         if (los != null) {
             losList.add(los);
@@ -34,19 +36,33 @@ public class Util {
                 getAllLearningOpportunities(hasPart.getLearningOpportunitySpecification(), losList);
             }
             if (hasParts != null) {
-               log.debug("deleting parts: " + hasParts.size());
+                log.debug("deleting parts: " + hasParts.size());
                 hasParts.clear();
             }
         }
         return losList;
     }
 
+    private static Elmo getElmo(String elmoString) throws JAXBException {
+        JAXBContext jc = JAXBContext.newInstance("https.github_com.emrex_eu.elmo_schemas.tree.v1");
+        Unmarshaller u = jc.createUnmarshaller();
+        Elmo elmo = (Elmo) u.unmarshal(new StringReader(elmoString));
+        return elmo;
+    }
+
+    private static String marshalElmo(Elmo elmo) throws JAXBException {
+        JAXBContext jc = JAXBContext.newInstance("https.github_com.emrex_eu.elmo_schemas.tree.v1");
+        StringWriter out = new StringWriter();
+        Marshaller m = jc.createMarshaller();
+        //m.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", new  ElmoNamespaceMapper());
+        m.marshal(elmo, out);
+        return out.toString();
+    }
+
     public static String virtaJAXBParser(String elmoString) {
         int elmoIndex = 0;
         try {
-            JAXBContext jc = JAXBContext.newInstance("https.github_com.emrex_eu.elmo_schemas.tree.v1");
-            Unmarshaller u = jc.createUnmarshaller();
-            Elmo elmo = (Elmo) u.unmarshal(new StringReader(elmoString));
+            Elmo elmo = getElmo(elmoString);
             List<Elmo.Report> reports = elmo.getReport();
             ArrayList<LearningOpportunitySpecification> elmoLoSList = new ArrayList<LearningOpportunitySpecification>();
             log.debug("reports: " + reports.size());
@@ -56,11 +72,11 @@ public class Util {
                 for (LearningOpportunitySpecification los : tempList) {
                     getAllLearningOpportunities(los, losList);
                 }
-               log.debug("templist size: " + tempList.size() + "; losList size: " + losList.size());
+                //log.debug("templist size: " + tempList.size() + "; losList size: " + losList.size());
                 tempList.clear();
-                log.debug("templist cleared: " + tempList.size());
+                //log.debug("templist cleared: " + tempList.size());
                 tempList.addAll(losList);
-                log.debug("templist fixed: " + tempList.size());
+                //log.debug("templist fixed: " + tempList.size());
                 elmoLoSList.addAll(losList);
             }
             for (int i = 0; i < elmoLoSList.size(); i++) {
@@ -72,17 +88,46 @@ public class Util {
                 identifierList.add(elmoID);
             }
             log.debug("courses count: " + elmoLoSList.size());
-            StringWriter out = new StringWriter();
-            Marshaller m = jc.createMarshaller();
-            //m.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", new  ElmoNamespaceMapper());
-            m.marshal(elmo, out);
-            String toString = out.toString();
-            log.debug(toString);
-            return toString;
+
+            //log.debug(toString);
+            return marshalElmo(elmo);
         } catch (JAXBException ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
+    public static String getCourses(String elmoString, List<String> courses) {
+        try {
+            Elmo elmo = getElmo(elmoString);
+            List<Elmo.Report> reports = elmo.getReport();
+            ArrayList<LearningOpportunitySpecification> elmoLoSList = new ArrayList<LearningOpportunitySpecification>();
+            log.debug("reports: " + reports.size());
+            for (Elmo.Report report : reports) {
+                ArrayList<LearningOpportunitySpecification> losList = new ArrayList<LearningOpportunitySpecification>();
+                List<LearningOpportunitySpecification> tempList = report.getLearningOpportunitySpecification();
+                for (LearningOpportunitySpecification los : tempList) {
+                    getAllLearningOpportunities(los, losList);
+                }
+
+                //log.debug("templist size: " + tempList.size() + "; losList size: " + losList.size());
+                tempList.clear();
+                //log.debug("templist cleared: " + tempList.size());
+                for (LearningOpportunitySpecification spec : losList) {
+                    List<LearningOpportunitySpecification.Identifier> identifiers = spec.getIdentifier();
+                    for (LearningOpportunitySpecification.Identifier id : identifiers) {
+                        if ("elmo".equals(id.getType()) && courses.contains(id.getValue())) {
+                            tempList.add(spec);
+                        }
+                    }
+                }
+
+            }
+            return marshalElmo(elmo);
+        } catch (JAXBException ex) {
+            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+    }
 }
