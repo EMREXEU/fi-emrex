@@ -6,6 +6,7 @@
 package fi.csc.emrex.common.elmo;
 
 import com.github.ooxi.jdatauri.DataUri;
+import fi.csc.emrex.common.elmo.jaxb.Util;
 import java.io.File;
 import java.nio.charset.Charset;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
@@ -65,10 +70,13 @@ public class ElmoParser {
     private int gcc;
 
     protected ElmoParser(String elmo) throws SAXException, MalformedURLException, ParserConfigurationException, IOException {
-        this.gcc = 0;
-        log.debug("    protected ElmoParser(String elmo)");
-        log.debug(elmo);
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+   
+        //Load and Parse the XML document
+        //document contains the complete XML as a Tree.
+        this.document = buildDOM(elmo);
+    }
+    private static Document buildDOM(String elmo) throws ParserConfigurationException, SAXException, IOException{
+          DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /* TODO fix validation
          factory.setValidating(true);
          factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
@@ -77,11 +85,9 @@ public class ElmoParser {
         DocumentBuilder builder = factory.newDocumentBuilder();
         StringReader sr = new StringReader(elmo);
         InputSource s = new InputSource(sr);
+        return builder.parse(s);
 
-        //Load and Parse the XML document
-        //document contains the complete XML as a Tree.
-        this.document = builder.parse(s);
-
+        
     }
 
     /**
@@ -100,11 +106,17 @@ public class ElmoParser {
      * @param elmo
      */
     public static ElmoParser elmoParserFromVirta(String elmo) throws Exception {
-
-        ElmoParser parser = new ElmoParser(elmo);
-        parser.addElmoIdentifiers();
-        parser.flattenLearningOpportunityHierarchy();
-        parser.document.normalizeDocument();
+        String betterElmo = Util.virtaJAXBParser(elmo);
+        
+        ElmoParser parser = new ElmoParser(betterElmo);
+        //parser.addElmoIdentifiers();
+        //parser.flattenLearningOpportunityHierarchy();
+        //parser.document.normalizeDocument();
+        Element documentElement = parser.document.getDocumentElement();
+        if (null == documentElement)
+                log.debug("document elemnt null");
+        else
+            log.debug(documentElement.getTagName());
         return parser;
 
     }
@@ -401,7 +413,9 @@ public class ElmoParser {
         return hostCountry;
     }
 
+
     private void addElmoIdentifiers() {
+
         NodeList learnings = this.document.getElementsByTagName("learningOpportunitySpecification");
         for (int i = 0; i < learnings.getLength(); i++) {
             Element identifier = this.document.createElement("identifier");
@@ -412,6 +426,7 @@ public class ElmoParser {
             e.appendChild(identifier);
         }
     }
+
 
     private void flattenLearningOpportunityHierarchy() {
         //    System.out.println("doc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
@@ -452,8 +467,8 @@ public class ElmoParser {
         return list;
     }
 
-    private String getStringFromDoc(org.w3c.dom.Document doc) {
-        this.sortReport(doc);
+    private static String getStringFromDoc(org.w3c.dom.Document doc) {
+        //this.sortReport(doc);
         DOMImplementationLS domImplementation = (DOMImplementationLS) doc.getImplementation();
         LSSerializer lsSerializer = domImplementation.createLSSerializer();
 
