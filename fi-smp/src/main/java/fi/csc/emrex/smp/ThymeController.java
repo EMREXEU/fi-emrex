@@ -136,7 +136,7 @@ public class ThymeController {
             return "error";
         }
         try {
-            if (!FiSmpApplication.verifyElmoSignature(decodedXml, ncpPubKey)) {
+            if (!verifySignatureResult) {
                 log.error("NCP signature check failed");
                 model.addAttribute("error", "NCP signature check failed");
                 PersonalLogger.log(personalLogLine + "\tfailed");

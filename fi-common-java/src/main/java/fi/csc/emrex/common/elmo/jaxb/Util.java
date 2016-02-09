@@ -65,7 +65,7 @@ public class Util {
             Elmo elmo = getElmo(elmoString);
             List<Elmo.Report> reports = elmo.getReport();
             ArrayList<LearningOpportunitySpecification> elmoLoSList = new ArrayList<LearningOpportunitySpecification>();
-            log.debug("reports: " + reports.size());
+            //log.debug("reports: " + reports.size());
             for (Elmo.Report report : reports) {
                 ArrayList<LearningOpportunitySpecification> losList = new ArrayList<LearningOpportunitySpecification>();
                 List<LearningOpportunitySpecification> tempList = report.getLearningOpportunitySpecification();
@@ -87,7 +87,7 @@ public class Util {
                 elmoID.setValue(String.valueOf(elmoIndex++));
                 identifierList.add(elmoID);
             }
-            log.debug("courses count: " + elmoLoSList.size());
+            //log.debug("courses count: " + elmoLoSList.size());
 
             //log.debug(toString);
             return marshalElmo(elmo);

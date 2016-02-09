@@ -151,7 +151,7 @@ public class ThymeController {
                         throw new Exception("Suspected XSS-injection");
                     }
                     if (!returnUrl.startsWith("https")) {
-                        throw new Exception("Only HTTPS allowed");
+                       throw new Exception("Only HTTPS allowed");
                     }
                     context.getSession().setAttribute("returnUrl", returnUrl);
 
@@ -199,7 +199,7 @@ public class ThymeController {
 
             } catch (Exception e) {
                 log.error("Elmo was null and fetching elmo failed somehow.", e);
-                model.addAttribute("error", e.getMessage());
+                model.addAttribute("error", "Fetching study data failed" );
                 return "error";
             }
 
