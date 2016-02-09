@@ -150,7 +150,7 @@ public class ThymeController {
                         throw new Exception("Suspected XSS-injection");
                     }
                     if (!returnUrl.startsWith("https")) {
-                       // throw new Exception("Only HTTPS allowed");
+                       throw new Exception("Only HTTPS allowed");
                     }
                     context.getSession().setAttribute("returnUrl", returnUrl);
 
@@ -172,7 +172,7 @@ public class ThymeController {
 
                     if (OID == null && personalId == null) {
                         //TODO delete 
-                        elmoXML = virtaClient.fetchStudies("17488477125", personalId);
+                        elmoXML = "";// virtaClient.fetchStudies("17488477125", personalId);
                     } else {
                         elmoXML = virtaClient.fetchStudies(OID, personalId);
                     }
