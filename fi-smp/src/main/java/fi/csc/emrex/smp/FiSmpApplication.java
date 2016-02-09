@@ -35,10 +35,6 @@ import java.util.stream.Collectors;
         }
     }
 
-    public static boolean verifyElmoSignature(String elmo, String ncpKey) {
-        return !(ncpKey == null);
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(FiSmpApplication.class, args);
     }

@@ -115,17 +115,15 @@ public class ThymeController {
             PersonalLogger.log(personalLogLine + "\tfailed");
             return abort(model);
         }
-
+        String ncpPubKey = chosenNCP;
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         final String decodedXml = GzipUtil.gzipDecompress(bytes);
-
-        // TODO charset problems UTF-8 vs UTF-16
-        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(getCertificate(), decodedXml, StandardCharsets.UTF_8);
+        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
+ 
         log.info("Verify signature result: {}", verifySignatureResult);
         log.info("providedSessionId: {}", sessionId);
 
-
-        String ncpPubKey = chosenNCP;
+     
 
         try {
             FiSmpApplication.verifySessionId(sessionId, sessionIdCookie);
@@ -152,14 +150,14 @@ public class ThymeController {
         log.info("Returned elmo XML " + decodedXml);
         context.getSession().setAttribute("elmoxmlstring", decodedXml);
         ElmoParser parser = ElmoParser.elmoParser(decodedXml);
-        try{
-        byte[] pdf = parser.getAttachedPDF();
-        context.getSession().setAttribute("pdf", pdf);
-        }catch(Exception e){
-            log.error("EMREX transcript missing." );
+        try {
+            byte[] pdf = parser.getAttachedPDF();
+            context.getSession().setAttribute("pdf", pdf);
+        } catch (Exception e) {
+            log.error("EMREX transcript missing.");
             model.addAttribute("error", "EMREX transcript missing.");
             PersonalLogger.log(personalLogLine + "\tfailed");
-            return "error";       
+            return "error";
         }
         model.addAttribute("elmoXml", decodedXml);
 
@@ -186,7 +184,7 @@ public class ThymeController {
                     VerifiedReport vr = new VerifiedReport();
                     Element report = (Element) reports.item(i);
                     vr.setReport(nodeToString(report));
-                    Person elmoPerson = getUserFromElmoReport((Element)report.getParentNode());
+                    Person elmoPerson = getUserFromElmoReport((Element) report.getParentNode());
 
                     if (elmoPerson != null) {
                         VerificationReply verification = VerificationReply.verify(person, elmoPerson, verificationThreshold);

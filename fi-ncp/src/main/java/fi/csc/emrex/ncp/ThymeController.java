@@ -28,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * @author salum
  */
@@ -144,14 +143,14 @@ public class ThymeController {
                 }
                 if (customRequest.getReturnUrl() != null) {
                     String returnUrl = customRequest.getReturnUrl();
-                    log.info("unprocessed returnURL: "+ returnUrl);
-                    String temp =Security.stripXSS(returnUrl);
-                    log.info("processed returnURL: "+ temp);
+                    log.info("unprocessed returnURL: " + returnUrl);
+                    String temp = Security.stripXSS(returnUrl);
+                    log.info("processed returnURL: " + temp);
                     if (!returnUrl.equals(temp)) {
                         throw new Exception("Suspected XSS-injection");
                     }
                     if (!returnUrl.startsWith("https")) {
-                       throw new Exception("Only HTTPS allowed");
+                        throw new Exception("Only HTTPS allowed");
                     }
                     context.getSession().setAttribute("returnUrl", returnUrl);
 
@@ -199,7 +198,7 @@ public class ThymeController {
 
             } catch (Exception e) {
                 log.error("Elmo was null and fetching elmo failed somehow.", e);
-                model.addAttribute("error", "Fetching study data failed" );
+                model.addAttribute("error", "Fetching study data failed");
                 return "error";
             }
 
@@ -232,5 +231,4 @@ public class ThymeController {
         return statisticalLogLine;
     }
 
-    
 }
