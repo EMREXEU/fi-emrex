@@ -168,6 +168,8 @@ public class ElmoParser {
             Element attachment = document.createElement("attachment");
 
             Element title = document.createElement("title");
+            //title.setAttribute("lang", "en");
+            title.setTextContent("EMREX transcript");
             Attr langAttribute = document.createAttribute("lang");
             langAttribute.setTextContent("en");
             title.setAttributeNode(langAttribute);
