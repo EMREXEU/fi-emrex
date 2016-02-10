@@ -36,7 +36,7 @@ public class Util {
                 getAllLearningOpportunities(hasPart.getLearningOpportunitySpecification(), losList);
             }
             if (hasParts != null) {
-                log.debug("deleting parts: " + hasParts.size());
+                //log.debug("deleting parts: " + hasParts.size());
                 hasParts.clear();
             }
         }

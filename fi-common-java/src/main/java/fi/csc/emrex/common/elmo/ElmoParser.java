@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.w3c.dom.Attr;
 
 /**
  * A class representing a single Elmo xml.
@@ -167,8 +168,9 @@ public class ElmoParser {
             Element attachment = document.createElement("attachment");
 
             Element title = document.createElement("title");
-            title.setAttribute("lang", "en");
-            title.setTextContent("EMREX transcript");
+            Attr langAttribute = document.createAttribute("lang");
+            langAttribute.setTextContent("en");
+            title.setAttributeNode(langAttribute);
             attachment.appendChild(title);
 
             Element type = document.createElement("type");
