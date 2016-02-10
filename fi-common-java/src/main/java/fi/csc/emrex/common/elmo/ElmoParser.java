@@ -33,21 +33,11 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 /**
  * A class representing a single Elmo xml.
@@ -70,13 +60,14 @@ public class ElmoParser {
     private int gcc;
 
     protected ElmoParser(String elmo) throws SAXException, MalformedURLException, ParserConfigurationException, IOException {
-   
+
         //Load and Parse the XML document
         //document contains the complete XML as a Tree.
         this.document = buildDOM(elmo);
     }
-    private static Document buildDOM(String elmo) throws ParserConfigurationException, SAXException, IOException{
-          DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+    private static Document buildDOM(String elmo) throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /* TODO fix validation
          factory.setValidating(true);
          factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
@@ -87,7 +78,6 @@ public class ElmoParser {
         InputSource s = new InputSource(sr);
         return builder.parse(s);
 
-        
     }
 
     /**
@@ -107,16 +97,17 @@ public class ElmoParser {
      */
     public static ElmoParser elmoParserFromVirta(String elmo) throws Exception {
         String betterElmo = Util.virtaJAXBParser(elmo);
-        
+
         ElmoParser parser = new ElmoParser(betterElmo);
         //parser.addElmoIdentifiers();
         //parser.flattenLearningOpportunityHierarchy();
         //parser.document.normalizeDocument();
         Element documentElement = parser.document.getDocumentElement();
-        if (null == documentElement)
-                log.debug("document elemnt null");
-        else
+        if (null == documentElement) {
+            log.debug("document elemnt null");
+        } else {
             log.debug(documentElement.getTagName());
+        }
         return parser;
 
     }
@@ -174,11 +165,16 @@ public class ElmoParser {
 
             // Add pdf attachment
             Element attachment = document.createElement("attachment");
+
+            Element title = document.createElement("title");
+            title.setAttribute("lang", "en");
+            title.setTextContent("EMREX transcript");
+            attachment.appendChild(title);
+
             Element type = document.createElement("type");
             type.setTextContent("EMREX transcript");
             attachment.appendChild(type);
-            //attachment.setAttribute("contentType", "application/pdf");
-            //attachment.setAttribute("encoding", "base64");
+
             String data = "data:application/pdf;base64," + DatatypeConverter.printBase64Binary(pdf);
             Element content = document.createElement("content");
             content.setTextContent(data);
@@ -211,7 +207,7 @@ public class ElmoParser {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         String copyElmo = this.getStringFromDoc(document);
         return Util.getCourses(copyElmo, courses);
-    
+
     }
 
     public int getETCSCount() throws Exception {
@@ -343,7 +339,6 @@ public class ElmoParser {
         return hostCountry;
     }
 
-
     private void addElmoIdentifiers() {
 
         NodeList learnings = this.document.getElementsByTagName("learningOpportunitySpecification");
@@ -356,7 +351,6 @@ public class ElmoParser {
             e.appendChild(identifier);
         }
     }
-
 
     private void flattenLearningOpportunityHierarchy() {
         //    System.out.println("doc hasPart count: " + this.document.getElementsByTagName("hasPart").getLength()
