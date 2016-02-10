@@ -168,9 +168,9 @@ public class ElmoParser {
             Element attachment = document.createElement("attachment");
 
             Element title = document.createElement("title");
-            //title.setAttribute("lang", "en");
+            //title.setAttribute("xml:lang", "en");
             title.setTextContent("EMREX transcript");
-            Attr langAttribute = document.createAttribute("lang");
+            Attr langAttribute = document.createAttributeNS("http://www.w3.org/XML/1998/namespace", "lang");
             langAttribute.setTextContent("en");
             title.setAttributeNode(langAttribute);
             attachment.appendChild(title);
