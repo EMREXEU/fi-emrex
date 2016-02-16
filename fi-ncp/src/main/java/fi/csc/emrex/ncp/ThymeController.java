@@ -27,6 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author salum
@@ -46,6 +47,9 @@ public class ThymeController {
 
     @Autowired
     private DataSign dataSign;
+
+    @Value("${ncp.environment}")
+    private String env;
 
     // function for local testing
     @RequestMapping(value = "/ncp/review", method = RequestMethod.GET)
@@ -150,7 +154,10 @@ public class ThymeController {
                         throw new Exception("Suspected XSS-injection");
                     }
                     if (!returnUrl.startsWith("https")) {
-                       throw new Exception("Only HTTPS allowed");
+                        log.debug("env: "+env);
+                        if (!"dev".equals(env)) {
+                            throw new Exception("Only HTTPS allowed");
+                        }
                     }
                     context.getSession().setAttribute("returnUrl", returnUrl);
 
@@ -171,8 +178,11 @@ public class ThymeController {
                     String personalId = headerHandler.getPersonalID();
 
                     if (OID == null && personalId == null) {
-                        //TODO delete 
-                        elmoXML = "";// virtaClient.fetchStudies("17488477125", personalId);
+                        if ("dev".equals(env)) {
+                            elmoXML = virtaClient.fetchStudies("17488477125", personalId);
+                        } else {
+                            elmoXML = "";
+                        }
                     } else {
                         elmoXML = virtaClient.fetchStudies(OID, personalId);
                     }

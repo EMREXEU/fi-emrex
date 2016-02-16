@@ -45,13 +45,13 @@ public class DataSign {
     private String certificate;
     private String encryptionKey;
 
-    @Value("${path.certificate}")
+    @Value("${ncp.path.certificate}")
     private String certificatePath;
 
     @Value("${ncp.path.encryption.key}")
     private String encryptionKeyPath;
 
-    @Value("${environment}")
+    @Value("${ncp.environment}")
     private String environment;
 
     public String sign(String data, Charset charset) throws Exception {
