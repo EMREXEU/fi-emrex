@@ -274,13 +274,13 @@ public class ThymeController {
                 + "-----END CERTIFICATE-----";
     }
 
-    private String getCertificate(String returnURL) {
+    private String getCertificate(String chosenNCP) {
         try {
-            log.debug("returnUrl: " + returnURL);
+            log.debug("chosenNCP: " + chosenNCP);
             List<NCPResult> ncps = FiSmpApplication.getNCPs(emregUrl);
             for (NCPResult ncp : ncps) {
 
-                if (returnURL.equals(ncp.getUrl())) {
+                if (chosenNCP.equals(ncp.getUrl())) {
                     log.debug("ncpUrl: " + ncp.getUrl());
                     log.debug(ncp.getCertificate());
                     return ncp.getCertificate();
@@ -289,6 +289,7 @@ public class ThymeController {
         } catch (ParseException | URISyntaxException ex) {
             log.error(ex.getMessage());
         }
+        log.error("No certificat for chosenNCP: " +chosenNCP);
         return null;
     }
 
