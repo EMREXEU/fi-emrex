@@ -48,6 +48,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -95,12 +96,22 @@ public class ThymeController {
     }
 
     @RequestMapping(value = "/smp/onReturn", method = RequestMethod.POST)
-    public String smponReturnelmo(@ModelAttribute ElmoData request, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie, @CookieValue(value = "chosenNCP") String chosenNCP, HttpServletRequest httpRequest) throws Exception {
-        return this.onReturnelmo(request, model, sessionIdCookie, chosenNCP, httpRequest);
+    public String smponReturnelmo(@ModelAttribute ElmoData request, 
+            Model model, 
+            @CookieValue(value = "elmoSessionId") String sessionIdCookie, 
+            @CookieValue(value = "chosenNCP") String chosenNCP,
+            @CookieValue(value = "chosenCert") String chosenCert, 
+            HttpServletRequest httpRequest) throws Exception {
+        return this.onReturnelmo(request, model, sessionIdCookie, chosenNCP, chosenCert, httpRequest);
     }
 
     @RequestMapping(value = "/onReturn", method = RequestMethod.POST)
-    public String onReturnelmo(@ModelAttribute ElmoData request, Model model, @CookieValue(value = "elmoSessionId") String sessionIdCookie, @CookieValue(value = "chosenNCP") String chosenNCP, HttpServletRequest httpRequest) throws Exception {
+    public String onReturnelmo(@ModelAttribute ElmoData request, 
+            Model model, 
+            @CookieValue(value = "elmoSessionId") String sessionIdCookie, 
+            @CookieValue(value = "chosenNCP") String chosenNCP, 
+            @CookieValue(value = "chosenCert") String chosenCert, 
+            HttpServletRequest httpRequest) throws Exception {
         String sessionId = request.getSessionId();
         String elmo = request.getElmo();
 
@@ -121,9 +132,12 @@ public class ThymeController {
             return abort(model);
         }
         String ncpPubKey = this.getCertificate(chosenNCP);
+        String difference = StringUtils.difference(ncpPubKey, chosenCert);
+        String diff2 = StringUtils.difference( chosenCert, ncpPubKey);
+        log.debug("certdiff: "+difference.length() +" diff2 "+diff2.length());
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         final String decodedXml = GzipUtil.gzipDecompress(bytes);
-        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
+        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(chosenCert, decodedXml, StandardCharsets.UTF_8);
 
         log.info("Verify signature result: {}", verifySignatureResult);
         log.info("providedSessionId: {}", sessionId);

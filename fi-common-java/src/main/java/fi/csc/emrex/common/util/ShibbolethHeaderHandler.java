@@ -95,8 +95,8 @@ public class ShibbolethHeaderHandler {
             String unsafe = new String(latin1,"UTF-8" );
             return Security.stripXSS(unsafe);
         } catch (UnsupportedEncodingException| NullPointerException ex) {
-            log.error(ex.getMessage());
-            return text;
+            //log.error(ex.getMessage());
+            return null;
         }
     }
 }

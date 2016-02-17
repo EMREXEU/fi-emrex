@@ -31,7 +31,7 @@ import java.util.Iterator;
 @Component
 public class SignatureVerifier {
 
-    private String certificate;
+    //private String certificate;
 
     public boolean verifySignatureWithDecodedData(String certificate, String encodedData, Charset charset) throws Exception {
 
