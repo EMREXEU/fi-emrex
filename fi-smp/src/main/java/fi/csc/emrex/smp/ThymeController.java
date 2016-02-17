@@ -42,11 +42,13 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.simple.parser.ParseException;
 
 /**
  * @author salum
@@ -54,6 +56,9 @@ import java.util.List;
 @Controller
 @Slf4j
 public class ThymeController {
+
+    @Value("${emreg.url}")
+    private String emregUrl;
 
     @Value("${smp.verification.threshold}")
     private double verificationThreshold;
@@ -115,15 +120,13 @@ public class ThymeController {
             PersonalLogger.log(personalLogLine + "\tfailed");
             return abort(model);
         }
-        String ncpPubKey = chosenNCP;
+        String ncpPubKey = this.getCertificate(chosenNCP);
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         final String decodedXml = GzipUtil.gzipDecompress(bytes);
         final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
- 
+
         log.info("Verify signature result: {}", verifySignatureResult);
         log.info("providedSessionId: {}", sessionId);
-
-     
 
         try {
             FiSmpApplication.verifySessionId(sessionId, sessionIdCookie);
@@ -239,20 +242,22 @@ public class ThymeController {
     }
 
     // FIXME serti jostain muualta
-    private String getCertificate() {
-        return "-----BEGIN CERTIFICATE-----\n"
-                + "MIIB+TCCAWICCQDiZILVgSkjojANBgkqhkiG9w0BAQUFADBBMQswCQYDVQQGEwJG\n"
-                + "STERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYDVQQK\n"
-                + "DANDU0MwHhcNMTUwMjA1MTEwNTI5WhcNMTgwNTIwMTEwNTI5WjBBMQswCQYDVQQG\n"
-                + "EwJGSTERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYD\n"
-                + "VQQKDANDU0MwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyVVTyGT1Cp8z1f\n"
-                + "jYEO93HEtIpFKnb/tvPb6Ee5b8m8lnuv6YWsF8DBWPVfsOq0KCWD8zE1yD+w+xxM\n"
-                + "mp6+zATp089PUrEUYawG/tGu9OG+EX+nhOAj0SBvGHEkXh6lGJgeGxbdFVwZePAN\n"
-                + "135ra5L3gYcwYBVOuEyYFZJp7diHAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAP2E9\n"
-                + "YD7djCum5UYn1Od9Z1w55j+SuKRWMnTR3yzy1PXJjb2dGqNcV9tEhdbqWbwTnNfl\n"
-                + "6sidCnd1U0p4XdLjg28me8ZmfftH+QU4LkwSFSyF4ajoTFC3QHD0xTtGpQIT/rAD\n"
-                + "x/59fhfX5icydMzzNulwXJWImtXq2/AX43/yR+M=\n"
-                + "-----END CERTIFICATE-----";
+    private String getCertificate(String returnURL) {
+        try {
+            log.debug("returnUrl: "+returnURL);
+            List<NCPResult> ncps = FiSmpApplication.getNCPs(emregUrl);
+            for (NCPResult ncp : ncps) {
+                
+                if (returnURL.equals(ncp.getUrl())) {
+                    log.debug("ncpUrl: " + ncp.getUrl());
+                    log.debug(ncp.getCertificate());
+                    return ncp.getCertificate();
+                }
+            }
+        } catch (ParseException | URISyntaxException ex) {
+            log.error(ex.getMessage());
+        }
+        return null;
     }
 
     private Person getUserFromElmoReport(Element report) {
