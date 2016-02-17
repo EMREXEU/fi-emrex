@@ -96,21 +96,21 @@ public class ThymeController {
     }
 
     @RequestMapping(value = "/smp/onReturn", method = RequestMethod.POST)
-    public String smponReturnelmo(@ModelAttribute ElmoData request, 
-            Model model, 
-            @CookieValue(value = "elmoSessionId") String sessionIdCookie, 
+    public String smponReturnelmo(@ModelAttribute ElmoData request,
+            Model model,
+            @CookieValue(value = "elmoSessionId") String sessionIdCookie,
             @CookieValue(value = "chosenNCP") String chosenNCP,
-            @CookieValue(value = "chosenCert") String chosenCert, 
+            @CookieValue(value = "chosenCert") String chosenCert,
             HttpServletRequest httpRequest) throws Exception {
         return this.onReturnelmo(request, model, sessionIdCookie, chosenNCP, chosenCert, httpRequest);
     }
 
     @RequestMapping(value = "/onReturn", method = RequestMethod.POST)
-    public String onReturnelmo(@ModelAttribute ElmoData request, 
-            Model model, 
-            @CookieValue(value = "elmoSessionId") String sessionIdCookie, 
-            @CookieValue(value = "chosenNCP") String chosenNCP, 
-            @CookieValue(value = "chosenCert") String chosenCert, 
+    public String onReturnelmo(@ModelAttribute ElmoData request,
+            Model model,
+            @CookieValue(value = "elmoSessionId") String sessionIdCookie,
+            @CookieValue(value = "chosenNCP") String chosenNCP,
+            @CookieValue(value = "chosenCert") String chosenCert,
             HttpServletRequest httpRequest) throws Exception {
         String sessionId = request.getSessionId();
         String elmo = request.getElmo();
@@ -132,12 +132,14 @@ public class ThymeController {
             return abort(model);
         }
         String ncpPubKey = this.getCertificate(chosenNCP);
-        String difference = StringUtils.difference(ncpPubKey, chosenCert);
-        String diff2 = StringUtils.difference( chosenCert, ncpPubKey);
-        log.debug("certdiff: "+difference.length() +" diff2 "+diff2.length());
+        String locPubKey =this.getCertificate();
+        String difference = StringUtils.difference(ncpPubKey, locPubKey );
+        String diff2 = StringUtils.difference(locPubKey , ncpPubKey);
+        log.debug("certdiff: " + difference.length() + "\n" +difference);
+        log.debug("diff2 " + diff2.length()+ "\n" +diff2);
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         final String decodedXml = GzipUtil.gzipDecompress(bytes);
-        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(chosenCert, decodedXml, StandardCharsets.UTF_8);
+        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
 
         log.info("Verify signature result: {}", verifySignatureResult);
         log.info("providedSessionId: {}", sessionId);
@@ -256,12 +258,28 @@ public class ThymeController {
     }
 
     // FIXME serti jostain muualta
+    private String getCertificate() {
+        return "-----BEGIN CERTIFICATE-----\n"
+                + "MIIB+TCCAWICCQDiZILVgSkjojANBgkqhkiG9w0BAQUFADBBMQswCQYDVQQGEwJG\n"
+                + "STERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYDVQQK\n"
+                + "DANDU0MwHhcNMTUwMjA1MTEwNTI5WhcNMTgwNTIwMTEwNTI5WjBBMQswCQYDVQQG\n"
+                + "EwJGSTERMA8GA1UECAwISGVsc2lua2kxETAPBgNVBAcMCEhlbHNpbmtpMQwwCgYD\n"
+                + "VQQKDANDU0MwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyVVTyGT1Cp8z1f\n"
+                + "jYEO93HEtIpFKnb/tvPb6Ee5b8m8lnuv6YWsF8DBWPVfsOq0KCWD8zE1yD+w+xxM\n"
+                + "mp6+zATp089PUrEUYawG/tGu9OG+EX+nhOAj0SBvGHEkXh6lGJgeGxbdFVwZePAN\n"
+                + "135ra5L3gYcwYBVOuEyYFZJp7diHAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAP2E9\n"
+                + "YD7djCum5UYn1Od9Z1w55j+SuKRWMnTR3yzy1PXJjb2dGqNcV9tEhdbqWbwTnNfl\n"
+                + "6sidCnd1U0p4XdLjg28me8ZmfftH+QU4LkwSFSyF4ajoTFC3QHD0xTtGpQIT/rAD\n"
+                + "x/59fhfX5icydMzzNulwXJWImtXq2/AX43/yR+M=\n"
+                + "-----END CERTIFICATE-----";
+    }
+
     private String getCertificate(String returnURL) {
         try {
-            log.debug("returnUrl: "+returnURL);
+            log.debug("returnUrl: " + returnURL);
             List<NCPResult> ncps = FiSmpApplication.getNCPs(emregUrl);
             for (NCPResult ncp : ncps) {
-                
+
                 if (returnURL.equals(ncp.getUrl())) {
                     log.debug("ncpUrl: " + ncp.getUrl());
                     log.debug(ncp.getCertificate());
