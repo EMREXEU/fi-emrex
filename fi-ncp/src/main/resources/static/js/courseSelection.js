@@ -59,8 +59,10 @@ angular.module('courseSelection', [])
             var visible = (!!$scope.educationInstitutionOptions[title]);
 
             var deselectInvisibleOpportunities = function(opportunity){
-                if (opportunity.selected !== undefined)
+                if (opportunity.selected !== undefined) {
                     opportunity.selected = false;
+                    selectedCoursesService.removeId(opportunity.elmoIdentifier);
+                }
             };
 
             if (!visible){
