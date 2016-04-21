@@ -314,10 +314,13 @@ public class ElmoParser {
                 for (int i = 0; i < titles.getLength(); i++) {
                     Element title = (Element) titles.item(i);
                     String type = title.getAttribute("type").toLowerCase();
-                    hostInstitution = titles.item(i).getTextContent();
-                    if (type.equals("schac")) {
-                        log.info("instution identifier type schac");
-                        return hostInstitution;
+                    String host =titles.item(i).getTextContent();
+                    if ((host != null && !host.isEmpty())) {
+                        hostInstitution = host;
+                        if (type.equals("schac")) {
+                            log.info("instution identifier type schac");
+                            return hostInstitution;
+                        }
                     }
                 }
             }
