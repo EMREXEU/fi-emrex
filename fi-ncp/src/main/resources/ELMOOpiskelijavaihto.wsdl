@@ -1259,7 +1259,7 @@
     </wsdl:binding>
     <wsdl:service name="ELMOOpiskelijavaihtoService">
         <wsdl:port binding="tns:ELMOOpiskelijavaihtoSoap11" name="ELMOOpiskelijavaihtoSoap11">
-            <soap:address location="http://virtawstesti.csc.fi:80/emrex/ELMOOpiskelijavaihto"/>
+            <soap:address location="https://virtawstesti.csc.fi:443/emrex/ELMOOpiskelijavaihto"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>
