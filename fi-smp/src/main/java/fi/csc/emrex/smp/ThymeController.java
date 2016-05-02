@@ -128,13 +128,13 @@ public class ThymeController {
         String personalLogLine = generatePersonalLogLine(httpRequest, person, source);
 
         if(request.getReturnCode() != "NCP_OK"){
-            if ("NCP_NO_RESULTS".equals(request.getReturnCode()){
+            if ("NCP_NO_RESULTS".equals(request.getReturnCode())){
                 model.addAttribute("message", "No courses found on NCP.");
             }
-            if ("NCP_CANCEL".equals(request.getReturnCode()){
+            if ("NCP_CANCEL".equals(request.getReturnCode())){
                 model.addAttribute("message", "User cancelled transfer on NCP.");
             }
-            if ("NCP_ERROR".equals(request.getReturnCode()){
+            if ("NCP_ERROR".equals(request.getReturnCode())){
                 model.addAttribute("message", "Error on NCP.");
             }
             return abort(model);
