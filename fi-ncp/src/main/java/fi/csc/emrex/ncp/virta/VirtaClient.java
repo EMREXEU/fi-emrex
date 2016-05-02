@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 @Slf4j
 @Setter
 @Component
+@org.apache.cxf.feature.Features (features = "org.apache.cxf.ext.logging.LoggingFeature")
 public class VirtaClient {
 
     /**
@@ -32,7 +34,7 @@ public class VirtaClient {
     private String TUNNUS;
     @Value("${ncp.virta.url}")
     private String virtaUrl;
-    
+
     private ELMOOpiskelijavaihtoService elmoOpiskelijavaihtoService;
 
     
