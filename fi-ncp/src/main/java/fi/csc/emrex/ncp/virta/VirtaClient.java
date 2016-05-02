@@ -47,6 +47,7 @@ public class VirtaClient {
             log.error(marshal);
             return marshal;
         } catch (Exception e) {
+            log.error(e.getClass().getName()+": "+e.getMessage());
             log.error("FetchStudies failed. StudentID: {} PersonalID: {}", virtaUser.getOid(), virtaUser.getSsn(), e);
             return null;
         }
@@ -78,9 +79,9 @@ public class VirtaClient {
         Hakuehdot hakuehdot = new Hakuehdot();
 
         if (virtaUser.isOidSet()) {
-            hakuehdot.getContent().add(0, new ObjectFactory().createOID(virtaUser.getOid()));
+            hakuehdot.setOID(virtaUser.getOid());
         } else {
-            hakuehdot.getContent().add(0, new ObjectFactory().createHeTu(virtaUser.getSsn()));
+            hakuehdot.setHeTu(virtaUser.getSsn());
         }
 
         return hakuehdot;

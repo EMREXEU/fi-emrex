@@ -94,7 +94,6 @@
                             <xs:element minOccurs="0" ref="emrex:OID"/>
                             <xs:element minOccurs="0" ref="emrex:HeTu"/>
                         </xs:sequence>
-                        <xs:element ref="emrex:HeTu"/>
                     </xs:choice>
                 </xs:sequence>
             </xs:complexType>
