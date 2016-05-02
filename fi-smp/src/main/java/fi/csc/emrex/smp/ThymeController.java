@@ -100,9 +100,9 @@ public class ThymeController {
             Model model,
             @CookieValue(value = "elmoSessionId") String sessionIdCookie,
             @CookieValue(value = "chosenNCP") String chosenNCP,
-            @CookieValue(value = "chosenCert") String chosenCert,
+            //@CookieValue(value = "chosenCert") String chosenCert,
             HttpServletRequest httpRequest) throws Exception {
-        return this.onReturnelmo(request, model, sessionIdCookie, chosenNCP, chosenCert, httpRequest);
+        return this.onReturnelmo(request, model, sessionIdCookie, chosenNCP, httpRequest);
     }
 
     @RequestMapping(value = "/onReturn", method = RequestMethod.POST)
@@ -110,7 +110,7 @@ public class ThymeController {
             Model model,
             @CookieValue(value = "elmoSessionId") String sessionIdCookie,
             @CookieValue(value = "chosenNCP") String chosenNCP,
-            @CookieValue(value = "chosenCert") String chosenCert,
+            //@CookieValue(value = "chosenCert") String chosenCert,
             HttpServletRequest httpRequest) throws Exception {
         String sessionId = request.getSessionId();
         String elmo = request.getElmo();
@@ -127,16 +127,28 @@ public class ThymeController {
         String source = "SMP";
         String personalLogLine = generatePersonalLogLine(httpRequest, person, source);
 
-        if (elmo == null) {
+        if(request.getReturnCode() != "NCP_OK"){
+            if ("NCP_NO_RESULTS".equals(request.getReturnCode()){
+                model.addAttribute("message", "No courses found on NCP.");
+            }
+            if ("NCP_CANCEL".equals(request.getReturnCode()){
+                model.addAttribute("message", "User cancelled transfer on NCP.");
+            }
+            if ("NCP_ERROR".equals(request.getReturnCode()){
+                model.addAttribute("message", "Error on NCP.");
+            }
+            return abort(model);
+        }
+        if (elmo == null || elmo.isEmpty()) {
             PersonalLogger.log(personalLogLine + "\tfailed");
             return abort(model);
         }
         String ncpPubKey = this.getCertificate(chosenNCP);
-        String locPubKey =this.getCertificate();
+/*        String locPubKey =this.getCertificate();
         String difference = StringUtils.difference(ncpPubKey, locPubKey );
         String diff2 = StringUtils.difference(locPubKey , ncpPubKey);
         log.debug("certdiff: " + difference.length() + "\n" +difference);
-        log.debug("diff2 " + diff2.length()+ "\n" +diff2);
+        log.debug("diff2 " + diff2.length()+ "\n" +diff2);*/
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         final String decodedXml = GzipUtil.gzipDecompress(bytes);
         final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
