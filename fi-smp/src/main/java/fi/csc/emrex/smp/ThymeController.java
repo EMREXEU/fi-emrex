@@ -126,37 +126,41 @@ public class ThymeController {
 
         String source = "SMP";
         String personalLogLine = generatePersonalLogLine(httpRequest, person, source);
-
-        if(request.getReturnCode() != "NCP_OK"){
-            if ("NCP_NO_RESULTS".equals(request.getReturnCode())){
+        log.info(request.getReturnCode());
+        if(!"NCP_OK".equalsIgnoreCase(request.getReturnCode()) ){
+            log.error("NCP not OK");
+            if ("NCP_NO_RESULTS".equalsIgnoreCase(request.getReturnCode())){
                 model.addAttribute("message", "No courses found on NCP.");
+                log.error("No courses found on NCP.");
             }
-            if ("NCP_CANCEL".equals(request.getReturnCode())){
+            if ("NCP_CANCEL".equalsIgnoreCase(request.getReturnCode())){
                 model.addAttribute("message", "User cancelled transfer on NCP.");
+                log.error("User cancelled transfer on NCP.");
             }
-            if ("NCP_ERROR".equals(request.getReturnCode())){
+            if ("NCP_ERROR".equalsIgnoreCase(request.getReturnCode())){
                 model.addAttribute("message", "Error on NCP.");
+                log.error("Error on NCP.");
             }
             return abort(model);
         }
+        log.info("NCP OK!");
         if (elmo == null || elmo.isEmpty()) {
             PersonalLogger.log(personalLogLine + "\tfailed");
+            log.error("ELMO-xml empy or null.");
             return abort(model);
         }
         String ncpPubKey = this.getCertificate(chosenNCP);
-/*        String locPubKey =this.getCertificate();
-        String difference = StringUtils.difference(ncpPubKey, locPubKey );
-        String diff2 = StringUtils.difference(locPubKey , ncpPubKey);
-        log.debug("certdiff: " + difference.length() + "\n" +difference);
-        log.debug("diff2 " + diff2.length()+ "\n" +diff2);*/
+        final String decodedXml;
+        boolean verifySignatureResult=false;
+        try {
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
-        final String decodedXml = GzipUtil.gzipDecompress(bytes);
-        final boolean verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
+        decodedXml = GzipUtil.gzipDecompress(bytes);
+        verifySignatureResult = signatureVerifier.verifySignatureWithDecodedData(ncpPubKey, decodedXml, StandardCharsets.UTF_8);
 
         log.info("Verify signature result: {}", verifySignatureResult);
         log.info("providedSessionId: {}", sessionId);
 
-        try {
+
             FiSmpApplication.verifySessionId(sessionId, sessionIdCookie);
         } catch (Exception e) {
             log.error("Session verification failed", e);
