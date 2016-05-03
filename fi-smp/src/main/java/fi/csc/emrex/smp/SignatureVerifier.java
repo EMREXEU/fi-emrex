@@ -94,6 +94,7 @@ public class SignatureVerifier {
     }
 
     private static X509Certificate getCertificate(String certString) throws IOException, GeneralSecurityException {
+        log.debug("certString: "+certString);
         InputStream is = new ByteArrayInputStream(certString.getBytes());
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
         X509Certificate cert = (X509Certificate) cf.generateCertificate(is);

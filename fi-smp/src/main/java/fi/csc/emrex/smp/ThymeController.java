@@ -151,7 +151,7 @@ public class ThymeController {
         }
         String ncpPubKey = this.getCertificate(chosenNCP);
         final String decodedXml;
-        boolean verifySignatureResult=false;
+        final boolean verifySignatureResult;
         try {
         final byte[] bytes = DatatypeConverter.parseBase64Binary(elmo);
         decodedXml = GzipUtil.gzipDecompress(bytes);
