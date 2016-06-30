@@ -8,32 +8,19 @@ package fi.csc.emrex.smp.openpgp;
  * http://www.bouncycastle.org/download/bcpg-jdk14-122.jar 2) Should have a
  * key/pair
  */
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
+import org.bouncycastle.bcpg.ArmoredOutputStream;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openpgp.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
-import java.util.Date;
 import java.util.Iterator;
-import org.bouncycastle.bcpg.ArmoredOutputStream;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openpgp.PGPCompressedData;
-import org.bouncycastle.openpgp.PGPCompressedDataGenerator;
-import org.bouncycastle.openpgp.PGPEncryptedData;
-import org.bouncycastle.openpgp.PGPEncryptedDataGenerator;
-import org.bouncycastle.openpgp.PGPException;
-import org.bouncycastle.openpgp.PGPLiteralData;
-import org.bouncycastle.openpgp.PGPLiteralDataGenerator;
-import org.bouncycastle.openpgp.PGPPublicKey;
-import org.bouncycastle.openpgp.PGPPublicKeyRing;
-import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
-import org.bouncycastle.openpgp.PGPUtil;
 
 /**
  * Implementation of the Bouncy Castle (BC) PGP Encryption/Decryption algorithm.
@@ -41,19 +28,18 @@ import org.bouncycastle.openpgp.PGPUtil;
  */
 public class PGPEncryptor {
 
-    private BouncyCastleProvider bcp = null;
-// Provider Name
+    private static final Logger log = LoggerFactory.getLogger(PGPEncryptor.class);
     private static final String PROVIDER = "BC";
 
+    /**
+     * Initialize the Bouncy Castle provider.
+     */
     public PGPEncryptor() {
-        /**
-         * Initialize the Bouncy Castle provider.
-         */
-       if (bcp == null) {
-            bcp = new BouncyCastleProvider();
-            Security.addProvider(bcp);
+        if (Security.getProvider(PROVIDER) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+            log.info("Initialized BouncyCastle security provider");
         }
-         //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        log.debug("Initialized PGPEncryptor");
     }
 
     public void encryptFile(File inFile, File keyFile, File outFile, boolean isArmoredOutput) throws IOException,
@@ -64,7 +50,7 @@ public class PGPEncryptor {
         PGPCompressedDataGenerator comData = null;
 
         try {
-// get public key
+            // get public key
             PGPPublicKey encKey = readPublicKey(keyFile);
             System.out.println(
                     "Key Strength = " + encKey.getBitStrength()
@@ -74,7 +60,7 @@ public class PGPEncryptor {
             );
 
             int count = 0;
-            for (java.util.Iterator iterator = encKey.getUserIDs(); iterator.hasNext();) {
+            for (java.util.Iterator iterator = encKey.getUserIDs(); iterator.hasNext(); ) {
                 count++;
                 System.out.println((String) iterator.next());
             }
@@ -82,20 +68,20 @@ public class PGPEncryptor {
                     "Key Count = " + count
             );
 
-// init output stream
+            // init output stream
             out = new FileOutputStream(outFile);
             if (isArmoredOutput) {
                 out = new ArmoredOutputStream(out);
             }
 
-// encryptFile and compress input file content
+            // encryptFile and compress input file content
             PGPEncryptedDataGenerator cPk = new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, new SecureRandom(), PROVIDER);
             cPk.addMethod(encKey);
 
             cOut = cPk.open(out, new byte[1 << 16]);
             comData = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
 
-// write encrypted content to a file
+            // write encrypted content to a file
             PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, inFile, new byte[1 << 16]);
 
         } finally {
@@ -114,12 +100,11 @@ public class PGPEncryptor {
     public OutputStream encryptFileToStream(File inFile, File keyFile, OutputStream out, boolean isArmoredOutput) throws IOException,
             NoSuchProviderException, NoSuchAlgorithmException, PGPException {
 
-        //OutputStream out = null;
         OutputStream cOut = null;
         PGPCompressedDataGenerator comData = null;
 
         try {
-// get public key
+            // get public key
             PGPPublicKey encKey = readPublicKey(keyFile);
             System.out.println(
                     "Key Strength = " + encKey.getBitStrength()
@@ -129,7 +114,7 @@ public class PGPEncryptor {
             );
 
             int count = 0;
-            for (java.util.Iterator iterator = encKey.getUserIDs(); iterator.hasNext();) {
+            for (java.util.Iterator iterator = encKey.getUserIDs(); iterator.hasNext(); ) {
                 count++;
                 System.out.println((String) iterator.next());
             }
@@ -137,20 +122,19 @@ public class PGPEncryptor {
                     "Key Count = " + count
             );
 
-// init output stream
-            //out = new FileOutputStream(outFile);
+            // init output stream
             if (isArmoredOutput) {
                 out = new ArmoredOutputStream(out);
             }
 
-// encryptFile and compress input file content
+            // encryptFile and compress input file content
             PGPEncryptedDataGenerator cPk = new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, new SecureRandom(), PROVIDER);
             cPk.addMethod(encKey);
 
             cOut = cPk.open(out, new byte[1 << 16]);
             comData = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
 
-// write encrypted content to a file
+            // write encrypted content to a file
             PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, inFile, new byte[1 << 16]);
 
         } finally {
@@ -167,7 +151,6 @@ public class PGPEncryptor {
 
             }
             return null;
-                    
         }
     }
 
@@ -187,7 +170,7 @@ public class PGPEncryptor {
             in = PGPUtil.getDecoderStream(new FileInputStream(keyFile));
             PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(in);
 
-// iterate through the key rings.
+            // iterate through the key rings.
             Iterator rIt = pgpPub.getKeyRings();
             while (key == null && rIt.hasNext()) {
                 PGPPublicKeyRing kRing = (PGPPublicKeyRing) rIt.next();
