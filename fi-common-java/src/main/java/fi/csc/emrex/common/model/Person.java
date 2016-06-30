@@ -8,15 +8,17 @@ package fi.csc.emrex.common.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
 import lombok.extern.slf4j.Slf4j;
 
 
 /**
- *
  * @author salum
  */
 @Slf4j
 public class Person {
+
+    public static final String defaultDateFormat = "yyyy-MM-dd";
 
     private String firstName;
     private String lastName;
@@ -82,14 +84,15 @@ public class Person {
     }
 
     public void setBirthDate(String birthDate, String dateFormat) {
+        dateFormat = dateFormat != null && dateFormat.length() > 0 ? dateFormat : defaultDateFormat;
         dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
-        if (birthDate == null || dateFormat == null) {
+        if (birthDate == null) {
             this.birthDate = null;
         } else {
-            try{
+            try {
                 this.birthDate = LocalDate.parse(birthDate, dateFormatter);
-            }catch( DateTimeParseException e){
-                this.birthDate=null;
+            } catch (DateTimeParseException e) {
+                this.birthDate = null;
                 log.debug(e.getMessage());
             }
         }

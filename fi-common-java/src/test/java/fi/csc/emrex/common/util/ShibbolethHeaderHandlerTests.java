@@ -1,13 +1,16 @@
 package fi.csc.emrex.common.util;
 
 import fi.csc.emrex.common.model.Person;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.cglib.core.Local;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.assertEquals;
@@ -32,28 +35,41 @@ public class ShibbolethHeaderHandlerTests {
     public static String homeOrganisationHeaderContent = "oamk.fi";
 
     public static String birthdayHeaderName = "shib-SHIB_schacDateOfBirth";
-    public static String birthdayHeaderContent = "19800201";
+    //public static String birthdayHeaderContent = "010280";
 
-    @Test
-    public void testHeaderParsing() throws Exception {
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+
+    public ShibbolethHeaderHandler handler;
+    public LocalDate mockBirthday;
+    public String testPersonBirthday;
+    public Person testPerson;
+
+    @Before
+    public void createTestAssets() {
         Mockito.when(mockHttpServletRequest.getHeader(studentHEIOIDHeaderName)).thenReturn(studentHEIOIDHeaderContent);
         Mockito.when(mockHttpServletRequest.getHeader(personalIdHeaderName)).thenReturn(personalIdHeaderContent);
         Mockito.when(mockHttpServletRequest.getHeader(OIDheaderName)).thenReturn(OIDHeaderContent);
-        Mockito.when(mockHttpServletRequest.getHeader(birthdayHeaderName)).thenReturn(birthdayHeaderContent);
+        mockBirthday = LocalDate.now().minusYears(18);
+        testPersonBirthday = mockBirthday.format(formatter);
+        Mockito.when(mockHttpServletRequest.getHeader(birthdayHeaderName)).thenReturn(testPersonBirthday);
         Mockito.when(mockHttpServletRequest.getHeader(homeOrganisationHeaderName)).thenReturn(homeOrganisationHeaderContent);
 
+        handler = new ShibbolethHeaderHandler(mockHttpServletRequest);
+        testPerson = handler.generatePerson();
+    }
 
-
-        ShibbolethHeaderHandler handler = new ShibbolethHeaderHandler(mockHttpServletRequest);
-        Person testPerson = handler.generatePerson();
+    @Test
+    public void testHeaderParsing() throws Exception {
         assertEquals("x8734", handler.getHeiOid());
         assertEquals("17488477125", handler.getOID());
         assertEquals("020896-358x", handler.getPersonalID());
         assertEquals(homeOrganisationHeaderContent, handler.getHomeOrganization());
+        assertEquals(testPersonBirthday, testPerson.getBirthDate().format(formatter));
+    }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        assertEquals(birthdayHeaderContent, testPerson.getBirthDate().format(formatter));
-
+    @Test
+    public void testTwoDigitYearCompensation() throws Exception {
+        assertEquals(mockBirthday.getYear(), testPerson.getBirthDate().getYear());
     }
 
 }
