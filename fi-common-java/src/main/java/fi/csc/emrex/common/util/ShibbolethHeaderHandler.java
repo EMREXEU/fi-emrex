@@ -5,6 +5,7 @@ import fi.csc.emrex.common.model.Person;
 import java.io.UnsupportedEncodingException;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -68,9 +69,19 @@ public class ShibbolethHeaderHandler {
         Person person = new Person();
         person.setFirstName(getFirstName());
         person.setLastName(getLastName());
-        person.setBirthDate(getBirthDate(), "ddMMyy");
-        if (person.getBirthDate() != null && person.getBirthDate().isAfter(LocalDate.now().minusYears(16))) {
-            person.setBirthDate(person.getBirthDate().minusYears(100));
+        if (StringUtils.isNotEmpty(getBirthDate())) {
+            if (getBirthDate().length() == 6) {
+                person.setBirthDate(getBirthDate(), "ddMMyy");
+                if (person.getBirthDate() != null && person.getBirthDate().isAfter(LocalDate.now().minusYears(16))) {
+                    person.setBirthDate(person.getBirthDate().minusYears(100));
+                }
+            } else if (getBirthDate().length() == 8) {
+                person.setBirthDate(getBirthDate(), null);
+            } else {
+                log.warn("Student " + getOID() + " date of birth was of invalid length. Value was \"" + getBirthDate() + "\"");
+            }
+        } else {
+            log.warn("Student " + getOID() + " has no date of birth set");
         }
         person.setHomeOrganization(getHomeOrganization());
         person.setHomeOrganizationName(getHomeOrganizationName());

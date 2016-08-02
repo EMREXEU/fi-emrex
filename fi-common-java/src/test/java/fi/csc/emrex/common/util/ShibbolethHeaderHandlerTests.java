@@ -20,7 +20,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class ShibbolethHeaderHandlerTests {
 
-    @Mock private HttpServletRequest mockHttpServletRequest;
+    @Mock private HttpServletRequest mockHttpServletRequestStandard;
+    @Mock private HttpServletRequest mockHttpServletRequestTwoDigit;
 
     public static String studentHEIOIDHeaderName = "shib-unique-code";
     public static String studentHEIOIDHeaderContent = ": urn:mace:terena.org:schac:personalUniqueCode:fi:hy.fi:x8734";
@@ -35,41 +36,56 @@ public class ShibbolethHeaderHandlerTests {
     public static String homeOrganisationHeaderContent = "oamk.fi";
 
     public static String birthdayHeaderName = "shib-SHIB_schacDateOfBirth";
-    //public static String birthdayHeaderContent = "010280";
 
-    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+    public static DateTimeFormatter standardFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    public static DateTimeFormatter twoDigitFormatter = DateTimeFormatter.ofPattern("ddMMyy");
 
-    public ShibbolethHeaderHandler handler;
+    public ShibbolethHeaderHandler standardHandler;
+    public ShibbolethHeaderHandler twoDigitHandler;
     public LocalDate mockBirthday;
-    public String testPersonBirthday;
-    public Person testPerson;
+    public String testPersonStandardBirthday;
+    public String testPersonTwoDigitBirthday;
+    public Person testPersonStandard;
+    public Person testPersonTwoDigit;
 
     @Before
     public void createTestAssets() {
-        Mockito.when(mockHttpServletRequest.getHeader(studentHEIOIDHeaderName)).thenReturn(studentHEIOIDHeaderContent);
-        Mockito.when(mockHttpServletRequest.getHeader(personalIdHeaderName)).thenReturn(personalIdHeaderContent);
-        Mockito.when(mockHttpServletRequest.getHeader(OIDheaderName)).thenReturn(OIDHeaderContent);
-        mockBirthday = LocalDate.now().minusYears(18);
-        testPersonBirthday = mockBirthday.format(formatter);
-        Mockito.when(mockHttpServletRequest.getHeader(birthdayHeaderName)).thenReturn(testPersonBirthday);
-        Mockito.when(mockHttpServletRequest.getHeader(homeOrganisationHeaderName)).thenReturn(homeOrganisationHeaderContent);
+        Mockito.when(mockHttpServletRequestStandard.getHeader(studentHEIOIDHeaderName)).thenReturn(studentHEIOIDHeaderContent);
+        Mockito.when(mockHttpServletRequestTwoDigit.getHeader(studentHEIOIDHeaderName)).thenReturn(studentHEIOIDHeaderContent);
+        Mockito.when(mockHttpServletRequestStandard.getHeader(personalIdHeaderName)).thenReturn(personalIdHeaderContent);
+        Mockito.when(mockHttpServletRequestTwoDigit.getHeader(personalIdHeaderName)).thenReturn(personalIdHeaderContent);
+        Mockito.when(mockHttpServletRequestStandard.getHeader(OIDheaderName)).thenReturn(OIDHeaderContent);
+        Mockito.when(mockHttpServletRequestTwoDigit.getHeader(OIDheaderName)).thenReturn(OIDHeaderContent);
+        Mockito.when(mockHttpServletRequestStandard.getHeader(homeOrganisationHeaderName)).thenReturn(homeOrganisationHeaderContent);
+        Mockito.when(mockHttpServletRequestTwoDigit.getHeader(homeOrganisationHeaderName)).thenReturn(homeOrganisationHeaderContent);
 
-        handler = new ShibbolethHeaderHandler(mockHttpServletRequest);
-        testPerson = handler.generatePerson();
+        mockBirthday = LocalDate.now().minusYears(18);
+
+        testPersonStandardBirthday = mockBirthday.format(standardFormatter);
+        Mockito.when(mockHttpServletRequestStandard.getHeader(birthdayHeaderName)).thenReturn(testPersonStandardBirthday);
+        testPersonTwoDigitBirthday = mockBirthday.format(twoDigitFormatter);
+        Mockito.when(mockHttpServletRequestTwoDigit.getHeader(birthdayHeaderName)).thenReturn(testPersonTwoDigitBirthday);
+
+        standardHandler = new ShibbolethHeaderHandler(mockHttpServletRequestStandard);
+        testPersonStandard = standardHandler.generatePerson();
+
+        twoDigitHandler = new ShibbolethHeaderHandler(mockHttpServletRequestTwoDigit);
+        testPersonTwoDigit = twoDigitHandler.generatePerson();
     }
 
     @Test
     public void testHeaderParsing() throws Exception {
-        assertEquals("x8734", handler.getHeiOid());
-        assertEquals("17488477125", handler.getOID());
-        assertEquals("020896-358x", handler.getPersonalID());
-        assertEquals(homeOrganisationHeaderContent, handler.getHomeOrganization());
-        assertEquals(testPersonBirthday, testPerson.getBirthDate().format(formatter));
+        assertEquals("x8734", standardHandler.getHeiOid());
+        assertEquals("17488477125", standardHandler.getOID());
+        assertEquals("020896-358x", standardHandler.getPersonalID());
+        assertEquals(homeOrganisationHeaderContent, standardHandler.getHomeOrganization());
+        assertEquals(testPersonStandardBirthday, testPersonStandard.getBirthDate().format(standardFormatter));
+        assertEquals(testPersonTwoDigitBirthday, testPersonTwoDigit.getBirthDate().format(twoDigitFormatter));
     }
 
     @Test
     public void testTwoDigitYearCompensation() throws Exception {
-        assertEquals(mockBirthday.getYear(), testPerson.getBirthDate().getYear());
+        assertEquals(mockBirthday.getYear(), testPersonTwoDigit.getBirthDate().getYear());
     }
 
 }

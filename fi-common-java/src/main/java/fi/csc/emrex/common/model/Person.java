@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Person {
 
-    public static final String defaultDateFormat = "yyyy-MM-dd";
+    public static final String defaultDateFormat = "yyyyMMdd";
 
     private String firstName;
     private String lastName;
