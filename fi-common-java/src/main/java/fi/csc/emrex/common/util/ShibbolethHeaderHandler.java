@@ -76,7 +76,7 @@ public class ShibbolethHeaderHandler {
                     person.setBirthDate(person.getBirthDate().minusYears(100));
                 }
             } else if (getBirthDate().length() == 8) {
-                person.setBirthDate(getBirthDate(), null);
+                person.setBirthDate(getBirthDate(), "yyyyMMdd");
             } else {
                 log.warn("Student " + getOID() + " date of birth was of invalid length. Value was \"" + getBirthDate() + "\"");
             }
