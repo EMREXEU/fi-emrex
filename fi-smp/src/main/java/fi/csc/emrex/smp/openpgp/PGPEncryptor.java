@@ -137,6 +137,8 @@ public class PGPEncryptor {
             // write encrypted content to a file
             PGPUtil.writeFileToLiteralData(comData.open(cOut), PGPLiteralData.BINARY, inFile, new byte[1 << 16]);
 
+        } catch(Exception ex) {
+            log.error("Failed to encrypt body part: " + inFile.getName(), ex);
         } finally {
             if (comData != null) {
                 comData.close();
@@ -147,11 +149,9 @@ public class PGPEncryptor {
             if (out != null) {
                 out.flush();
                 out.close();
-                return out;
-
             }
-            return null;
         }
+        return out;
     }
 
     public boolean validateEncryptionKey(File keyFile) throws IOException, PGPException {
