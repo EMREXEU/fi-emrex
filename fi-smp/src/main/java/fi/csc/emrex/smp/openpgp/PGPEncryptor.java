@@ -97,7 +97,7 @@ public class PGPEncryptor {
         }
     }
 
-    public OutputStream encryptFileToStream(File inFile, File keyFile, OutputStream out, boolean isArmoredOutput) throws IOException,
+    public boolean encryptFileToStream(File inFile, File keyFile, OutputStream out, boolean isArmoredOutput) throws IOException,
             NoSuchProviderException, NoSuchAlgorithmException, PGPException {
 
         OutputStream cOut = null;
@@ -139,6 +139,7 @@ public class PGPEncryptor {
 
         } catch(Exception ex) {
             log.error("Failed to encrypt body part: " + inFile.getName(), ex);
+            return false;
         } finally {
             if (comData != null) {
                 comData.close();
@@ -151,7 +152,7 @@ public class PGPEncryptor {
                 out.close();
             }
         }
-        return out;
+        return true;
     }
 
     public boolean validateEncryptionKey(File keyFile) throws IOException, PGPException {

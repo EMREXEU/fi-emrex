@@ -188,7 +188,6 @@ public class InstitutionDataWriter {
         Session session = Session.getDefaultInstance(properties);
         
         try {
-            
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(this.emailSender));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.email));
@@ -196,13 +195,11 @@ public class InstitutionDataWriter {
             log.debug("this.emailBodyFile: " + this.emailBodyFile);
             this.emailBody = FileUtils.readFileToString(new File(this.emailBodyFile), Charset.forName("UTF-8"));
             Multipart multipart = new MimeMultipart();
+
             BodyPart messageBodyPart1 = new MimeBodyPart();
             messageBodyPart1.setText(this.emailBody);
-            //BodyPart cryptPart = this.encryptBodyPart(messageBodyPart1, this.emailBodyFile);
-
-            //log.debug((String) messageBodyPart1.getContent());
             multipart.addBodyPart(messageBodyPart1);
-            //log.debug((String) cryptPart.getContent());
+
             for (String tempFileName : this.files) {
                 log.debug("including" + tempFileName);
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
@@ -219,29 +216,23 @@ public class InstitutionDataWriter {
                     String base64pdf = encoder.encodeToString(Files.readAllBytes(Paths.get(tempFileName)));
                     Files.write(Paths.get(base64fileName), base64pdf.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
                     tempFileName = base64fileName;
-                    /*String tempZipFile = tempFileName + ".zip";
-                     if (this.zipFile(tempFileName, tempZipFile) != null) {
-                     tempFileName = tempZipFile;
-                     fileType = "application/zip";
-                     } else {*/
                     fileType = "application/pdf";
-                    //  }
                 }
                 
                 messageBodyPart.attachFile(tempFileName);
-                //messageBodyPart.setContent(tempStream.toString(), fileType);
 
-                //DataSource source = new FileDataSource(inFile);
-                //messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(tempFileName.substring(tempFileName.lastIndexOf("/") + 1));
                 messageBodyPart.setHeader("Content-Type", fileType);
-                //log.debug((String) messageBodyPart.getContent());
                 BodyPart encryptBodyPart = this.encryptBodyPart(messageBodyPart, tempFileName);
-                //this.pgp.encryptFileToStream(inFile, new File(this.key), tempStream, true);
-                multipart.addBodyPart(encryptBodyPart);
-                //log.debug((String) encryptBodyPart.getContent());
-                log.debug("included" + tempFileName);
+                if (encryptBodyPart != null) {
+                    multipart.addBodyPart(encryptBodyPart);
+                    log.debug("included" + tempFileName);
+                } else {
+                    log.debug("body part encryption failed");
+                    messageBodyPart1.setText(this.emailBody + "\n\nThere was an error while encrypting some attachments. Please contact CSC for additional details.");
+                }
             }
+
             String mailFileName = this.path + "/" + this.filename + ".eml";
             File mailFile = new File(mailFileName);
             FileOutputStream mfOutStream = new FileOutputStream(mailFile);
@@ -249,11 +240,10 @@ public class InstitutionDataWriter {
             mfOutStream.flush();
             mfOutStream.close();
 
-            //ByteArrayOutputStream mailContentStream = new ByteArrayOutputStream();
             String content = new String(Files.readAllBytes(Paths.get(mailFileName)));
             log.debug(content);
-            // Send the complete message parts
 
+            // Send the complete message parts
             message.setContent(multipart);
             // Send message
             SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
@@ -289,12 +279,9 @@ public class InstitutionDataWriter {
     }
     
     BodyPart encryptBodyPart(BodyPart part, String filename) throws FileNotFoundException, IOException, MessagingException, NoSuchProviderException, NoSuchAlgorithmException, PGPException {
-        
         BodyPart messageBodyPart = new MimeBodyPart();
         File partFile = new File(filename + ".mprt");
-        //File cryptFile = new File(filename + "mprt.sec");
         FileOutputStream partFileStream = new FileOutputStream(partFile);
-        //part.setDisposition(part.getDisposition()+"; filename="+);
         Enumeration headers = part.getAllHeaders();
         String headerString = "";
         while (headers.hasMoreElements()) {
@@ -304,15 +291,15 @@ public class InstitutionDataWriter {
         }
         headerString += '\n';
         log.debug(headerString);
-        //log.debug("FileName:" + );
-        //partFileStream.write(headerString.getBytes());
         part.writeTo(partFileStream);
         partFileStream.flush();
         partFileStream.close();
-        //this.pgp.encryptFile(partFile, keyfile, cryptFile, verified);
         OutputStream partStream = new ByteArrayOutputStream();
-        this.pgp.encryptFileToStream(partFile, new File(this.key), partStream, true);
-        
+        boolean encryptionSuccess = this.pgp.encryptFileToStream(partFile, new File(this.key), partStream, true);
+        if (!encryptionSuccess) {
+            return null;
+        }
+
         messageBodyPart.setContent(partStream.toString(), "application/pgp-encrypted");
         log.debug(messageBodyPart.getDisposition());
         return messageBodyPart;
