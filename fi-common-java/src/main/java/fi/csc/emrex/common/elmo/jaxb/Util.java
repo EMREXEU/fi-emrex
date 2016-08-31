@@ -36,7 +36,6 @@ public class Util {
                 getAllLearningOpportunities(hasPart.getLearningOpportunitySpecification(), losList);
             }
             if (hasParts != null) {
-                //log.debug("deleting parts: " + hasParts.size());
                 hasParts.clear();
             }
         }
@@ -54,7 +53,6 @@ public class Util {
         JAXBContext jc = JAXBContext.newInstance("https.github_com.emrex_eu.elmo_schemas.tree.v1");
         StringWriter out = new StringWriter();
         Marshaller m = jc.createMarshaller();
-        //m.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", new  ElmoNamespaceMapper());
         m.marshal(elmo, out);
         return out.toString();
     }
@@ -65,18 +63,14 @@ public class Util {
             Elmo elmo = getElmo(elmoString);
             List<Elmo.Report> reports = elmo.getReport();
             ArrayList<LearningOpportunitySpecification> elmoLoSList = new ArrayList<LearningOpportunitySpecification>();
-            //log.debug("reports: " + reports.size());
             for (Elmo.Report report : reports) {
                 ArrayList<LearningOpportunitySpecification> losList = new ArrayList<LearningOpportunitySpecification>();
                 List<LearningOpportunitySpecification> tempList = report.getLearningOpportunitySpecification();
                 for (LearningOpportunitySpecification los : tempList) {
                     getAllLearningOpportunities(los, losList);
                 }
-                //log.debug("templist size: " + tempList.size() + "; losList size: " + losList.size());
                 tempList.clear();
-                //log.debug("templist cleared: " + tempList.size());
                 tempList.addAll(losList);
-                //log.debug("templist fixed: " + tempList.size());
                 elmoLoSList.addAll(losList);
             }
             for (int i = 0; i < elmoLoSList.size(); i++) {
@@ -87,9 +81,6 @@ public class Util {
                 elmoID.setValue(String.valueOf(elmoIndex++));
                 identifierList.add(elmoID);
             }
-            //log.debug("courses count: " + elmoLoSList.size());
-
-            //log.debug(toString);
             return marshalElmo(elmo);
         } catch (JAXBException ex) {
             Logger.getLogger(ElmoParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,7 +92,6 @@ public class Util {
         try {
             Elmo elmo = getElmo(elmoString);
             List<Elmo.Report> reports = elmo.getReport();
-            ArrayList<LearningOpportunitySpecification> elmoLoSList = new ArrayList<LearningOpportunitySpecification>();
             log.debug("reports: " + reports.size());
             for (Elmo.Report report : reports) {
                 ArrayList<LearningOpportunitySpecification> losList = new ArrayList<LearningOpportunitySpecification>();
@@ -110,9 +100,7 @@ public class Util {
                     getAllLearningOpportunities(los, losList);
                 }
 
-                //log.debug("templist size: " + tempList.size() + "; losList size: " + losList.size());
                 tempList.clear();
-                //log.debug("templist cleared: " + tempList.size());
                 for (LearningOpportunitySpecification spec : losList) {
                     List<LearningOpportunitySpecification.Identifier> identifiers = spec.getIdentifier();
                     for (LearningOpportunitySpecification.Identifier id : identifiers) {

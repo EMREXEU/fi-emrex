@@ -1,5 +1,7 @@
 package fi.csc.emrex.ncp.virta;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.csc.emrex.ncp.DateConverter;
 import fi.csc.tietovaranto.emrex.*;
 import lombok.Setter;
@@ -45,8 +47,8 @@ public class VirtaClient {
     public String fetchStudies(VirtaUser virtaUser) {
         try {
             String marshal = VirtaMarshaller.marshal(sendRequest(virtaUser));
-            log.error("fetch Studies marshalled");
-            log.error(marshal);
+            log.info("fetch Studies marshalled");
+            log.debug(marshal);
             return marshal;
         } catch (Exception e) {
             log.error(e.getClass().getName()+": "+e.getMessage());
@@ -58,8 +60,12 @@ public class VirtaClient {
     private ELMOOpiskelijavaihtoResponse sendRequest(VirtaUser virtaUser) throws MalformedURLException {
         ELMOOpiskelijavaihtoRequest request = createRequest(virtaUser);
         ELMOOpiskelijavaihtoResponse temp = getService().getELMOOpiskelijavaihtoSoap11().elmoOpiskelijavaihto(request);
-        System.out.println(temp.toString());
-        System.out.println(temp.getElmo());
+        try {
+            log.debug("Received ELMO response");
+            log.debug(new ObjectMapper().writeValueAsString(temp.getElmo()));
+        } catch (JsonProcessingException e) {
+            log.error("Failed to serialize received elmo", e);
+        }
         return temp;
     }
 
