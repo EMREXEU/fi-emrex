@@ -22,7 +22,8 @@ app.controller('home', function ($scope, $http, $sce, $cookies, $timeout) {
         Denmark: 'denmark.png',
         Italy: 'italy.png',
         Norway: 'norway.png',
-        Sweden: 'sweden.png'
+        Sweden: 'sweden.png',
+        Poland: 'poland.png'
     };
 
     $scope.getFlag = function (countryName) {
