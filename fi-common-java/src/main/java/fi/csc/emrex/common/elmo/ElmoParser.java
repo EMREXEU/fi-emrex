@@ -295,7 +295,7 @@ public class ElmoParser {
                 }
             }
 
-            if (type.toLowerCase().equals("module")) {
+            if (type.toLowerCase().equals("module") || type.toLowerCase().equals("course")) {
                 result++;
             }
         }
