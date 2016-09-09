@@ -232,7 +232,7 @@ public class ThymeController {
         String statisticalLogLine = source + "\t" + context.getSession().getAttribute("sessionId");
         statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
         if (parser != null) {
-            statisticalLogLine += "\t" + parser.getCoursesCount();
+            statisticalLogLine += "\t" + parser.getCourseCount();
             statisticalLogLine += "\t" + parser.getETCSCount();
             statisticalLogLine += "\t" + parser.getHostInstitution();
         } else {

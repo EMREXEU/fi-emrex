@@ -47,8 +47,8 @@ public class ElmoParserTests extends TestCase {
         String elmo = TestUtil.getFileContent(testXML);
         ElmoParser parser =  ElmoParser.elmoParserFromVirta(elmo);
         ElmoParser parser2 =  ElmoParser.elmoParser(elmo);
-//        assertEquals(17, parser.getCoursesCount());
-        assertEquals(parser2.getCoursesCount(), parser.getCoursesCount());
+//        assertEquals(17, parser.getCourseCount());
+        assertEquals(parser2.getCourseCount(), parser.getCourseCount());
     }
 
 

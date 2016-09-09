@@ -211,7 +211,6 @@ public class ElmoParser {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         String copyElmo = this.getStringFromDoc(document);
         return Util.getCourses(copyElmo, courses);
-
     }
 
     public int getETCSCount() throws Exception {
@@ -281,7 +280,7 @@ public class ElmoParser {
         return count;
     }
 
-    public int getCoursesCount() throws Exception {
+    public int getCourseCount() throws Exception {
         int result = 0;
         NodeList list = document.getElementsByTagName("report");
         XPath xpath = XPathFactory.newInstance().newXPath();
