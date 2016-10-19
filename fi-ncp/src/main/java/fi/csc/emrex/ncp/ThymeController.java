@@ -81,8 +81,7 @@ public class ThymeController {
 
         ElmoParser finalParser = ElmoParser.elmoParser(xmlString);
 
-        String source = "NCP";
-        String statisticalLogLine = generateStatisticalLogLine(finalParser, source);
+        String statisticalLogLine = generateStatisticalLogLine(parser, finalParser, "FI");
         StatisticalLogger.log(statisticalLogLine);
 
         xmlString = dataSign.sign(xmlString.trim(), StandardCharsets.UTF_8);
@@ -199,9 +198,6 @@ public class ThymeController {
 
                     }
                     String personalLogLine = generatePersonalLogLine(customRequest, headerHandler, parser);
-
-                    String statisticalLogLine = generateStatisticalLogLine(parser, "NCP");
-                    StatisticalLogger.log(statisticalLogLine);
                     PersonalLogger.log(personalLogLine);
                 }
                 return "norex";
@@ -228,15 +224,18 @@ public class ThymeController {
         return personalLogLine;
     }
 
-    private String generateStatisticalLogLine(ElmoParser parser, String source) throws Exception {
-        String statisticalLogLine = source + "\t" + context.getSession().getAttribute("sessionId");
+    private String generateStatisticalLogLine(ElmoParser initialParser, ElmoParser finalParser, String source) throws Exception {
+        String statisticalLogLine = "" + context.getSession().getAttribute("sessionId");
         statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
-        if (parser != null) {
-            statisticalLogLine += "\t" + parser.getCourseCount();
-            statisticalLogLine += "\t" + parser.getETCSCount();
-            statisticalLogLine += "\t" + parser.getHostInstitution();
+        statisticalLogLine += "\t" + source;
+        if (finalParser != null) {
+            statisticalLogLine += "\t" + finalParser.getHostInstitution();
+            statisticalLogLine += "\t" + initialParser.getCourseCount();
+            statisticalLogLine += "\t" + initialParser.getETCSCount();
+            statisticalLogLine += "\t" + finalParser.getCourseCount();
+            statisticalLogLine += "\t" + finalParser.getETCSCount();
         } else {
-            statisticalLogLine += "\t0\t0\tfi"; // zero courses, zero ects, from finland
+            statisticalLogLine += "\tnone\t0\t0\t0\t0"; // zero courses, zero ects, from finland
         }
         return statisticalLogLine;
     }
