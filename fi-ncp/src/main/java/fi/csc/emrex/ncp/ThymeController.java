@@ -199,6 +199,9 @@ public class ThymeController {
                     }
                     String personalLogLine = generatePersonalLogLine(customRequest, headerHandler, parser);
                     PersonalLogger.log(personalLogLine);
+
+                    String statisticalLogLine = generateStatisticalLogLine(parser, null, "FI");
+                    StatisticalLogger.log(statisticalLogLine);
                 }
                 return "norex";
 
@@ -225,15 +228,16 @@ public class ThymeController {
     }
 
     private String generateStatisticalLogLine(ElmoParser initialParser, ElmoParser finalParser, String source) throws Exception {
-        String statisticalLogLine = "" + context.getSession().getAttribute("sessionId");
+        String statisticalLogLine = finalParser != null ? "FINISH" : "START";
+        statisticalLogLine += "\t" + context.getSession().getAttribute("sessionId");
         statisticalLogLine += "\t" + context.getSession().getAttribute("returnUrl");
         statisticalLogLine += "\t" + source;
-        if (finalParser != null) {
-            statisticalLogLine += "\t" + finalParser.getHostInstitution();
+        if (initialParser != null) {
+            statisticalLogLine += "\t" + initialParser.getHostInstitution();
             statisticalLogLine += "\t" + initialParser.getCourseCount();
             statisticalLogLine += "\t" + initialParser.getETCSCount();
-            statisticalLogLine += "\t" + finalParser.getCourseCount();
-            statisticalLogLine += "\t" + finalParser.getETCSCount();
+            statisticalLogLine += "\t" + (finalParser != null ? finalParser.getCourseCount() : -1);
+            statisticalLogLine += "\t" + (finalParser != null ? finalParser.getETCSCount() : -1);
         } else {
             statisticalLogLine += "\tnone\t0\t0\t0\t0"; // zero courses, zero ects, from finland
         }

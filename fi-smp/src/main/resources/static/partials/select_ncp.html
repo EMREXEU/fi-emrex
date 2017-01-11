@@ -46,8 +46,8 @@
         <div class="custom-option-margin">
             <h3>Choose Your Exchange Country:</h3>
             <table class="pure-table custom-no-borders">
-                <tbody></tbody>
-                <tr class="custom-no-borders" ng-repeat="country in emreg.countries">
+                <tbody ng-switch="ncpSelectionState">
+                <tr class="custom-no-borders" ng-repeat="country in emreg.countries" ng-switch-when="country">
                     <td class="custom-no-borders" style="padding-left:0px;"><input class="custom-go-button"
                                                                                    type="button" value="Select"
                                                                                    ng-click="selectCountry(country)">
@@ -55,6 +55,25 @@
                     <td class="custom-no-borders">{{country.countryName}}</td>
                     <td class="custom-no-borders"><img ng-src="{{getFlag(country.countryName)}}" height="40"/></td>
 
+                </tr>
+                <tr class="custom-no-borders" ng-repeat="ncp in availableNcps" ng-switch-when="ncp">
+                    <td class="custom-no-borders" style="padding-left: 0">
+                        <button class="custom-go-button" ng-click="moveToNcp(ncp)">Select</button>
+                    </td>
+                    <td class="custom-no-borders">
+                        <table class="pure-table custom-no-borders">
+                            <tbody>
+                            <tr class="custom-no-borders" ng-repeat="institution in ncp.institutions">
+                                <td class="custom-no-borders">
+                                    {{institution}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="custom-no-borders" ng-switch-when="ncp">
+                    <td class="custom-no-borders" style="padding-left: 0"><button class="custom-go-button" ng-click="cancelNcpSelection()">Cancel</button></td>
                 </tr>
                 </tbody>
             </table>
